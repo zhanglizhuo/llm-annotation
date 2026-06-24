@@ -1383,13 +1383,13 @@ GT upper bounds: LP 69.56\%, LoRA 74.71\%.}
 \toprule
 \textbf{Training condition} & \textbf{Qwen2 (41.2\%)} & \textbf{Qwen3.5-27B (50.3\%)} & \textbf{$\Delta$} \\
 \midrule
-None + LP  & 42.38$\pm$0.07 & 55.29 & +12.91 \\
-None + LoRA & 43.22$\pm$0.46 & 53.79 & +10.57 \\
+None + LP  & 42.27 & 55.29 & +13.02 \\
+None + LoRA & 44.34 & 53.79 & +9.45 \\
 Selective + LP & 58.37 & 62.10 & +3.73 \\
 Selective + LoRA & --- & 53.20 & --- \\
 \midrule
 \emph{Zero-shot CAPE} & \emph{53.43} & \emph{53.43} & --- \\
-\emph{GT + LP} & \emph{69.56$\pm$0.05} & \emph{---} & --- \\
+\emph{GT + LP} & \emph{69.50} & \emph{---} & --- \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1413,7 +1413,7 @@ central question.
 First, the annotation quality threshold at which pseudo-label fine-tuning
 begins to exceed the zero-shot baseline lies between 41\% and 50\%.
 Qwen2-VL-7B labels (41.2\%) produce downstream accuracy below the
-zero-shot baseline (None+LP: 42.38\% vs.\ 53.43\% zero-shot CAPE), while
+zero-shot baseline (None+LP: 42.27\% vs.\ 53.43\% zero-shot CAPE), while
 Qwen3.5-27B labels (50.3\%) produce accuracy above it (None+LP: 55.29\%
 vs.\ 53.43\% zero-shot CAPE).
 This pinpoints a practical quality requirement for MLLM-assisted
@@ -1421,7 +1421,7 @@ annotation pipelines on TeacherBehavior-level task complexity.
 
 Second, the selective-routing gain scales with annotator quality.
 Under Qwen2-VL-7B pseudo-labels, selective+LP improves over None+LP
-by 16.0pp (58.37\% vs.\ 42.38\%).
+by 16.1pp (58.37\% vs.\ 42.27\%).
 Under Qwen3.5-27B pseudo-labels, selective+LP reaches 62.10\%, an
 improvement of 8.67pp over the zero-shot baseline compared with 4.94pp
 for Qwen2-VL-7B.
@@ -1575,7 +1575,7 @@ First, the quality-threshold experiment (Table~\ref{tab:quality_threshold})
 identifies the annotation accuracy range at which pseudo-label fine-tuning
 crosses the zero-shot baseline.
 Qwen2-VL-7B labels at 41.2\% annotation accuracy produce downstream
-accuracy below zero-shot (42.38\% vs.\ 53.43\% CAPE), while Qwen3.5-27B
+accuracy below zero-shot (42.27\% vs.\ 53.43\% CAPE), while Qwen3.5-27B
 labels at 50.3\% annotation accuracy surpass the baseline (55.29\% vs.\
 53.43\%).
 The critical threshold for TeacherBehavior-level task complexity therefore
