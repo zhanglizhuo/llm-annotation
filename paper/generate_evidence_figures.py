@@ -265,17 +265,20 @@ def generate_overview_figure() -> None:
     ax.set_xticklabels(["ZS", "None\nLP", "None\nLoRA", "Agree\nLP", "Agree\nLoRA", "GT\nLP", "GT\nLoRA"], rotation=0)
     style_axis(ax, grid_axis="y", tick_fontsize=8.0)
 
-    legend_handles = [
-        Patch(facecolor=PRIMARY_BLUE, edgecolor=EDGE_COLOR, linewidth=0.6, label="Agreement-based methods"),
-        Patch(facecolor=SECONDARY_TEAL, edgecolor=EDGE_COLOR, linewidth=0.6, label="Weak baselines"),
-        Patch(facecolor=ACCENT_GOLD, edgecolor=EDGE_COLOR, linewidth=0.6, label="GT upper-bound"),
+    legend_handles_row1 = [
         Patch(facecolor=NEUTRAL_FILL_COLOR, edgecolor=EDGE_COLOR, linewidth=0.6, label="Zero-shot reference"),
+        Patch(facecolor=SECONDARY_TEAL, edgecolor=EDGE_COLOR, linewidth=0.6, label="Weak baselines"),
+        Patch(facecolor=PRIMARY_BLUE, edgecolor=EDGE_COLOR, linewidth=0.6, label="Agreement-based methods"),
+        Patch(facecolor=ACCENT_GOLD, edgecolor=EDGE_COLOR, linewidth=0.6, label="GT upper-bound"),
+    ]
+    legend_handles_row2 = [
         Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, linewidth=0.6, label="BowTurnHead"),
         Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, linewidth=0.6, alpha=0.82, label="HandriseReadWrite"),
         Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, hatch="///", linewidth=0.6, label="TeacherBehavior"),
         Line2D([0], [0], color=EDGE_COLOR, linewidth=0.6, marker="|", markersize=10, markeredgewidth=0.6, label="±1 SD"),
     ]
-    ax.legend(handles=legend_handles, loc="upper center", ncol=4, bbox_to_anchor=(0.5, 1.22),
+    ax.legend(handles=legend_handles_row1 + legend_handles_row2,
+              loc="upper center", ncol=4, bbox_to_anchor=(0.5, 1.22),
               frameon=False, columnspacing=1.2, handletextpad=0.6, fontsize=7.5)
     fig.tight_layout(rect=(0, 0, 1, 0.90))
 
