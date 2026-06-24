@@ -72,7 +72,6 @@ Repeated-seed validation accuracy (mean ± std, 5 seeds) for CLIP ViT-L/14 fine-
 | `results/` | **Tracked** — all experimental outputs (JSON, JSONL, CSV) |
 | `logs/` | **Tracked** — execution traces for every run |
 | `finetune_summary.csv` | **The final result table** — 21 conditions across 3 datasets |
-| `docs/research_plan.md` | Study design, hypotheses, module dependencies |
 | `docs/experiment_file_map.md` | Which script produced which file → which table in the paper |
 | `paper/` | Manuscript source (LaTeX + figures). Optional; not needed for reproduction. |
 
@@ -234,11 +233,10 @@ See `CITATION.cff` for full metadata. A Zenodo DOI will be added upon publicatio
 
 1. This README — overview and key results
 2. `finetune_summary.csv` — the main result table (30 seconds)
-3. `docs/research_plan.md` — study design and hypotheses (5 minutes)
-4. `docs/experiment_file_map.md` — which file is which (5 minutes)
-5. `results/phase3_finetune/` — drill into specific conditions
-6. `paper/llm_annotation_paper_access_revised.tex` — revised IEEE Access manuscript
-7. `response_to_reviewers.md` — response to reviewer comments
+3. `docs/experiment_file_map.md` — which file is which (5 minutes)
+4. `results/phase3_finetune/` — drill into specific conditions
+5. `paper/llm_annotation_paper_access_revised.tex` — revised IEEE Access manuscript
+6. `response_to_reviewers.md` — response to reviewer comments
 
 ---
 
