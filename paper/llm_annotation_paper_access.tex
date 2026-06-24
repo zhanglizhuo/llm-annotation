@@ -159,6 +159,30 @@ substantially across categories, and that a simple pipeline of
 number of systematically mis-labelled classes.
 This paper refers to that category-specific degree of visual
 identifiability as \emph{visual anchoring}.
+Formally, visual anchoring is defined as the degree to which a
+category label can be recovered from a single cropped frame without
+recourse to discourse context, temporal information, or speaker intent.
+The concept is used here as a task-internal diagnostic framework, not
+as an independent causal measure.
+The operational proxy employed in this study---protocol-matched per-class
+zero-shot CLIP accuracy---is therefore interpreted as a screening signal
+within this evaluation setup rather than as a universal quantification
+of anchoring.
+
+The practical motivation for studying agreement filtering deserves
+explicit statement.
+When two independently queried MLLM annotators assign the same label
+to a crop, the probability that both are correct is generally higher
+than for a single annotator.
+This intuition---drawn from multi-annotator agreement in
+crowdsourcing~\cite{snow2008cheap} and consistency-based semi-supervised
+learning~\cite{laine2016temporal}---has made dual-model agreement a widely
+adopted proxy for pseudo-label reliability.
+However, this heuristic assumes that annotator errors are independent,
+which may not hold when both models share architectural biases or
+when the image itself lacks the visual evidence needed for the task.
+Understanding when this assumption fails, and what the downstream
+consequences are, is the central empirical question of this study.
 
 From an engineering perspective, the practical question is not whether
 MLLMs can produce pseudo-labels at all, but when those labels are
@@ -370,18 +394,33 @@ combined pipeline fails in a classroom-behavior setting.
 \section{Datasets and Experimental Setup}
 \label{sec:method}
 
-The study is organised as a top-down evaluation pipeline aligned with
-the three research questions stated in the Introduction.
-It first measures bbox-level pseudo-label reliability under a common
-MLLM annotation protocol, then tests whether filtered or unfiltered
-pseudo-labels improve downstream CLIP fine-tuning relative to a
-training-free zero-shot reference, and finally uses targeted diagnostic
-analyses to explain the observed gains and failure modes.
-These linked analyses include category-level anchoring diagnostics,
-retention-ratio tests for data-volume effects, a category-aware routing
-diagnostic on TeacherBehavior, and a cross-model robustness check to
-determine whether the main annotation patterns persist under model
-substitution.
+\subsection{Pipeline Overview}
+
+The experimental pipeline consists of three stages, each producing
+fixed artifacts consumed by downstream analyses:
+\begin{enumerate}
+  \item \textbf{Annotation stage:} YOLO-detected bounding-box crops are
+  annotated by two MLLMs (Qwen2-VL-7B-Instruct and LLaVA-1.5-7B) under an
+  index-only zero-shot prompt. Each crop receives a predicted class index
+  from each model. Validation-set annotations are used only for quality
+  measurement; training-set annotations are exported as JSONL for
+  downstream fine-tuning.
+  \item \textbf{Filtering stage:} Four filtering strategies are compared:
+  None (all Qwen predictions), Valid-Output-Qwen (Qwen outputs a valid
+  index), Valid-Output-LLaVA (LLaVA outputs a valid index), and Agreement
+  (Qwen and LLaVA assign the same index). Only the None and Agreement
+  strategies produce training pseudo-label JSONL files for the downstream
+  stage.
+  \item \textbf{Fine-tuning stage:} CLIP ViT-L/14 is fine-tuned under
+  three label sources (None pseudo-labels, Agreement pseudo-labels, GT)
+  and two training modes (linear probe, LoRA) across three SCB
+  sub-datasets, forming an $18$-condition main matrix plus three
+  zero-shot baselines. Four diagnostic modules---selective routing,
+  retention-ratio curves, strategy audits (confidence filtering,
+  teacher--student self-training, cross-model consistency), and a
+  ten-model cross-model robustness check---read frozen artifacts from
+  earlier stages to isolate specific mechanisms.
+\end{enumerate}
 
 \subsection{Datasets}
 \label{sec:datasets}
@@ -394,59 +433,44 @@ The three sub-datasets cover complementary scene types and difficulty
 levels, summarised in Table~\ref{tab:datasets}.
 
 \begin{table}[!t]
-\caption{Overview of the three SCB sub-datasets used in this study.
-``BB'' = bounding boxes.}
+\caption{Overview of the three SCB sub-datasets used in this study,
+including per-class bounding-box counts.
+Class imbalance interacts with agreement filtering and anchor-aware routing
+(Sec.~\ref{sec:discussion}).}
 \label{tab:datasets}
 \centering
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lcccc}
+\begin{tabular}{llrrr}
 \toprule
-\textbf{Sub-dataset} & \textbf{Classes} & \textbf{Train images} &
-\textbf{Val images} & \textbf{Total BB (train/val)} \\
+\textbf{Sub-dataset} & \textbf{Class} & \textbf{Train BB} & \textbf{Val BB} & \textbf{Train/Val images} \\
 \midrule
-BowTurnHead       & 2 & 1{,}905 & 505  & 12{,}365 / 3{,}753  \\
-HandriseReadWrite & 3 & 5{,}193 & 1{,}671 & 34{,}524 / 12{,}848 \\
-TeacherBehavior   & 8 & 8{,}984 & 3{,}240 & 40{,}372 / 15{,}327 \\
+\multirow{2}{*}{BowTurnHead (2-class)} & bow-head & 4{,}422 & 540 & \multirow{2}{*}{1{,}905 / 505} \\
+ & turn-head & 7{,}943 & 3{,}213 & \\
+\midrule
+\multirow{3}{*}{HandriseReadWrite (3-class)} & hand-raise & 10{,}538 & 2{,}915 & \multirow{3}{*}{5{,}193 / 1{,}671} \\
+ & read & 17{,}539 & 6{,}539 & \\
+ & write & 6{,}447 & 3{,}394 & \\
+\midrule
+\multirow{8}{*}{TeacherBehavior (8-class)} & guide & 1{,}155 & 449 & \multirow{8}{*}{8{,}984 / 3{,}240} \\
+ & answer & 2{,}574 & 853 & \\
+ & on-stage interaction & 528 & 149 & \\
+ & blackboard-writing & 821 & 277 & \\
+ & teacher & 8{,}490 & 3{,}228 & \\
+ & stand & 13{,}932 & 4{,}967 & \\
+ & screen & 5{,}025 & 1{,}959 & \\
+ & blackboard & 7{,}847 & 3{,}445 & \\
 \bottomrule
 \end{tabular}
 }
 \end{table}
 
-Class balance is uneven in all three sub-datasets and is reported
-explicitly in Table~\ref{tab:class_balance}.
+Class balance is uneven in all three sub-datasets.
 BowTurnHead is skewed toward \textit{turn-head}; HandriseReadWrite is
 dominated by \textit{read}; and TeacherBehavior is dominated by
 \textit{stand}, \textit{teacher}, and \textit{blackboard}, while
 \textit{on-stage interaction} and \textit{blackboard-writing} are rare.
 These imbalances provide relevant context for interpreting agreement
 retention bias and selective-routing behavior.
-
-\begin{table}[!t]
-\caption{Per-class bounding-box counts for the SCB sub-datasets.
-These counts expose the class imbalance that interacts with agreement
-filtering and anchor-aware routing.}
-\label{tab:class_balance}
-\centering
-\begin{tabular}{llrr}
-\toprule
-\textbf{Sub-dataset} & \textbf{Class} & \textbf{Train BB} & \textbf{Val BB} \\
-\midrule
-BowTurnHead & bow-head & 4{,}422 & 540 \\
-BowTurnHead & turn-head & 7{,}943 & 3{,}213 \\
-HandriseReadWrite & hand-raise & 10{,}538 & 2{,}915 \\
-HandriseReadWrite & read & 17{,}539 & 6{,}539 \\
-HandriseReadWrite & write & 6{,}447 & 3{,}394 \\
-TeacherBehavior & guide & 1{,}155 & 449 \\
-TeacherBehavior & answer & 2{,}574 & 853 \\
-TeacherBehavior & on-stage interaction & 528 & 149 \\
-TeacherBehavior & blackboard-writing & 821 & 277 \\
-TeacherBehavior & teacher & 8{,}490 & 3{,}228 \\
-TeacherBehavior & stand & 13{,}932 & 4{,}967 \\
-TeacherBehavior & screen & 5{,}025 & 1{,}959 \\
-TeacherBehavior & blackboard & 7{,}847 & 3{,}445 \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \textbf{BowTurnHead} contains images of students exhibiting two
 micro-action classes: \textit{bow-head} and \textit{turn-head}.
