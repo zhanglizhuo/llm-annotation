@@ -67,11 +67,11 @@ Additionally, the revised manuscript includes two new experiments completed afte
 
 **Response:** We agree that the original manuscript contained redundant presentation:
 - (a) Table 2 (class balance counts) merged into Table 1 as a footnote summary.
-- (b) Cross-model section reorganised with expanded eleven-model data; the two updated tables cover overall and per-category accuracy.
+- (b) Cross-model data consolidated into two focused eleven-model tables (Tables 6--7) covering overall validation-set accuracy and per-category breakdowns.
 - (c) Results section now opens with a one-paragraph summary of the three main quantitative conclusions.
 - (d) Numerical values reported once in Results, referenced by table number in Discussion rather than repeated in full.
 
-**Action:** Table 2 merged into Table 1; cross-model section updated with 11-model data; Results opens with summary; Discussion removes repeated values.
+**Action:** Table 2 merged into Table 1; cross-model data consolidated into two focused tables (Tables 6--7) covering overall and per-category accuracy; Results opens with summary; Discussion removes repeated values.
 
 ---
 
