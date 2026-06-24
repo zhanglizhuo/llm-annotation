@@ -67,9 +67,9 @@ SCB classroom behavior sub-datasets (BowTurnHead, HandriseReadWrite,
 TeacherBehavior). The protocol chains bounding-box-level MLLM annotation
 quality measurement, four filtering strategies, repeated-seed CLIP
 fine-tuning (linear probe and LoRA), retention-ratio diagnostics,
-selective-routing analysis, and a ten-model cross-model robustness check
-spanning Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3, and Gemma4
-families across 7B--35B parameter scales.
+selective-routing analysis, and a eleven-model cross-model robustness check
+spanning seven model families (Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA,
+Gemma3, and Gemma4) across 7B--35B parameter scales.
 
 \textbf{Main findings:} (1) Agreement filtering is not a portable
 denoising rule. On BowTurnHead, agreement-retained linear probing falls
@@ -81,7 +81,7 @@ anchoring---the degree to which a category can be recovered from a single
 frame without discourse context. Categories with low zero-shot CLIP
 accuracy (e.g., \textit{guide}, \textit{answer}) systematically fail
 across all tested MLLMs, while visually anchored categories remain
-reliably annotated. A ten-model cross-model validation confirms that
+reliably annotated. A eleven-model cross-model validation confirms that
 newer-generation models (Qwen3.5-27B, Gemma4-31B) substantially improve
 on \textit{guide} (39--83\%) while \textit{answer} remains below 23\%
 universally, identifying a task-level single-frame observability
@@ -214,7 +214,7 @@ The main pseudo-label annotation pipeline uses two MLLMs
 (Qwen2-VL-7B-Instruct and LLaVA-1.5-7B) to annotate cropped
 bounding-box regions from three SCB sub-datasets covering 13 behavior
 categories across more than 87{,}000 bounding boxes.
-A ten-model robustness analysis (expanded from five models in the original submission) is treated as a boundary
+An eleven-model robustness analysis (expanded from five models in the original submission) is treated as a boundary
 condition check, not as the paper's main claim.
 The core answer comes from the downstream fine-tuning matrix,
 while the additional diagnostics explain why that answer changes across
@@ -248,7 +248,7 @@ technical object rather than any single routing heuristic.
   annotator choice or optimisation path.}
   An oracle selective-routing diagnostic, targeted LoRA replications,
   auxiliary teacher--student and confidence-filtering baselines, and a
-  ten-model robustness check bound the claim and point to label quality
+  eleven-model robustness check bound the claim and point to label quality
   and category semantics as the main constraints in the present setting.
 
 \end{enumerate}
@@ -418,7 +418,7 @@ fixed artifacts consumed by downstream analyses:
   zero-shot baselines. Four diagnostic modules---selective routing,
   retention-ratio curves, strategy audits (confidence filtering,
   teacher--student self-training, cross-model consistency), and a
-  ten-model cross-model robustness check---read frozen artifacts from
+  eleven-model cross-model robustness check---read frozen artifacts from
   earlier stages to isolate specific mechanisms.
 \end{enumerate}
 
@@ -864,7 +864,7 @@ alternative to the MLLM pseudo-labeling pipeline.
 To test whether the main annotation findings depend strongly on the
 original two-model main pipeline (Qwen2-VL-7B and LLaVA-1.5-7B), the
 revised study includes an expanded cross-model robustness check with ten
-open-weight MLLMs spanning four model families (Qwen2, Qwen2.5, Qwen3.5,
+open-weight MLLMs spanning seven model families (Qwen2, Qwen2.5, Qwen3.5,
 Qwen3.6, LLaVA, Gemma3, and Gemma4), three architectural types (dense,
 MoE, and 4-bit quantized), and parameter scales from 7B to 35B:
 Qwen2-VL-7B-Instruct, LLaVA-1.5-7B, Qwen2.5-VL-7B-Instruct,
@@ -1362,13 +1362,16 @@ screen              & 1959 & 69.37 & 13.78 & 56.41 & --- & --- & \textbf{88.82} 
 \subsubsection{Quality-Threshold Experiment with Qwen3.5-27B}
 
 The cross-model validation identifies Qwen3.5-27B as the most balanced
-annotator on TeacherBehavior (overall accuracy 52.19\%), substantially
-outperforming the original Qwen2-VL-7B annotator (41.21\%).
+annotator on TeacherBehavior (val-set accuracy 52.19\%, Table~\ref{tab:crossmodel_overall}),
+substantially outperforming the original Qwen2-VL-7B annotator (41.21\%).
 To test whether this 11pp improvement in annotation quality translates
 into downstream fine-tuning gains, a targeted experiment was conducted
 using Qwen3.5-27B pseudo-labels for CLIP fine-tuning on TeacherBehavior
 under the same bbox-crop protocol, training settings, and seed
 configuration as the main pipeline.
+The Qwen3.5-27B training-set annotation accuracy is 50.3\% (the training
+labels are used for fine-tuning; validation labels are only used for
+quality measurement).
 
 \begin{table}[!t]
 \caption{TeacherBehavior fine-tuning results comparing Qwen2-VL-7B
@@ -1509,7 +1512,7 @@ explanation: $\mathrm{AnchorProxy}(y)=\mathrm{Acc}^{\mathrm{ZS}}_{y}$
 helps distinguish categories that are visually legible under the
 current protocol from those that are not.
 
-The ten-model boundary check strengthens this interpretation.
+The eleven-model boundary check strengthens this interpretation.
 Although the best annotator changes across datasets, the same
 intent-dependent failure classes remain near-collapse under model
 substitution.
@@ -1715,9 +1718,11 @@ deployment-ready.
 
 Several limitations should be noted.
 First, the main annotation pipeline evaluates two 7B-scale locally
-deployable MLLMs, and the broader robustness analysis spans five
-models in total: Qwen2-VL-7B, LLaVA-1.5-7B,
-Qwen2.5-VL-7B-Instruct, Qwen2.5-VL-32B-Instruct, and Gemma-3-27B-IT.
+deployable MLLMs, and the expanded cross-model robustness analysis spans
+eleven models across seven families: Qwen2-VL-7B, LLaVA-1.5-7B,
+Qwen2.5-VL-7B-Instruct, Qwen2.5-VL-32B-Instruct, Qwen3.5-27B,
+Qwen3.5-35B-A3B, Qwen3.6-27B, Qwen3.6-35B-A3B, Gemma-3-27B-IT,
+Gemma4-26B-A4B-it, and Gemma4-31B-it.
 This broader evidence reduces concern that the reported failure
 patterns are unique to one particular model pair, but broader
 validation across more datasets, prompt regimes, and multimodal model
@@ -1755,7 +1760,7 @@ small differences in conditions that remain single-run, and future
 work should extend repeated-seed evaluation to the remaining LoRA and
 auxiliary diagnostic analyses, together with bootstrap- or
 permutation-based uncertainty estimates.
-The ten-model robustness analysis and the Qwen3.5-27B quality-threshold
+The eleven-model robustness analysis and the Qwen3.5-27B quality-threshold
 experiment partly strengthen external validity with respect to annotator
 choice, but they do not remove the internal validity limitations in the
 downstream fine-tuning matrix.
@@ -1875,13 +1880,13 @@ The targeted LoRA replications indicate that label quality constrains
 not only attainable accuracy but also run-to-run stability.
 The quality-threshold experiment locates the critical annotation accuracy
 range at which pseudo-label fine-tuning crosses the zero-shot baseline on
-TeacherBehavior (between 41\% and 50\%), and the expanded ten-model
+TeacherBehavior (between 41\% and 50\%), and the expanded eleven-model
 cross-model validation reveals a generational boundary on
 \textit{guide} while confirming that \textit{answer} remains below 23\%
 across all tested models.
 The CMC diagnostic, the auxiliary confidence-filtering and
 teacher--student baselines, the oracle Scheme~B diagnostic, and the
-ten-model robustness check then bound the claim: pseudo-label
+eleven-model robustness check then bound the claim: pseudo-label
 supervision is most plausible for high-anchor categories, not as a
 universal replacement for human annotation or temporal and multimodal
 evidence.

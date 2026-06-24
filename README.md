@@ -53,7 +53,7 @@ Repeated-seed validation accuracy (mean ± std, 5 seeds) for CLIP ViT-L/14 fine-
 
 | Analysis | Key result | Location |
 |----------|-----------|----------|
-| **Cross-model validation** (10 LLMs across 3 model families) | Qwen2.5-7B achieves 84.86% on BowTurnHead val; LLaVA-1.5 gets 14.76%. Cross-model rankings are dataset-dependent but highly consistent within each dataset. | `results/cross_model_validation/` |
+| **Cross-model validation** (11 LLMs across 7 model families) | Qwen2.5-7B achieves 84.86% on BowTurnHead val; LLaVA-1.5 gets 14.76%. Qwen3.5-27B is the most balanced annotator on TeacherBehavior (52.19%). Cross-model rankings are dataset-dependent but highly consistent within each dataset. | `results/cross_model_validation/` |
 | **Selective annotation** (Scheme B on TeacherBehavior) | Training only high-anchor classes boosts overall accuracy to 58.37% (LP) / 62.10% (Qwen3.5-27B pseudo), confirming that per-category heterogeneity matters. | `results/phase4_selective_annotation/` |
 | **Retention curve** (TeacherBehavior) | The agreement endpoint (66.5% retention, 42.97% LP) lies well below the random-retention curve, indicating that agreement filtering introduces a systematic bias beyond simple sample-size reduction. | `results/phase5_retention_curve/` |
 | **Teacher-student self-training** | Student models trained on teacher pseudo-labels achieve 89.17% (BowTurnHead) and 65.06% (TeacherBehavior) — comparable to the primary pseudo-label pipeline, showing the approach generalizes across training paradigms. | `results/phase6_strategy_audit/` |
@@ -182,7 +182,7 @@ Every run writes structured outputs under `results/`:
 |---|---|---|
 | **CLIP ViT-L/14** | Vision Transformer Large (OpenAI pretrained) | `open_clip_torch` |
 
-Training methods: **linear probe** and **LoRA** (rank=4).
+Training methods: **linear probe** and **LoRA** (rank=8, alpha=16).
 
 ## Environment & hardware
 
@@ -210,7 +210,8 @@ export HF_ENDPOINT=https://hf-mirror.com
 
 This work has been submitted to **IEEE Access** (Manuscript # Access-2026-23347).
 The manuscript source is in `paper/`:
-- `paper/llm_annotation_paper_access.tex` — IEEE Access submission (current)
+- `paper/llm_annotation_paper_access.tex` — original IEEE Access submission (archived)
+- `paper/llm_annotation_paper_access_revised.tex` — revised IEEE Access manuscript (current)
 - `response_to_reviewers.md` — point-by-point response to reviewer comments
 
 If you use this code or data, please cite:
@@ -236,7 +237,7 @@ See `CITATION.cff` for full metadata. A Zenodo DOI will be added upon publicatio
 3. `docs/research_plan.md` — study design and hypotheses (5 minutes)
 4. `docs/experiment_file_map.md` — which file is which (5 minutes)
 5. `results/phase3_finetune/` — drill into specific conditions
-6. `paper/llm_annotation_paper_access.tex` — IEEE Access manuscript
+6. `paper/llm_annotation_paper_access_revised.tex` — revised IEEE Access manuscript
 7. `response_to_reviewers.md` — response to reviewer comments
 
 ---
