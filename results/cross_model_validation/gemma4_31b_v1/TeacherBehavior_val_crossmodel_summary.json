@@ -1,0 +1,50 @@
+{
+  "dataset": "TeacherBehavior",
+  "split": "val",
+  "models": [
+    "gemma4_31b"
+  ],
+  "compatibility_pair": null,
+  "per_model": {
+    "gemma4_31b": {
+      "total": 15327,
+      "valid": 15327,
+      "overall_acc": 43.51,
+      "per_class": {
+        "guide": {
+          "n": 449,
+          "acc": 82.85
+        },
+        "answer": {
+          "n": 853,
+          "acc": 9.38
+        },
+        "on-stage interaction": {
+          "n": 149,
+          "acc": 87.25
+        },
+        "blackboard-writing": {
+          "n": 277,
+          "acc": 95.67
+        },
+        "teacher": {
+          "n": 3228,
+          "acc": 63.23
+        },
+        "stand": {
+          "n": 4967,
+          "acc": 26.47
+        },
+        "screen": {
+          "n": 1959,
+          "acc": 48.14
+        },
+        "blackboard": {
+          "n": 3445,
+          "acc": 44.21
+        }
+      }
+    }
+  },
+  "pairwise_agreement": {}
+}

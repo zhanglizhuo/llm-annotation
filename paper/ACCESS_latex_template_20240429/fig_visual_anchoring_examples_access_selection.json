@@ -1,0 +1,66 @@
+{
+  "blackboard-writing": [
+    {
+      "image": "132_001127.jpg",
+      "bbox_idx": 1,
+      "pred_qwen_name": "blackboard-writing",
+      "pred_llava_name": "blackboard-writing",
+      "agreement": true
+    },
+    {
+      "image": "21_000649.jpg",
+      "bbox_idx": 0,
+      "pred_qwen_name": "blackboard-writing",
+      "pred_llava_name": "blackboard-writing",
+      "agreement": true
+    }
+  ],
+  "screen": [
+    {
+      "image": "12_001404.jpg",
+      "bbox_idx": 2,
+      "pred_qwen_name": "screen",
+      "pred_llava_name": "screen",
+      "agreement": true
+    },
+    {
+      "image": "113_001288.jpg",
+      "bbox_idx": 3,
+      "pred_qwen_name": "screen",
+      "pred_llava_name": "screen",
+      "agreement": true
+    }
+  ],
+  "answer": [
+    {
+      "image": "1431002.jpg",
+      "bbox_idx": 3,
+      "pred_qwen_name": "teacher",
+      "pred_llava_name": "teacher",
+      "agreement": true
+    },
+    {
+      "image": "132_000228.jpg",
+      "bbox_idx": 4,
+      "pred_qwen_name": "teacher",
+      "pred_llava_name": "teacher",
+      "agreement": true
+    }
+  ],
+  "guide": [
+    {
+      "image": "1314043.jpg",
+      "bbox_idx": 3,
+      "pred_qwen_name": "teacher",
+      "pred_llava_name": "teacher",
+      "agreement": true
+    },
+    {
+      "image": "1431001.jpg",
+      "bbox_idx": 2,
+      "pred_qwen_name": "teacher",
+      "pred_llava_name": "teacher",
+      "agreement": true
+    }
+  ]
+}

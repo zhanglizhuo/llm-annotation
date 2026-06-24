@@ -1,0 +1,30 @@
+nohup: ignoring input
+=========================================
+Step4/5 run settings
+HF_ENDPOINT: https://hf-mirror.com
+ANALYSIS_DIR: ./analysis_results_full_20260418_0001
+STEP4_OUT_DIR: ./finetune_results_selective
+STEP5_OUT_DIR: ./finetune_results_retention_curve
+CUDA_VISIBLE_DEVICES: 0,1
+Visible GPUs in process: 2
+=========================================
+>>> Step 4.1: selective + linear
+>>> Step 4 (linear) attempt 1 | batch_size=128 num_workers=4
+2026-04-30 23:31:38,140 [INFO] Device: cuda | GPUs: 2 | mode: linear
+2026-04-30 23:31:38,140 [INFO] Loaded ViT-L-14 model config.
+/opt/conda/lib/python3.8/site-packages/open_clip/factory.py:388: UserWarning: These pretrained weights were trained with QuickGELU activation but the model config does not have that enabled. Consider using a model config with a "-quickgelu" suffix or enable with a flag.
+  warnings.warn(
+2026-04-30 23:31:42,662 [INFO] Loading pretrained ViT-L-14 weights (openai).
+2026-04-30 23:31:44,396 [INFO] Zero-shot classifier built for all 8 classes.
+2026-04-30 23:31:44,399 [INFO] Optimizer trainable params: 3076
+2026-04-30 23:31:44,987 [INFO] HighAnchorTrainDataset: 39413 crops from high-anchor classes (blackboard-writing(orig=3), teacher(orig=4), screen(orig=6), blackboard(orig=7))
+2026-04-30 23:31:45,162 [INFO] FullValDataset: 15327 crops (all 8 classes)
+train:   0%|          | 0/308 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/opt/conda/lib/python3.8/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/opt/conda/lib/python3.8/multiprocessing/spawn.py", line 126, in _main
+    self = reduction.pickle.load(from_parent)
+_pickle.UnpicklingError: pickle data was truncated
+/opt/conda/lib/python3.8/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 14 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

@@ -1,0 +1,7 @@
+[2026-05-08 07:39:28] launching run_repeated_seeds.sh
+run_tag: seed43_47_lora_focus20_20260505
+main_log: logs/seed43_47_lora_focus20_20260505.log
+pid: 64882
+pidfile: logs/seed43_47_lora_focus20_20260505_20260508_073928.pid
+launcher_log: logs/seed43_47_lora_focus20_20260505_20260508_073928_launcher.log
+main_log: logs/seed43_47_lora_focus20_20260505.log

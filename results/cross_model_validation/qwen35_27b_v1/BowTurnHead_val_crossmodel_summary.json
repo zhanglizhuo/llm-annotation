@@ -1,0 +1,26 @@
+{
+  "dataset": "BowTurnHead",
+  "split": "val",
+  "models": [
+    "qwen35_27b"
+  ],
+  "compatibility_pair": null,
+  "per_model": {
+    "qwen35_27b": {
+      "total": 3753,
+      "valid": 3753,
+      "overall_acc": 79.48,
+      "per_class": {
+        "bow-head": {
+          "n": 540,
+          "acc": 89.44
+        },
+        "turn-head": {
+          "n": 3213,
+          "acc": 77.81
+        }
+      }
+    }
+  },
+  "pairwise_agreement": {}
+}

@@ -1,0 +1,20 @@
+{
+  "dataset": "BowTurnHead",
+  "mode": "linear",
+  "pseudo_strategy": "agreement",
+  "seed": 42,
+  "best_val_acc": 14.388489208633093,
+  "best_epoch": 1,
+  "epochs": 1,
+  "lora_rank": null,
+  "lora_alpha": null,
+  "lr": 0.0001,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.30798250793154347,
+      "train_acc": 96.2302391568707,
+      "val_acc": 14.388489208633093
+    }
+  ]
+}

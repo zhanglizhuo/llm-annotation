@@ -1,0 +1,230 @@
+nohup: ignoring input
+2026-05-02 23:56:51,515 [INFO] HF_ENDPOINT=https://hf-mirror.com
+2026-05-02 23:56:51,515 [INFO] HF_HUB_URL=https://hf-mirror.com
+2026-05-02 23:56:51,516 [INFO] HUGGINGFACE_CO_RESOLVE_ENDPOINT=https://hf-mirror.com
+2026-05-02 23:56:51,680 [INFO] Loading HF model qwen25 (Qwen/Qwen2.5-VL-7B-Instruct) device=cuda:0 device_map=None input_device=cuda:0
+2026-05-02 23:56:52,189 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-02 23:56:53,578 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:56:53,669 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-02 23:56:54,820 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-02 23:56:56,053 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:56:56,149 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-02 23:56:56,241 [INFO] HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen2.5-VL-7B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:01,918 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:02,209 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/chat_template.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:57:02,292 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/chat_template.json "HTTP/1.1 200 OK"
+2026-05-02 23:57:02,554 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/chat_template.jinja "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:03,085 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/audio_tokenizer_config.json "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:04,534 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:05,199 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:57:05,304 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-02 23:57:05,621 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:05,905 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:57:06,003 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-02 23:57:06,299 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:57:06,394 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/config.json "HTTP/1.1 200 OK"
+2026-05-02 23:57:07,444 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:57:07,708 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-05-02 23:57:07,809 [INFO] HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen2.5-VL-7B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:07,895 [INFO] HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen2.5-VL-7B-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-05-02 23:57:08,479 [INFO] HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen2.5-VL-7B-Instruct "HTTP/1.1 200 OK"
+2026-05-02 23:57:11,513 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:11,802 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/video_preprocessor_config.json "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:12,053 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:57:12,196 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-02 23:57:13,724 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:14,817 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/video_preprocessor_config.json "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:15,063 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:57:15,187 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-02 23:57:18,364 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:57:18,570 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/config.json "HTTP/1.1 200 OK"
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/729 [00:00<?, ?it/s]Loading weights:  13%|█▎        | 94/729 [00:00<00:00, 925.43it/s]Loading weights:  45%|████▍     | 327/729 [00:00<00:00, 1745.25it/s]Loading weights: 100%|██████████| 729/729 [00:00<00:00, 2847.13it/s]
+2026-05-02 23:57:21,318 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-02 23:57:21,404 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/generation_config.json "HTTP/1.1 200 OK"
+2026-05-02 23:57:21,712 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-05-02 23:57:28,576 [INFO] Dataset=TeacherBehavior split=val images=3240 models=['qwen25']
+2026-05-02 23:57:42,926 [INFO] Progress: 20 / 3240 images
+2026-05-02 23:57:53,359 [INFO] Progress: 40 / 3240 images
+2026-05-02 23:57:59,818 [INFO] Progress: 60 / 3240 images
+2026-05-02 23:58:08,347 [INFO] Progress: 80 / 3240 images
+2026-05-02 23:58:16,050 [INFO] Progress: 100 / 3240 images
+2026-05-02 23:58:27,427 [INFO] Progress: 120 / 3240 images
+2026-05-02 23:58:39,727 [INFO] Progress: 140 / 3240 images
+2026-05-02 23:58:49,961 [INFO] Progress: 160 / 3240 images
+2026-05-02 23:59:00,741 [INFO] Progress: 180 / 3240 images
+2026-05-02 23:59:12,041 [INFO] Progress: 200 / 3240 images
+2026-05-02 23:59:22,910 [INFO] Progress: 220 / 3240 images
+2026-05-02 23:59:34,312 [INFO] Progress: 240 / 3240 images
+2026-05-02 23:59:46,620 [INFO] Progress: 260 / 3240 images
+2026-05-02 23:59:57,492 [INFO] Progress: 280 / 3240 images
+2026-05-03 00:00:07,608 [INFO] Progress: 300 / 3240 images
+2026-05-03 00:00:17,570 [INFO] Progress: 320 / 3240 images
+2026-05-03 00:00:28,372 [INFO] Progress: 340 / 3240 images
+2026-05-03 00:00:38,237 [INFO] Progress: 360 / 3240 images
+2026-05-03 00:00:48,045 [INFO] Progress: 380 / 3240 images
+2026-05-03 00:00:58,501 [INFO] Progress: 400 / 3240 images
+2026-05-03 00:01:10,864 [INFO] Progress: 420 / 3240 images
+2026-05-03 00:01:22,007 [INFO] Progress: 440 / 3240 images
+2026-05-03 00:01:31,962 [INFO] Progress: 460 / 3240 images
+2026-05-03 00:01:41,503 [INFO] Progress: 480 / 3240 images
+2026-05-03 00:01:51,740 [INFO] Progress: 500 / 3240 images
+2026-05-03 00:02:02,006 [INFO] Progress: 520 / 3240 images
+2026-05-03 00:02:12,961 [INFO] Progress: 540 / 3240 images
+2026-05-03 00:02:22,434 [INFO] Progress: 560 / 3240 images
+2026-05-03 00:02:32,165 [INFO] Progress: 580 / 3240 images
+2026-05-03 00:02:40,421 [INFO] Progress: 600 / 3240 images
+2026-05-03 00:02:50,428 [INFO] Progress: 620 / 3240 images
+2026-05-03 00:02:59,941 [INFO] Progress: 640 / 3240 images
+2026-05-03 00:03:08,662 [INFO] Progress: 660 / 3240 images
+2026-05-03 00:03:19,151 [INFO] Progress: 680 / 3240 images
+2026-05-03 00:03:29,284 [INFO] Progress: 700 / 3240 images
+2026-05-03 00:03:39,097 [INFO] Progress: 720 / 3240 images
+2026-05-03 00:03:48,628 [INFO] Progress: 740 / 3240 images
+2026-05-03 00:03:58,803 [INFO] Progress: 760 / 3240 images
+2026-05-03 00:04:12,879 [INFO] Progress: 780 / 3240 images
+2026-05-03 00:04:25,120 [INFO] Progress: 800 / 3240 images
+2026-05-03 00:04:35,391 [INFO] Progress: 820 / 3240 images
+2026-05-03 00:04:45,557 [INFO] Progress: 840 / 3240 images
+2026-05-03 00:04:54,946 [INFO] Progress: 860 / 3240 images
+2026-05-03 00:05:05,595 [INFO] Progress: 880 / 3240 images
+2026-05-03 00:05:14,141 [INFO] Progress: 900 / 3240 images
+2026-05-03 00:05:24,726 [INFO] Progress: 920 / 3240 images
+2026-05-03 00:05:33,701 [INFO] Progress: 940 / 3240 images
+2026-05-03 00:05:41,767 [INFO] Progress: 960 / 3240 images
+2026-05-03 00:05:52,036 [INFO] Progress: 980 / 3240 images
+2026-05-03 00:06:02,263 [INFO] Progress: 1000 / 3240 images
+2026-05-03 00:06:12,566 [INFO] Progress: 1020 / 3240 images
+2026-05-03 00:06:18,884 [INFO] Progress: 1040 / 3240 images
+2026-05-03 00:06:29,274 [INFO] Progress: 1060 / 3240 images
+2026-05-03 00:06:39,497 [INFO] Progress: 1080 / 3240 images
+2026-05-03 00:06:48,999 [INFO] Progress: 1100 / 3240 images
+2026-05-03 00:06:55,933 [INFO] Progress: 1120 / 3240 images
+2026-05-03 00:07:01,988 [INFO] Progress: 1140 / 3240 images
+2026-05-03 00:07:07,643 [INFO] Progress: 1160 / 3240 images
+2026-05-03 00:07:13,642 [INFO] Progress: 1180 / 3240 images
+2026-05-03 00:07:20,067 [INFO] Progress: 1200 / 3240 images
+2026-05-03 00:07:28,608 [INFO] Progress: 1220 / 3240 images
+2026-05-03 00:07:41,847 [INFO] Progress: 1240 / 3240 images
+2026-05-03 00:07:52,445 [INFO] Progress: 1260 / 3240 images
+2026-05-03 00:07:59,914 [INFO] Progress: 1280 / 3240 images
+2026-05-03 00:08:08,593 [INFO] Progress: 1300 / 3240 images
+2026-05-03 00:08:15,809 [INFO] Progress: 1320 / 3240 images
+2026-05-03 00:08:25,052 [INFO] Progress: 1340 / 3240 images
+2026-05-03 00:08:32,390 [INFO] Progress: 1360 / 3240 images
+2026-05-03 00:08:39,262 [INFO] Progress: 1380 / 3240 images
+2026-05-03 00:08:47,166 [INFO] Progress: 1400 / 3240 images
+2026-05-03 00:08:55,680 [INFO] Progress: 1420 / 3240 images
+2026-05-03 00:09:08,747 [INFO] Progress: 1440 / 3240 images
+2026-05-03 00:09:30,607 [INFO] Progress: 1460 / 3240 images
+2026-05-03 00:09:52,082 [INFO] Progress: 1480 / 3240 images
+2026-05-03 00:10:05,644 [INFO] Progress: 1500 / 3240 images
+2026-05-03 00:10:12,997 [INFO] Progress: 1520 / 3240 images
+2026-05-03 00:10:24,586 [INFO] Progress: 1540 / 3240 images
+2026-05-03 00:10:33,548 [INFO] Progress: 1560 / 3240 images
+2026-05-03 00:10:39,243 [INFO] Progress: 1580 / 3240 images
+2026-05-03 00:10:45,398 [INFO] Progress: 1600 / 3240 images
+2026-05-03 00:10:59,773 [INFO] Progress: 1620 / 3240 images
+2026-05-03 00:11:17,703 [INFO] Progress: 1640 / 3240 images
+2026-05-03 00:11:35,492 [INFO] Progress: 1660 / 3240 images
+2026-05-03 00:11:53,852 [INFO] Progress: 1680 / 3240 images
+2026-05-03 00:12:09,748 [INFO] Progress: 1700 / 3240 images
+2026-05-03 00:12:23,828 [INFO] Progress: 1720 / 3240 images
+2026-05-03 00:12:36,118 [INFO] Progress: 1740 / 3240 images
+2026-05-03 00:12:46,146 [INFO] Progress: 1760 / 3240 images
+2026-05-03 00:12:52,950 [INFO] Progress: 1780 / 3240 images
+2026-05-03 00:13:01,372 [INFO] Progress: 1800 / 3240 images
+2026-05-03 00:13:10,910 [INFO] Progress: 1820 / 3240 images
+2026-05-03 00:13:22,508 [INFO] Progress: 1840 / 3240 images
+2026-05-03 00:13:32,718 [INFO] Progress: 1860 / 3240 images
+2026-05-03 00:13:43,113 [INFO] Progress: 1880 / 3240 images
+2026-05-03 00:14:06,503 [INFO] Progress: 1900 / 3240 images
+2026-05-03 00:14:32,660 [INFO] Progress: 1920 / 3240 images
+2026-05-03 00:14:55,512 [INFO] Progress: 1940 / 3240 images
+2026-05-03 00:15:17,956 [INFO] Progress: 1960 / 3240 images
+2026-05-03 00:15:40,448 [INFO] Progress: 1980 / 3240 images
+2026-05-03 00:15:56,392 [INFO] Progress: 2000 / 3240 images
+2026-05-03 00:16:18,734 [INFO] Progress: 2020 / 3240 images
+2026-05-03 00:16:32,127 [INFO] Progress: 2040 / 3240 images
+2026-05-03 00:16:48,387 [INFO] Progress: 2060 / 3240 images
+2026-05-03 00:17:07,889 [INFO] Progress: 2080 / 3240 images
+2026-05-03 00:17:26,624 [INFO] Progress: 2100 / 3240 images
+2026-05-03 00:17:42,762 [INFO] Progress: 2120 / 3240 images
+2026-05-03 00:18:04,195 [INFO] Progress: 2140 / 3240 images
+2026-05-03 00:18:19,370 [INFO] Progress: 2160 / 3240 images
+2026-05-03 00:18:28,631 [INFO] Progress: 2180 / 3240 images
+2026-05-03 00:18:44,859 [INFO] Progress: 2200 / 3240 images
+2026-05-03 00:19:06,244 [INFO] Progress: 2220 / 3240 images
+2026-05-03 00:19:25,755 [INFO] Progress: 2240 / 3240 images
+2026-05-03 00:19:44,304 [INFO] Progress: 2260 / 3240 images
+2026-05-03 00:20:05,933 [INFO] Progress: 2280 / 3240 images
+2026-05-03 00:20:26,344 [INFO] Progress: 2300 / 3240 images
+2026-05-03 00:20:50,836 [INFO] Progress: 2320 / 3240 images
+2026-05-03 00:21:14,131 [INFO] Progress: 2340 / 3240 images
+2026-05-03 00:21:32,895 [INFO] Progress: 2360 / 3240 images
+2026-05-03 00:21:46,375 [INFO] Progress: 2380 / 3240 images
+2026-05-03 00:21:54,752 [INFO] Progress: 2400 / 3240 images
+2026-05-03 00:22:03,694 [INFO] Progress: 2420 / 3240 images
+2026-05-03 00:22:12,485 [INFO] Progress: 2440 / 3240 images
+2026-05-03 00:22:21,100 [INFO] Progress: 2460 / 3240 images
+2026-05-03 00:22:28,579 [INFO] Progress: 2480 / 3240 images
+2026-05-03 00:22:41,577 [INFO] Progress: 2500 / 3240 images
+2026-05-03 00:22:51,467 [INFO] Progress: 2520 / 3240 images
+2026-05-03 00:23:01,596 [INFO] Progress: 2540 / 3240 images
+2026-05-03 00:23:14,570 [INFO] Progress: 2560 / 3240 images
+2026-05-03 00:23:25,978 [INFO] Progress: 2580 / 3240 images
+2026-05-03 00:23:36,981 [INFO] Progress: 2600 / 3240 images
+2026-05-03 00:23:54,386 [INFO] Progress: 2620 / 3240 images
+2026-05-03 00:24:03,201 [INFO] Progress: 2640 / 3240 images
+2026-05-03 00:24:14,423 [INFO] Progress: 2660 / 3240 images
+2026-05-03 00:24:20,440 [INFO] Progress: 2680 / 3240 images
+2026-05-03 00:24:37,728 [INFO] Progress: 2700 / 3240 images
+2026-05-03 00:24:51,073 [INFO] Progress: 2720 / 3240 images
+2026-05-03 00:24:59,619 [INFO] Progress: 2740 / 3240 images
+2026-05-03 00:25:06,553 [INFO] Progress: 2760 / 3240 images
+2026-05-03 00:25:14,569 [INFO] Progress: 2780 / 3240 images
+2026-05-03 00:25:22,174 [INFO] Progress: 2800 / 3240 images
+2026-05-03 00:25:28,327 [INFO] Progress: 2820 / 3240 images
+2026-05-03 00:25:36,086 [INFO] Progress: 2840 / 3240 images
+2026-05-03 00:25:45,777 [INFO] Progress: 2860 / 3240 images
+2026-05-03 00:25:56,527 [INFO] Progress: 2880 / 3240 images
+2026-05-03 00:26:03,004 [INFO] Progress: 2900 / 3240 images
+2026-05-03 00:26:07,376 [INFO] Progress: 2920 / 3240 images
+2026-05-03 00:26:13,495 [INFO] Progress: 2940 / 3240 images
+2026-05-03 00:26:22,808 [INFO] Progress: 2960 / 3240 images
+2026-05-03 00:26:33,440 [INFO] Progress: 2980 / 3240 images
+2026-05-03 00:26:40,977 [INFO] Progress: 3000 / 3240 images
+2026-05-03 00:26:50,142 [INFO] Progress: 3020 / 3240 images
+2026-05-03 00:26:59,251 [INFO] Progress: 3040 / 3240 images
+2026-05-03 00:27:14,079 [INFO] Progress: 3060 / 3240 images
+2026-05-03 00:27:25,052 [INFO] Progress: 3080 / 3240 images
+2026-05-03 00:27:33,685 [INFO] Progress: 3100 / 3240 images
+2026-05-03 00:27:46,886 [INFO] Progress: 3120 / 3240 images
+2026-05-03 00:28:03,240 [INFO] Progress: 3140 / 3240 images
+2026-05-03 00:28:16,718 [INFO] Progress: 3160 / 3240 images
+2026-05-03 00:28:32,262 [INFO] Progress: 3180 / 3240 images
+2026-05-03 00:28:49,558 [INFO] Progress: 3200 / 3240 images
+2026-05-03 00:29:05,299 [INFO] Progress: 3220 / 3240 images
+2026-05-03 00:29:13,291 [INFO] Progress: 3240 / 3240 images
+2026-05-03 00:29:13,495 [INFO] Rebuilt merged annotations: /school_Agri/Annotation/llm_annotations_crossmodel/TeacherBehavior_val_crossmodel_annotations.jsonl (15327 records)
+2026-05-03 00:29:13,500 [INFO] Done. Output dir: /school_Agri/Annotation/llm_annotations_crossmodel
+2026-05-03 00:29:13,655 [INFO] Saved cross-model summaries: /school_Agri/Annotation/llm_annotations_crossmodel/TeacherBehavior_val_crossmodel_summary.json, /school_Agri/Annotation/llm_annotations_crossmodel/TeacherBehavior_val_crossmodel_summary.csv
+
+======================================================================
+Cross-model annotation quality: TeacherBehavior / val
+======================================================================
+
+  [qwen25] total=15338 valid=15338 overall_acc=44.84%
+  Class                             n   acc(%)
+  --------------------------------------------
+  guide                           449     0.0%
+  answer                          853     1.2%
+  on-stage interaction            149    64.4%
+  blackboard-writing              277    95.7%
+  teacher                        3231    86.3%
+  stand                          4970     6.8%
+  screen                         1962    56.4%
+  blackboard                     3447    66.0%
+
+======================================================================
+

@@ -1,0 +1,11 @@
+{
+  "BowTurnHead": {
+    "student_val_acc_mean": 4.6875,
+    "student_val_acc_std": 0.0,
+    "teacher_val_acc_mean": 4.6875,
+    "teacher_val_acc_std": 0.0,
+    "mean_pseudo_retention_pct": 100.0,
+    "mean_student_n_train": 80.0,
+    "n_seeds": 1
+  }
+}

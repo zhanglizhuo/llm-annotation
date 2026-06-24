@@ -1,0 +1,144 @@
+=========================================
+Phase 6 major-revision supplements
+run_tag: major_revision_20260516_0928
+python: /opt/conda/bin/python
+out_root: ./results/phase6_major_revision/major_revision_20260516_0928
+log_file: ./logs/phase6/phase6_major_revision_20260516_0928.log
+analysis_dir: ./results/phase2_filtering/full_20260418_0001
+main_ann_dir: ./results/phase1_annotations/full_20260418_0001
+crossmodel_dir: ./results/phase1b_crossmodel/default
+clip_zs_json: ./results/phase0_zero_shot/canonical_20260425_231347/phase0_zero_shot_results.json
+cuda_visible_devices: 0,1
+hf_hub_offline: 1
+seeds: 43 44 45 46 47
+thresholds: 0.3 0.5 0.6 0.7 0.8 0.9
+teacher_label_fraction: 0.1
+=========================================
+>>> [Proxy] Cross-model consistency anchor proxy
+2026-05-16 09:28:00,056 [INFO] BowTurnHead/val common records: 3753
+2026-05-16 09:28:00,314 [INFO] BowTurnHead CMC-vs-ZS correlation: {'dataset': 'BowTurnHead', 'n_classes': 2, 'pearson_r': nan, 'pearson_p': nan, 'spearman_rho': nan, 'spearman_p': nan}
+2026-05-16 09:28:00,531 [INFO] HandriseReadWrite/val common records: 12847
+2026-05-16 09:28:00,954 [INFO] HandriseReadWrite CMC-vs-ZS correlation: {'dataset': 'HandriseReadWrite', 'n_classes': 3, 'pearson_r': 0.995556, 'pearson_p': 0.060042, 'spearman_rho': 0.5, 'spearman_p': 0.666667}
+2026-05-16 09:28:01,282 [INFO] TeacherBehavior/val common records: 15327
+2026-05-16 09:28:01,511 [INFO] TeacherBehavior CMC-vs-ZS correlation: {'dataset': 'TeacherBehavior', 'n_classes': 8, 'pearson_r': 0.573133, 'pearson_p': 0.137514, 'spearman_rho': 0.439155, 'spearman_p': 0.276327}
+2026-05-16 09:28:01,517 [INFO] Saved anchor proxy outputs to results/phase6_major_revision/major_revision_20260516_0928/proxy_analysis
+>>> [Baseline 1] CLIP-assisted confidence filtering
+2026-05-16 09:28:04,440 [INFO] Device: cuda | GPUs: 2
+2026-05-16 09:28:04,585 [INFO] BowTurnHead: pseudo train=12365 | val=3753
+2026-05-16 09:28:04,585 [INFO] Loading CLIP ViT-L-14/openai
+2026-05-16 09:28:04,585 [INFO] HF_HUB_OFFLINE=1
+2026-05-16 09:28:04,585 [INFO] Loaded ViT-L-14 model config.
+/opt/conda/lib/python3.8/site-packages/open_clip/factory.py:388: UserWarning: These pretrained weights were trained with QuickGELU activation but the model config does not have that enabled. Consider using a model config with a "-quickgelu" suffix or enable with a flag.
+  warnings.warn(
+2026-05-16 09:28:08,858 [INFO] Loading pretrained ViT-L-14 weights (openai).
+2026-05-16 09:28:10,297 [INFO] Wrapping visual encoder with DataParallel across 2 GPUs
+/opt/conda/lib/python3.8/site-packages/torch/nn/parallel/scatter_gather.py:9: UserWarning: is_namedtuple is deprecated, please use the python checks instead
+  warnings.warn("is_namedtuple is deprecated, please use the python checks instead")
+/opt/conda/lib/python3.8/site-packages/torch/nn/modules/activation.py:1115: UserWarning: Converting mask without torch.bool dtype to bool; this will negatively affect performance. Prefer to use a boolean mask directly. (Triggered internally at /opt/pytorch/pytorch/aten/src/ATen/native/transformers/attention.cpp:131.)
+  return torch._native_multi_head_attention(
+2026-05-16 09:34:32,022 [INFO] BowTurnHead threshold=0.300 selected=12365/12365 (100.00%) class_coverage=2/2
+2026-05-16 09:34:36,780 [INFO] BowTurnHead threshold=0.300 seed=43 best_val_acc=88.0362
+2026-05-16 09:34:42,362 [INFO] BowTurnHead threshold=0.300 seed=44 best_val_acc=87.7698
+2026-05-16 09:34:49,007 [INFO] BowTurnHead threshold=0.300 seed=45 best_val_acc=87.7698
+2026-05-16 09:34:54,776 [INFO] BowTurnHead threshold=0.300 seed=46 best_val_acc=88.1162
+2026-05-16 09:35:02,083 [INFO] BowTurnHead threshold=0.300 seed=47 best_val_acc=88.276
+2026-05-16 09:35:02,085 [INFO] BowTurnHead threshold=0.500 selected=4913/12365 (39.73%) class_coverage=2/2
+2026-05-16 09:35:05,145 [INFO] BowTurnHead threshold=0.500 seed=43 best_val_acc=85.6115
+2026-05-16 09:35:07,422 [INFO] BowTurnHead threshold=0.500 seed=44 best_val_acc=85.6115
+2026-05-16 09:35:10,379 [INFO] BowTurnHead threshold=0.500 seed=45 best_val_acc=85.6115
+2026-05-16 09:35:13,881 [INFO] BowTurnHead threshold=0.500 seed=46 best_val_acc=85.6115
+2026-05-16 09:35:16,904 [INFO] BowTurnHead threshold=0.500 seed=47 best_val_acc=85.6382
+2026-05-16 09:35:16,905 [INFO] BowTurnHead threshold=0.600 selected=0/12365 (0.00%) class_coverage=0/2
+2026-05-16 09:35:16,905 [INFO] BowTurnHead threshold=0.700 selected=0/12365 (0.00%) class_coverage=0/2
+2026-05-16 09:35:16,905 [INFO] BowTurnHead threshold=0.800 selected=0/12365 (0.00%) class_coverage=0/2
+2026-05-16 09:35:16,905 [INFO] BowTurnHead threshold=0.900 selected=0/12365 (0.00%) class_coverage=0/2
+2026-05-16 09:35:17,193 [INFO] HandriseReadWrite: pseudo train=34522 | val=12848
+2026-05-16 09:35:17,193 [INFO] Loading CLIP ViT-L-14/openai
+2026-05-16 09:35:17,193 [INFO] HF_HUB_OFFLINE=1
+2026-05-16 09:35:17,193 [INFO] Loaded ViT-L-14 model config.
+2026-05-16 09:35:22,808 [INFO] Loading pretrained ViT-L-14 weights (openai).
+2026-05-16 09:35:24,070 [INFO] Wrapping visual encoder with DataParallel across 2 GPUs
+2026-05-16 09:54:59,905 [INFO] HandriseReadWrite threshold=0.300 selected=34522/34522 (100.00%) class_coverage=3/3
+2026-05-16 09:55:14,833 [INFO] HandriseReadWrite threshold=0.300 seed=43 best_val_acc=75.3347
+2026-05-16 09:55:29,442 [INFO] HandriseReadWrite threshold=0.300 seed=44 best_val_acc=75.4203
+2026-05-16 09:55:45,504 [INFO] HandriseReadWrite threshold=0.300 seed=45 best_val_acc=75.7238
+2026-05-16 09:56:00,547 [INFO] HandriseReadWrite threshold=0.300 seed=46 best_val_acc=75.4203
+2026-05-16 09:56:15,719 [INFO] HandriseReadWrite threshold=0.300 seed=47 best_val_acc=75.9106
+2026-05-16 09:56:15,719 [INFO] HandriseReadWrite threshold=0.500 selected=0/34522 (0.00%) class_coverage=0/3
+2026-05-16 09:56:15,719 [INFO] HandriseReadWrite threshold=0.600 selected=0/34522 (0.00%) class_coverage=0/3
+2026-05-16 09:56:15,720 [INFO] HandriseReadWrite threshold=0.700 selected=0/34522 (0.00%) class_coverage=0/3
+2026-05-16 09:56:15,720 [INFO] HandriseReadWrite threshold=0.800 selected=0/34522 (0.00%) class_coverage=0/3
+2026-05-16 09:56:15,720 [INFO] HandriseReadWrite threshold=0.900 selected=0/34522 (0.00%) class_coverage=0/3
+2026-05-16 09:56:16,360 [INFO] TeacherBehavior: pseudo train=40354 | val=15327
+2026-05-16 09:56:16,361 [INFO] Loading CLIP ViT-L-14/openai
+2026-05-16 09:56:16,361 [INFO] HF_HUB_OFFLINE=1
+2026-05-16 09:56:16,361 [INFO] Loaded ViT-L-14 model config.
+2026-05-16 09:56:19,960 [INFO] Loading pretrained ViT-L-14 weights (openai).
+2026-05-16 09:56:21,391 [INFO] Wrapping visual encoder with DataParallel across 2 GPUs
+2026-05-16 10:20:36,931 [INFO] TeacherBehavior threshold=0.300 selected=0/40354 (0.00%) class_coverage=0/8
+2026-05-16 10:20:36,932 [INFO] TeacherBehavior threshold=0.500 selected=0/40354 (0.00%) class_coverage=0/8
+2026-05-16 10:20:36,932 [INFO] TeacherBehavior threshold=0.600 selected=0/40354 (0.00%) class_coverage=0/8
+2026-05-16 10:20:36,932 [INFO] TeacherBehavior threshold=0.700 selected=0/40354 (0.00%) class_coverage=0/8
+2026-05-16 10:20:36,933 [INFO] TeacherBehavior threshold=0.800 selected=0/40354 (0.00%) class_coverage=0/8
+2026-05-16 10:20:36,933 [INFO] TeacherBehavior threshold=0.900 selected=0/40354 (0.00%) class_coverage=0/8
+2026-05-16 10:20:37,131 [INFO] Saved confidence-filtering outputs to results/phase6_major_revision/major_revision_20260516_0928/baseline1_confidence_filtering
+>>> [Baseline 2] Train-split teacher-student self-training
+2026-05-16 10:20:40,659 [INFO] Device: cuda | GPUs: 2
+2026-05-16 10:20:41,011 [INFO] BowTurnHead: GT train=12365 | val=3753
+2026-05-16 10:20:41,011 [INFO] Loading CLIP ViT-L-14/openai
+2026-05-16 10:20:41,011 [INFO] HF_HUB_OFFLINE=1
+2026-05-16 10:20:41,012 [INFO] Loaded ViT-L-14 model config.
+/opt/conda/lib/python3.8/site-packages/open_clip/factory.py:388: UserWarning: These pretrained weights were trained with QuickGELU activation but the model config does not have that enabled. Consider using a model config with a "-quickgelu" suffix or enable with a flag.
+  warnings.warn(
+2026-05-16 10:20:47,394 [INFO] Loading pretrained ViT-L-14 weights (openai).
+2026-05-16 10:20:49,183 [INFO] Wrapping visual encoder with DataParallel across 2 GPUs
+/opt/conda/lib/python3.8/site-packages/torch/nn/parallel/scatter_gather.py:9: UserWarning: is_namedtuple is deprecated, please use the python checks instead
+  warnings.warn("is_namedtuple is deprecated, please use the python checks instead")
+2026-05-16 10:27:10,222 [INFO] BowTurnHead seed=43 labeled=1236 unlabeled=11129 fraction=0.100
+2026-05-16 10:27:16,768 [INFO] BowTurnHead seed=43 teacher=89.00 student=89.1287 kept=11129
+2026-05-16 10:27:16,776 [INFO] BowTurnHead seed=44 labeled=1236 unlabeled=11129 fraction=0.100
+2026-05-16 10:27:24,152 [INFO] BowTurnHead seed=44 teacher=87.53 student=87.4234 kept=11129
+2026-05-16 10:27:24,167 [INFO] BowTurnHead seed=45 labeled=1236 unlabeled=11129 fraction=0.100
+2026-05-16 10:27:33,544 [INFO] BowTurnHead seed=45 teacher=88.86 student=89.555 kept=11129
+2026-05-16 10:27:33,564 [INFO] BowTurnHead seed=46 labeled=1236 unlabeled=11129 fraction=0.100
+2026-05-16 10:27:40,978 [INFO] BowTurnHead seed=46 teacher=90.17 student=90.2744 kept=11129
+2026-05-16 10:27:40,994 [INFO] BowTurnHead seed=47 labeled=1236 unlabeled=11129 fraction=0.100
+2026-05-16 10:27:48,672 [INFO] BowTurnHead seed=47 teacher=88.94 student=89.4484 kept=11129
+2026-05-16 10:27:49,993 [INFO] HandriseReadWrite: GT train=34524 | val=12848
+2026-05-16 10:27:49,994 [INFO] Loading CLIP ViT-L-14/openai
+2026-05-16 10:27:49,994 [INFO] HF_HUB_OFFLINE=1
+2026-05-16 10:27:49,996 [INFO] Loaded ViT-L-14 model config.
+2026-05-16 10:27:56,293 [INFO] Loading pretrained ViT-L-14 weights (openai).
+2026-05-16 10:27:57,232 [INFO] Wrapping visual encoder with DataParallel across 2 GPUs
+2026-05-16 10:47:26,518 [INFO] HandriseReadWrite seed=43 labeled=3453 unlabeled=31071 fraction=0.100
+2026-05-16 10:47:44,441 [INFO] HandriseReadWrite seed=43 teacher=67.71 student=67.8627 kept=31071
+2026-05-16 10:47:44,526 [INFO] HandriseReadWrite seed=44 labeled=3453 unlabeled=31071 fraction=0.100
+2026-05-16 10:48:03,308 [INFO] HandriseReadWrite seed=44 teacher=67.95 student=68.1507 kept=31071
+2026-05-16 10:48:03,346 [INFO] HandriseReadWrite seed=45 labeled=3453 unlabeled=31071 fraction=0.100
+2026-05-16 10:48:22,260 [INFO] HandriseReadWrite seed=45 teacher=67.33 student=67.8394 kept=31071
+2026-05-16 10:48:22,288 [INFO] HandriseReadWrite seed=46 labeled=3453 unlabeled=31071 fraction=0.100
+2026-05-16 10:48:41,363 [INFO] HandriseReadWrite seed=46 teacher=68.29 student=68.1663 kept=31071
+2026-05-16 10:48:41,403 [INFO] HandriseReadWrite seed=47 labeled=3453 unlabeled=31071 fraction=0.100
+2026-05-16 10:48:58,402 [INFO] HandriseReadWrite seed=47 teacher=67.98 student=68.392 kept=31071
+2026-05-16 10:48:59,105 [INFO] TeacherBehavior: GT train=40372 | val=15327
+2026-05-16 10:48:59,105 [INFO] Loading CLIP ViT-L-14/openai
+2026-05-16 10:48:59,105 [INFO] HF_HUB_OFFLINE=1
+2026-05-16 10:48:59,105 [INFO] Loaded ViT-L-14 model config.
+2026-05-16 10:49:02,629 [INFO] Loading pretrained ViT-L-14 weights (openai).
+2026-05-16 10:49:03,303 [INFO] Wrapping visual encoder with DataParallel across 2 GPUs
+2026-05-16 11:12:41,533 [INFO] TeacherBehavior seed=43 labeled=4037 unlabeled=36335 fraction=0.100
+2026-05-16 11:13:02,540 [INFO] TeacherBehavior seed=43 teacher=64.49 student=65.153 kept=36335
+2026-05-16 11:13:02,740 [INFO] TeacherBehavior seed=44 labeled=4037 unlabeled=36335 fraction=0.100
+2026-05-16 11:13:23,640 [INFO] TeacherBehavior seed=44 teacher=64.72 student=65.2574 kept=36335
+2026-05-16 11:13:23,814 [INFO] TeacherBehavior seed=45 labeled=4037 unlabeled=36335 fraction=0.100
+2026-05-16 11:13:44,372 [INFO] TeacherBehavior seed=45 teacher=64.88 student=65.3879 kept=36335
+2026-05-16 11:13:44,599 [INFO] TeacherBehavior seed=46 labeled=4037 unlabeled=36335 fraction=0.100
+2026-05-16 11:14:06,316 [INFO] TeacherBehavior seed=46 teacher=64.19 student=65.0747 kept=36335
+2026-05-16 11:14:06,528 [INFO] TeacherBehavior seed=47 labeled=4037 unlabeled=36335 fraction=0.100
+2026-05-16 11:14:26,423 [INFO] TeacherBehavior seed=47 teacher=63.73 student=64.4484 kept=36335
+2026-05-16 11:14:26,602 [INFO] Saved teacher-student outputs to results/phase6_major_revision/major_revision_20260516_0928/baseline2_teacher_student
+=========================================
+Phase 6 supplements completed
+Results: ./results/phase6_major_revision/major_revision_20260516_0928
+Log: ./logs/phase6/phase6_major_revision_20260516_0928.log
+=========================================

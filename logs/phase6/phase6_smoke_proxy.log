@@ -1,0 +1,28 @@
+=========================================
+Phase 6 major-revision supplements
+run_tag: smoke_proxy
+python: /root/anaconda3/bin/python3
+out_root: ./results/phase6_major_revision/smoke_proxy
+log_file: ./logs/phase6/phase6_smoke_proxy.log
+analysis_dir: ./results/phase2_filtering/full_20260418_0001
+main_ann_dir: ./results/phase1_annotations/full_20260418_0001
+crossmodel_dir: ./results/phase1b_crossmodel/default
+clip_zs_json: ./results/phase0_zero_shot/canonical_20260425_231347/phase0_zero_shot_results.json
+cuda_visible_devices: 0,1
+seeds: 43 44 45 46 47
+thresholds: 0.3 0.5 0.6 0.7 0.8 0.9
+teacher_label_fraction: 0.1
+=========================================
+>>> [Proxy] Cross-model consistency anchor proxy
+2026-05-16 09:15:26,892 [INFO] BowTurnHead/val common records: 3753
+2026-05-16 09:15:27,234 [INFO] BowTurnHead CMC-vs-ZS correlation: {'dataset': 'BowTurnHead', 'n_classes': 2, 'pearson_r': nan, 'pearson_p': nan, 'spearman_rho': nan, 'spearman_p': nan}
+2026-05-16 09:15:27,475 [INFO] HandriseReadWrite/val common records: 12847
+2026-05-16 09:15:27,671 [INFO] HandriseReadWrite CMC-vs-ZS correlation: {'dataset': 'HandriseReadWrite', 'n_classes': 3, 'pearson_r': 0.995556, 'pearson_p': 0.060042, 'spearman_rho': 0.5, 'spearman_p': 0.666667}
+2026-05-16 09:15:27,953 [INFO] TeacherBehavior/val common records: 15327
+2026-05-16 09:15:28,167 [INFO] TeacherBehavior CMC-vs-ZS correlation: {'dataset': 'TeacherBehavior', 'n_classes': 8, 'pearson_r': 0.573133, 'pearson_p': 0.137514, 'spearman_rho': 0.439155, 'spearman_p': 0.276327}
+2026-05-16 09:15:28,179 [INFO] Saved anchor proxy outputs to results/phase6_major_revision/smoke_proxy/proxy_analysis
+=========================================
+Phase 6 supplements completed
+Results: ./results/phase6_major_revision/smoke_proxy
+Log: ./logs/phase6/phase6_smoke_proxy.log
+=========================================

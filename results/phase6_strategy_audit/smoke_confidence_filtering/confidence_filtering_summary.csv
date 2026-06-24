@@ -1,0 +1,2 @@
+dataset,best_threshold,best_mean_acc,best_std_acc,best_mean_retention_pct,thresholds
+BowTurnHead,0.3,7.8125,0.0,100.0,"[{'threshold': 0.3, 'mean_acc': 7.8125, 'std_acc': 0.0, 'mean_retention_pct': 100.0, 'n_seeds': 1}]"

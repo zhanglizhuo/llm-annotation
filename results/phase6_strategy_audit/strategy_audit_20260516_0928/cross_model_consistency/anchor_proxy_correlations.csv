@@ -1,0 +1,4 @@
+dataset,n_classes,pearson_r,pearson_p,spearman_rho,spearman_p
+BowTurnHead,2,,,,
+HandriseReadWrite,3,0.995556,0.060042,0.5,0.666667
+TeacherBehavior,8,0.573133,0.137514,0.439155,0.276327

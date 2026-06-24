@@ -1,0 +1,9 @@
+dataset,class_name,all_count,all_pct,none_count,none_pct,agreement_count,agreement_pct,agreement_minus_all_pct,none_minus_all_pct
+TeacherBehavior,answer,2574,6.3757,2565,6.3562,1343,4.9991,-1.3766,-0.0195
+TeacherBehavior,blackboard,7847,19.4367,7843,19.4355,5255,19.5608,0.124,-0.0012
+TeacherBehavior,blackboard-writing,821,2.0336,821,2.0345,668,2.4865,0.4529,0.0009
+TeacherBehavior,guide,1155,2.8609,1155,2.8622,911,3.391,0.5301,0.0013
+TeacherBehavior,on-stage interaction,528,1.3078,527,1.3059,199,0.7407,-0.5671,-0.0019
+TeacherBehavior,screen,5025,12.4467,5023,12.4473,2967,11.0441,-1.4026,0.0006
+TeacherBehavior,stand,13932,34.5091,13931,34.522,8415,31.3233,-3.1858,0.0129
+TeacherBehavior,teacher,8490,21.0294,8489,21.0363,7107,26.4545,5.4251,0.0069

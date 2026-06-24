@@ -1,0 +1,14 @@
+class_idx,class_name,cross_model_consistency,cross_model_consistency_weighted,dataset,n_gt_samples,n_model_pairs
+0,bow-head,54.2264,54.2187,BowTurnHead,540,10
+1,turn-head,51.1059,51.0809,BowTurnHead,3213,10
+0,hand-raise,81.1798,81.1734,HandriseReadWrite,2914,10
+1,read,56.5242,56.505,HandriseReadWrite,6539,10
+2,write,78.763,78.7537,HandriseReadWrite,3394,10
+0,guide,72.4944,72.4944,TeacherBehavior,449,10
+1,answer,68.898,68.898,TeacherBehavior,853,10
+2,on-stage interaction,47.9195,47.9195,TeacherBehavior,149,10
+3,blackboard-writing,77.9422,77.9422,TeacherBehavior,277,10
+4,teacher,85.6382,85.6382,TeacherBehavior,3228,10
+5,stand,67.4592,67.4592,TeacherBehavior,4967,10
+6,screen,66.8096,66.8096,TeacherBehavior,1959,10
+7,blackboard,69.0885,69.0885,TeacherBehavior,3445,10

@@ -1,0 +1,36 @@
+{
+  "dataset": "BowTurnHead",
+  "n_all": 12365,
+  "n_none": 12365,
+  "n_agreement": 2467,
+  "retention_none_pct": 100.0,
+  "retention_agreement_pct": 19.9515,
+  "kl_all_to_none": 0.0,
+  "kl_all_to_agreement": 0.15656312,
+  "tv_all_to_none": 0.0,
+  "tv_all_to_agreement": 0.27634606,
+  "largest_positive_shift": {
+    "dataset": "BowTurnHead",
+    "class_name": "bow-head",
+    "all_count": 4422,
+    "all_pct": 35.7622,
+    "none_count": 4422,
+    "none_pct": 35.7622,
+    "agreement_count": 1564,
+    "agreement_pct": 63.3968,
+    "agreement_minus_all_pct": 27.6346,
+    "none_minus_all_pct": 0.0
+  },
+  "largest_negative_shift": {
+    "dataset": "BowTurnHead",
+    "class_name": "turn-head",
+    "all_count": 7943,
+    "all_pct": 64.2378,
+    "none_count": 7943,
+    "none_pct": 64.2378,
+    "agreement_count": 903,
+    "agreement_pct": 36.6032,
+    "agreement_minus_all_pct": -27.6346,
+    "none_minus_all_pct": 0.0
+  }
+}

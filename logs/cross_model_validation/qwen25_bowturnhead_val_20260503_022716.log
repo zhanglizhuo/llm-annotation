@@ -1,0 +1,87 @@
+nohup: ignoring input
+2026-05-03 02:27:21,243 [INFO] HF_ENDPOINT=https://hf-mirror.com
+2026-05-03 02:27:21,243 [INFO] HF_HUB_URL=https://hf-mirror.com
+2026-05-03 02:27:21,243 [INFO] HUGGINGFACE_CO_RESOLVE_ENDPOINT=https://hf-mirror.com
+2026-05-03 02:27:21,389 [INFO] Loading HF model qwen25 (Qwen/Qwen2.5-VL-7B-Instruct) device=cuda:0 device_map=None input_device=cuda:0
+2026-05-03 02:27:22,370 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:22,618 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:22,854 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-03 02:27:23,145 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:23,421 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:23,646 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-03 02:27:23,771 [INFO] HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen2.5-VL-7B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:24,368 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:24,651 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/chat_template.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:24,762 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/chat_template.json "HTTP/1.1 200 OK"
+2026-05-03 02:27:25,032 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/chat_template.jinja "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:25,357 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/audio_tokenizer_config.json "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:25,632 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:25,899 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:26,114 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-03 02:27:26,419 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:26,685 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:26,786 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-03 02:27:27,067 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:27,198 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/config.json "HTTP/1.1 200 OK"
+2026-05-03 02:27:27,569 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:27,679 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/tokenizer_config.json "HTTP/1.1 200 OK"
+2026-05-03 02:27:27,798 [INFO] HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen2.5-VL-7B-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:27,908 [INFO] HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen2.5-VL-7B-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-05-03 02:27:28,687 [INFO] HTTP Request: GET https://hf-mirror.com/api/models/Qwen/Qwen2.5-VL-7B-Instruct "HTTP/1.1 200 OK"
+2026-05-03 02:27:28,951 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:29,199 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/video_preprocessor_config.json "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:29,453 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:29,544 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-03 02:27:29,819 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/processor_config.json "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:30,096 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/video_preprocessor_config.json "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:30,374 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/preprocessor_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:30,597 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/preprocessor_config.json "HTTP/1.1 200 OK"
+2026-05-03 02:27:30,899 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:31,027 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/config.json "HTTP/1.1 200 OK"
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/729 [00:00<?, ?it/s]Loading weights:  56%|█████▌    | 405/729 [00:00<00:00, 4040.49it/s]Loading weights: 100%|██████████| 729/729 [00:00<00:00, 3897.13it/s]
+2026-05-03 02:27:32,137 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+2026-05-03 02:27:32,215 [INFO] HTTP Request: HEAD https://hf-mirror.com/api/resolve-cache/models/Qwen/Qwen2.5-VL-7B-Instruct/cc594898137f460bfe9f0759e9844b3ce807cfb5/generation_config.json "HTTP/1.1 200 OK"
+2026-05-03 02:27:32,798 [INFO] HTTP Request: HEAD https://hf-mirror.com/Qwen/Qwen2.5-VL-7B-Instruct/resolve/main/custom_generate/generate.py "HTTP/1.1 404 Not Found"
+2026-05-03 02:27:40,825 [INFO] Dataset=BowTurnHead split=val images=505 models=['qwen25']
+2026-05-03 02:27:56,472 [INFO] Progress: 20 / 505 images
+2026-05-03 02:28:05,479 [INFO] Progress: 40 / 505 images
+2026-05-03 02:28:17,147 [INFO] Progress: 60 / 505 images
+2026-05-03 02:28:39,783 [INFO] Progress: 80 / 505 images
+2026-05-03 02:29:12,425 [INFO] Progress: 100 / 505 images
+2026-05-03 02:29:42,574 [INFO] Progress: 120 / 505 images
+2026-05-03 02:30:06,214 [INFO] Progress: 140 / 505 images
+2026-05-03 02:30:23,298 [INFO] Progress: 160 / 505 images
+2026-05-03 02:30:37,533 [INFO] Progress: 180 / 505 images
+2026-05-03 02:30:50,911 [INFO] Progress: 200 / 505 images
+2026-05-03 02:31:09,345 [INFO] Progress: 220 / 505 images
+2026-05-03 02:31:25,431 [INFO] Progress: 240 / 505 images
+2026-05-03 02:31:35,054 [INFO] Progress: 260 / 505 images
+2026-05-03 02:31:47,214 [INFO] Progress: 280 / 505 images
+2026-05-03 02:32:02,181 [INFO] Progress: 300 / 505 images
+2026-05-03 02:32:14,488 [INFO] Progress: 320 / 505 images
+2026-05-03 02:32:31,633 [INFO] Progress: 340 / 505 images
+2026-05-03 02:32:38,091 [INFO] Progress: 360 / 505 images
+2026-05-03 02:32:46,354 [INFO] Progress: 380 / 505 images
+2026-05-03 02:32:55,390 [INFO] Progress: 400 / 505 images
+2026-05-03 02:33:05,467 [INFO] Progress: 420 / 505 images
+2026-05-03 02:33:14,255 [INFO] Progress: 440 / 505 images
+2026-05-03 02:33:22,386 [INFO] Progress: 460 / 505 images
+2026-05-03 02:33:33,217 [INFO] Progress: 480 / 505 images
+2026-05-03 02:34:02,042 [INFO] Progress: 500 / 505 images
+2026-05-03 02:34:07,055 [INFO] Rebuilt merged annotations: /school_Agri/Annotation/llm_annotations_crossmodel/BowTurnHead_val_crossmodel_annotations.jsonl (3753 records)
+2026-05-03 02:34:07,056 [INFO] Done. Output dir: /school_Agri/Annotation/llm_annotations_crossmodel
+2026-05-03 02:34:07,091 [INFO] Saved cross-model summaries: /school_Agri/Annotation/llm_annotations_crossmodel/BowTurnHead_val_crossmodel_summary.json, /school_Agri/Annotation/llm_annotations_crossmodel/BowTurnHead_val_crossmodel_summary.csv
+
+======================================================================
+Cross-model annotation quality: BowTurnHead / val
+======================================================================
+
+  [qwen25] total=3753 valid=3746 overall_acc=84.86%
+  Class                             n   acc(%)
+  --------------------------------------------
+  bow-head                        536    23.7%
+  turn-head                      3210    95.1%
+
+======================================================================
+

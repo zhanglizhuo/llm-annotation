@@ -1,0 +1,37 @@
+\documentclass{ieeeaccess}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{bm}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+\history{Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.}
+\doi{10.1109/ACCESS.2024.0429000}
+
+\title{Unlocking the Potential of Pseudo-Labels: A Visual Anchoring Framework for Cross-Domain Behavior Annotation}
+\author{\uppercase{First Author}, \uppercase{Second Author}}
+\address[1]{Institution}
+\corresp{Corresponding author: First Author (e-mail: author@institution.edu).}
+
+\begin{abstract}
+As behavioral analysis across application domains scales up, the demand for annotated video data grows exponentially, presenting a significant bottleneck. This study introduces an automated visual anchoring framework utilizing general-purpose Vision-Language Models (VLMs) and Large Language Models (LLMs) to reliably annotate out-of-distribution video datasets. Specifically, we investigate whether generic human behavior representations can correctly guide annotation on specialized domains. By breaking down annotation tasks into single-frame conceptual alignment and multi-frame temporal reasoning, we evaluate zero-shot annotation generation without domain-specific re-training. 
+Our findings confirm that when visual behaviors are sufficiently grounded in distinct frame-level states, pseudo-labels reach near-ground-truth quality. Pseudo-label fine-tuned models achieved 88.65\% accuracy on BowTurnHead and 43.22\% on TeacherBehavior. Selective annotation routing further mitigates distribution shifts, improving robust behavior recognition.
+\end{abstract}
+
+\begin{keywords}
+Action Recognition, Large Language Models, Pseudo-Labeling, Video Understanding
+\end{keywords}
+
+\titlepgskip=-21pt
+\maketitle
+\section{Introduction}
+\PARstart{T}{his} paper demonstrates the utility of VLMs in cross-domain annotation. 
+% Please wait while I migrate the rest of the text safely.
+\EOD
+\end{document}

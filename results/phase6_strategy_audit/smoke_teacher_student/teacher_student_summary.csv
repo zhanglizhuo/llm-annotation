@@ -1,0 +1,2 @@
+dataset,student_val_acc_mean,student_val_acc_std,teacher_val_acc_mean,teacher_val_acc_std,mean_pseudo_retention_pct,mean_student_n_train,n_seeds
+BowTurnHead,4.6875,0.0,4.6875,0.0,100.0,80.0,1

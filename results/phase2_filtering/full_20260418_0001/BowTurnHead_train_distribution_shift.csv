@@ -1,0 +1,3 @@
+dataset,class_name,all_count,all_pct,none_count,none_pct,agreement_count,agreement_pct,agreement_minus_all_pct,none_minus_all_pct
+BowTurnHead,bow-head,4422,35.7622,4422,35.7622,1564,63.3968,27.6346,0.0
+BowTurnHead,turn-head,7943,64.2378,7943,64.2378,903,36.6032,-27.6346,0.0

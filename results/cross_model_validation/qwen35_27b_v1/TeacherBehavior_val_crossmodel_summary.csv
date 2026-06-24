@@ -1,0 +1,2 @@
+model,total,valid,overall_acc
+qwen35_27b,15327,15327,52.21

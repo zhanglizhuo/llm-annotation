@@ -1,0 +1,37 @@
+[2026-06-03 09:12:16] Starting phase3+phase4 run
+PYTHON_BIN=/opt/conda/bin/python
+CUDA_VISIBLE_DEVICES=0,1
+ANALYSIS_DIR=/school_Agri/Annotation/analysis_results
+PHASE3_OUT_DIR=/school_Agri/Annotation/results/phase3_finetune/qwen35_27b_none
+PHASE4_OUT_DIR=/school_Agri/Annotation/results/phase4_selective_annotation/qwen35_27b_none
+[2026-06-03 09:12:16] >>> step3 linear
+2026-06-03 09:12:18,404 [INFO] Device: cuda | GPUs: 2
+2026-06-03 09:12:18,406 [INFO] Using cached open_clip checkpoint: /school_Agri/.cache/open_clip/models--timm--vit_large_patch14_clip_224.openai/snapshots/18d0535469bb561bf468d76c1d73aa35156c922b/open_clip_model.safetensors
+2026-06-03 09:12:18,406 [INFO] Loaded ViT-L-14 model config.
+2026-06-03 09:12:22,566 [INFO] Loading pretrained ViT-L-14 weights (/school_Agri/.cache/open_clip/models--timm--vit_large_patch14_clip_224.openai/snapshots/18d0535469bb561bf468d76c1d73aa35156c922b/open_clip_model.safetensors).
+2026-06-03 09:12:24,485 [INFO] Optimizer params: 6152 | lr=5.00e-04
+2026-06-03 09:12:25,080 [INFO] Dataset TeacherBehavior/train: 40372 crops (pseudo)
+2026-06-03 09:12:25,406 [INFO] Dataset TeacherBehavior/val: 15327 crops (GT)
+2026-06-03 09:12:25,407 [INFO] Caching frozen CLIP features once for linear probe | train_batch_size=128
+[104jpoa7cgo1k-0:19823:0:22243] Caught signal 11 (Segmentation fault: invalid permissions for mapped object at address 0x7f417401e1e0)
+==== backtrace (tid:  22243) ====
+ 0 0x0000000000014420 __funlockfile()  ???:0
+=================================
+/opt/conda/lib/python3.8/site-packages/transformers/utils/hub.py:142: FutureWarning: Using the environment variable `HUGGINGFACE_CO_RESOLVE_ENDPOINT` is deprecated and will be removed in Transformers v5. Use `HF_ENDPOINT` instead.
+  warnings.warn(
+/opt/conda/lib/python3.8/site-packages/transformers/utils/hub.py:142: FutureWarning: Using the environment variable `HUGGINGFACE_CO_RESOLVE_ENDPOINT` is deprecated and will be removed in Transformers v5. Use `HF_ENDPOINT` instead.
+  warnings.warn(
+/opt/conda/lib/python3.8/site-packages/transformers/utils/hub.py:142: FutureWarning: Using the environment variable `HUGGINGFACE_CO_RESOLVE_ENDPOINT` is deprecated and will be removed in Transformers v5. Use `HF_ENDPOINT` instead.
+  warnings.warn(
+/opt/conda/lib/python3.8/site-packages/transformers/utils/hub.py:142: FutureWarning: Using the environment variable `HUGGINGFACE_CO_RESOLVE_ENDPOINT` is deprecated and will be removed in Transformers v5. Use `HF_ENDPOINT` instead.
+  warnings.warn(
+/opt/conda/lib/python3.8/site-packages/transformers/utils/hub.py:142: FutureWarning: Using the environment variable `HUGGINGFACE_CO_RESOLVE_ENDPOINT` is deprecated and will be removed in Transformers v5. Use `HF_ENDPOINT` instead.
+  warnings.warn(
+/opt/conda/lib/python3.8/site-packages/transformers/utils/hub.py:142: FutureWarning: Using the environment variable `HUGGINGFACE_CO_RESOLVE_ENDPOINT` is deprecated and will be removed in Transformers v5. Use `HF_ENDPOINT` instead.
+  warnings.warn(
+/opt/conda/lib/python3.8/site-packages/transformers/utils/hub.py:142: FutureWarning: Using the environment variable `HUGGINGFACE_CO_RESOLVE_ENDPOINT` is deprecated and will be removed in Transformers v5. Use `HF_ENDPOINT` instead.
+  warnings.warn(
+/opt/conda/lib/python3.8/site-packages/transformers/utils/hub.py:142: FutureWarning: Using the environment variable `HUGGINGFACE_CO_RESOLVE_ENDPOINT` is deprecated and will be removed in Transformers v5. Use `HF_ENDPOINT` instead.
+  warnings.warn(
+/opt/conda/lib/python3.8/multiprocessing/resource_tracker.py:216: UserWarning: resource_tracker: There appear to be 32 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

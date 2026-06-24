@@ -1,0 +1,2 @@
+dataset,threshold,seed,n_train,retention_pct,class_coverage,best_val_acc,best_epoch,label_source,confidence_score,require_clip_agreement
+BowTurnHead,0.3,43,64,100.0,2,7.8125,1,qwen,pseudo_prob,False

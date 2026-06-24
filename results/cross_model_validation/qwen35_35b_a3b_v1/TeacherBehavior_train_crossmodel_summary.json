@@ -1,0 +1,51 @@
+{
+  "dataset": "TeacherBehavior",
+  "split": "train",
+  "models": [
+    "qwen35_35b_a3b"
+  ],
+  "compatibility_pair": null,
+  "per_model": {
+    "qwen35_35b_a3b": {
+      "source_model_key": null,
+      "total": 40372,
+      "valid": 40372,
+      "overall_acc": 40.83,
+      "per_class": {
+        "guide": {
+          "n": 1155,
+          "acc": 33.07
+        },
+        "answer": {
+          "n": 2574,
+          "acc": 27.2
+        },
+        "on-stage interaction": {
+          "n": 528,
+          "acc": 42.8
+        },
+        "blackboard-writing": {
+          "n": 821,
+          "acc": 98.66
+        },
+        "teacher": {
+          "n": 8490,
+          "acc": 66.57
+        },
+        "stand": {
+          "n": 13932,
+          "acc": 24.63
+        },
+        "screen": {
+          "n": 5025,
+          "acc": 84.38
+        },
+        "blackboard": {
+          "n": 7847,
+          "acc": 13.28
+        }
+      }
+    }
+  },
+  "pairwise_agreement": {}
+}

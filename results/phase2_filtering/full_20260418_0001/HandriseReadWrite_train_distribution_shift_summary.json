@@ -1,0 +1,36 @@
+{
+  "dataset": "HandriseReadWrite",
+  "n_all": 34524,
+  "n_none": 34519,
+  "n_agreement": 19303,
+  "retention_none_pct": 99.9855,
+  "retention_agreement_pct": 55.9118,
+  "kl_all_to_none": 1e-08,
+  "kl_all_to_agreement": 0.0471874,
+  "tv_all_to_none": 7.167e-05,
+  "tv_all_to_agreement": 0.14300242,
+  "largest_positive_shift": {
+    "dataset": "HandriseReadWrite",
+    "class_name": "hand-raise",
+    "all_count": 10538,
+    "all_pct": 30.5237,
+    "none_count": 10534,
+    "none_pct": 30.5165,
+    "agreement_count": 8411,
+    "agreement_pct": 43.5735,
+    "agreement_minus_all_pct": 13.0498,
+    "none_minus_all_pct": -0.0072
+  },
+  "largest_negative_shift": {
+    "dataset": "HandriseReadWrite",
+    "class_name": "read",
+    "all_count": 17539,
+    "all_pct": 50.8023,
+    "none_count": 17538,
+    "none_pct": 50.8068,
+    "agreement_count": 7046,
+    "agreement_pct": 36.5021,
+    "agreement_minus_all_pct": -14.3002,
+    "none_minus_all_pct": 0.0045
+  }
+}

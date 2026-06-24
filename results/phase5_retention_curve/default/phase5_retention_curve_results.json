@@ -1,0 +1,35 @@
+[
+  {
+    "dataset": "TeacherBehavior",
+    "retention_pct": 25.0,
+    "n_train": 10088,
+    "n_total": 40354,
+    "best_val_acc": 41.1888,
+    "best_epoch": 19,
+    "epochs": 20,
+    "lr": 0.0001,
+    "seed": 42
+  },
+  {
+    "dataset": "TeacherBehavior",
+    "retention_pct": 50.0,
+    "n_train": 20177,
+    "n_total": 40354,
+    "best_val_acc": 41.8281,
+    "best_epoch": 12,
+    "epochs": 20,
+    "lr": 0.0001,
+    "seed": 42
+  },
+  {
+    "dataset": "TeacherBehavior",
+    "retention_pct": 75.0,
+    "n_train": 30265,
+    "n_total": 40354,
+    "best_val_acc": 42.1478,
+    "best_epoch": 13,
+    "epochs": 20,
+    "lr": 0.0001,
+    "seed": 42
+  }
+]

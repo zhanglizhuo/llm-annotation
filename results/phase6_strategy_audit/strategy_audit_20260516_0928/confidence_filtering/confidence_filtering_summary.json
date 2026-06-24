@@ -1,0 +1,39 @@
+{
+  "BowTurnHead": {
+    "best_threshold": 0.3,
+    "best_mean_acc": 87.9936,
+    "best_std_acc": 0.2218,
+    "best_mean_retention_pct": 100.0,
+    "thresholds": [
+      {
+        "threshold": 0.3,
+        "mean_acc": 87.9936,
+        "std_acc": 0.2218,
+        "mean_retention_pct": 100.0,
+        "n_seeds": 5
+      },
+      {
+        "threshold": 0.5,
+        "mean_acc": 85.6168,
+        "std_acc": 0.0119,
+        "mean_retention_pct": 39.7331,
+        "n_seeds": 5
+      }
+    ]
+  },
+  "HandriseReadWrite": {
+    "best_threshold": 0.3,
+    "best_mean_acc": 75.5619,
+    "best_std_acc": 0.2447,
+    "best_mean_retention_pct": 100.0,
+    "thresholds": [
+      {
+        "threshold": 0.3,
+        "mean_acc": 75.5619,
+        "std_acc": 0.2447,
+        "mean_retention_pct": 100.0,
+        "n_seeds": 5
+      }
+    ]
+  }
+}

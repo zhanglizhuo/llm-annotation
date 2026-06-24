@@ -1,0 +1,16 @@
+dataset,seed,teacher_label_fraction,n_labeled_teacher,n_unlabeled_pool,n_pseudo_kept,pseudo_retention_pct,teacher_conf_threshold,teacher_best_val_acc,teacher_best_epoch,student_n_train,student_include_labeled_gt,student_best_val_acc,student_best_epoch
+BowTurnHead,43,0.1,1236,11129,11129,100.0,0.0,88.9955,20,12365,True,89.1287,19
+BowTurnHead,44,0.1,1236,11129,11129,100.0,0.0,87.53,16,12365,True,87.4234,15
+BowTurnHead,45,0.1,1236,11129,11129,100.0,0.0,88.8622,17,12365,True,89.555,12
+BowTurnHead,46,0.1,1236,11129,11129,100.0,0.0,90.1679,18,12365,True,90.2744,18
+BowTurnHead,47,0.1,1236,11129,11129,100.0,0.0,88.9422,17,12365,True,89.4484,10
+HandriseReadWrite,43,0.1,3453,31071,31071,100.0,0.0,67.7148,19,34524,True,67.8627,18
+HandriseReadWrite,44,0.1,3453,31071,31071,100.0,0.0,67.9483,19,34524,True,68.1507,12
+HandriseReadWrite,45,0.1,3453,31071,31071,100.0,0.0,67.3257,20,34524,True,67.8394,16
+HandriseReadWrite,46,0.1,3453,31071,31071,100.0,0.0,68.2908,18,34524,True,68.1663,20
+HandriseReadWrite,47,0.1,3453,31071,31071,100.0,0.0,67.9795,19,34524,True,68.392,16
+TeacherBehavior,43,0.1,4037,36335,36335,100.0,0.0,64.494,20,40372,True,65.153,17
+TeacherBehavior,44,0.1,4037,36335,36335,100.0,0.0,64.7224,19,40372,True,65.2574,20
+TeacherBehavior,45,0.1,4037,36335,36335,100.0,0.0,64.879,19,40372,True,65.3879,14
+TeacherBehavior,46,0.1,4037,36335,36335,100.0,0.0,64.1874,17,40372,True,65.0747,15
+TeacherBehavior,47,0.1,4037,36335,36335,100.0,0.0,63.7307,20,40372,True,64.4484,14

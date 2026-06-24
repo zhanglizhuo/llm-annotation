@@ -1,0 +1,26 @@
+{
+  "dataset": "BowTurnHead",
+  "split": "val",
+  "models": [
+    "gemma4_26b_a4b"
+  ],
+  "compatibility_pair": null,
+  "per_model": {
+    "gemma4_26b_a4b": {
+      "total": 3753,
+      "valid": 3753,
+      "overall_acc": 89.61,
+      "per_class": {
+        "bow-head": {
+          "n": 540,
+          "acc": 45.56
+        },
+        "turn-head": {
+          "n": 3213,
+          "acc": 97.01
+        }
+      }
+    }
+  },
+  "pairwise_agreement": {}
+}

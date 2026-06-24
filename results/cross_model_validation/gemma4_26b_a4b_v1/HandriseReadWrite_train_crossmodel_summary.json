@@ -1,0 +1,30 @@
+{
+  "dataset": "HandriseReadWrite",
+  "split": "train",
+  "models": [
+    "gemma4_26b_a4b"
+  ],
+  "compatibility_pair": null,
+  "per_model": {
+    "gemma4_26b_a4b": {
+      "total": 34524,
+      "valid": 34460,
+      "overall_acc": 55.54,
+      "per_class": {
+        "hand-raise": {
+          "n": 10501,
+          "acc": 91.44
+        },
+        "read": {
+          "n": 17517,
+          "acc": 18.71
+        },
+        "write": {
+          "n": 6442,
+          "acc": 97.19
+        }
+      }
+    }
+  },
+  "pairwise_agreement": {}
+}

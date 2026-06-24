@@ -1,0 +1,36 @@
+{
+  "dataset": "TeacherBehavior",
+  "n_all": 40372,
+  "n_none": 40354,
+  "n_agreement": 26865,
+  "retention_none_pct": 99.9554,
+  "retention_agreement_pct": 66.5436,
+  "kl_all_to_none": 3.5e-07,
+  "kl_all_to_agreement": 0.01279826,
+  "tv_all_to_none": 0.00022596,
+  "tv_all_to_agreement": 0.06532151,
+  "largest_positive_shift": {
+    "dataset": "TeacherBehavior",
+    "class_name": "teacher",
+    "all_count": 8490,
+    "all_pct": 21.0294,
+    "none_count": 8489,
+    "none_pct": 21.0363,
+    "agreement_count": 7107,
+    "agreement_pct": 26.4545,
+    "agreement_minus_all_pct": 5.4251,
+    "none_minus_all_pct": 0.0069
+  },
+  "largest_negative_shift": {
+    "dataset": "TeacherBehavior",
+    "class_name": "stand",
+    "all_count": 13932,
+    "all_pct": 34.5091,
+    "none_count": 13931,
+    "none_pct": 34.522,
+    "agreement_count": 8415,
+    "agreement_pct": 31.3233,
+    "agreement_minus_all_pct": -3.1858,
+    "none_minus_all_pct": 0.0129
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "BowTurnHead": {
+    "ZS": {
+      "value": 42.366107114308555,
+      "sd": null,
+      "evidence": "single"
+    },
+    "None-LP": {
+      "value": 88.02025046629362,
+      "sd": 0.1222205695835812,
+      "evidence": "repeated"
+    },
+    "None-LoRA": {
+      "value": 88.65440980548892,
+      "sd": 0.5246901834328866,
+      "evidence": "replicated"
+    },
+    "Agree-LP": {
+      "value": 15.53423927524647,
+      "sd": 0.9962653395065244,
+      "evidence": "repeated"
+    },
+    "Agree-LoRA": {
+      "value": 19.690913935518253,
+      "sd": null,
+      "evidence": "single"
+    },
+    "GT-LP": {
+      "value": 93.35464961364242,
+      "sd": 0.07832101495709708,
+      "evidence": "repeated"
+    },
+    "GT-LoRA": {
+      "value": 97.90567545963228,
+      "sd": 0.10469961473161983,
+      "evidence": "replicated"
+    }
+  },
+  "HandriseReadWrite": {
+    "ZS": {
+      "value": 56.88044831880448,
+      "sd": null,
+      "evidence": "single"
+    },
+    "None-LP": {
+      "value": 75.63823163138231,
+      "sd": 0.13107431155056518,
+      "evidence": "repeated"
+    },
+    "None-LoRA": {
+      "value": 76.68897882938978,
+      "sd": null,
+      "evidence": "single"
+    },
+    "Agree-LP": {
+      "value": 52.878268991282695,
+      "sd": 0.07789536739225984,
+      "evidence": "repeated"
+    },
+    "Agree-LoRA": {
+      "value": 59.25435865504359,
+      "sd": null,
+      "evidence": "single"
+    },
+    "GT-LP": {
+      "value": 79.4255915317559,
+      "sd": 0.20228228936793846,
+      "evidence": "repeated"
+    },
+    "GT-LoRA": {
+      "value": 87.05635118306351,
+      "sd": null,
+      "evidence": "single"
+    }
+  },
+  "TeacherBehavior": {
+    "ZS": {
+      "value": 37.13055392444706,
+      "sd": null,
+      "evidence": "single"
+    },
+    "None-LP": {
+      "value": 42.37750375154955,
+      "sd": 0.06872679106029309,
+      "evidence": "repeated"
+    },
+    "None-LoRA": {
+      "value": 43.21915573823971,
+      "sd": 0.4644077275893239,
+      "evidence": "replicated"
+    },
+    "Agree-LP": {
+      "value": 43.01167873686958,
+      "sd": 0.05357986603418316,
+      "evidence": "repeated"
+    },
+    "Agree-LoRA": {
+      "value": 45.17518105304365,
+      "sd": null,
+      "evidence": "single"
+    },
+    "GT-LP": {
+      "value": 69.56090559143995,
+      "sd": 0.04624530605250658,
+      "evidence": "repeated"
+    },
+    "GT-LoRA": {
+      "value": 74.70607424805898,
+      "sd": 0.10881535454760137,
+      "evidence": "replicated"
+    }
+  }
+}

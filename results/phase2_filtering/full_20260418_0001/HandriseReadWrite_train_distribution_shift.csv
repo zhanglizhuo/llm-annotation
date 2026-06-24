@@ -1,0 +1,4 @@
+dataset,class_name,all_count,all_pct,none_count,none_pct,agreement_count,agreement_pct,agreement_minus_all_pct,none_minus_all_pct
+HandriseReadWrite,hand-raise,10538,30.5237,10534,30.5165,8411,43.5735,13.0498,-0.0072
+HandriseReadWrite,read,17539,50.8023,17538,50.8068,7046,36.5021,-14.3002,0.0045
+HandriseReadWrite,write,6447,18.674,6447,18.6767,3846,19.9244,1.2504,0.0027

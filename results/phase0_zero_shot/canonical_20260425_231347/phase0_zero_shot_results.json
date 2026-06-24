@@ -1,0 +1,61 @@
+[
+  {
+    "dataset": "TeacherBehavior",
+    "model": "CLIP_ViT-L-14_openai",
+    "method": "zero_shot",
+    "total_samples": 15327,
+    "overall_acc": 37.13055392444706,
+    "per_class_acc": {
+      "guide": 0.0,
+      "answer": 0.0,
+      "on-stage interaction": 0.0,
+      "blackboard-writing": 11.191335740072201,
+      "teacher": 96.84014869888476,
+      "stand": 0.08053150795248641,
+      "screen": 35.17100561510975,
+      "blackboard": 53.43976777939042
+    },
+    "per_class_samples": {
+      "guide": 449,
+      "answer": 853,
+      "on-stage interaction": 149,
+      "blackboard-writing": 277,
+      "teacher": 3228,
+      "stand": 4967,
+      "screen": 1959,
+      "blackboard": 3445
+    }
+  },
+  {
+    "dataset": "HandriseReadWrite",
+    "model": "CLIP_ViT-L-14_openai",
+    "method": "zero_shot",
+    "total_samples": 12848,
+    "overall_acc": 56.88044831880448,
+    "per_class_acc": {
+      "hand-raise": 90.25728987993139,
+      "read": 24.468573176326654,
+      "write": 90.65998821449617
+    },
+    "per_class_samples": {
+      "hand-raise": 2915,
+      "read": 6539,
+      "write": 3394
+    }
+  },
+  {
+    "dataset": "BowTurnHead",
+    "model": "CLIP_ViT-L-14_openai",
+    "method": "zero_shot",
+    "total_samples": 3753,
+    "overall_acc": 42.366107114308555,
+    "per_class_acc": {
+      "bow-head": 70.0,
+      "turn-head": 37.72175536881419
+    },
+    "per_class_samples": {
+      "bow-head": 540,
+      "turn-head": 3213
+    }
+  }
+]

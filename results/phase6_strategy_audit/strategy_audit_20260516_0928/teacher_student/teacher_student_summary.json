@@ -1,0 +1,29 @@
+{
+  "BowTurnHead": {
+    "student_val_acc_mean": 89.166,
+    "student_val_acc_std": 1.0604,
+    "teacher_val_acc_mean": 88.8996,
+    "teacher_val_acc_std": 0.935,
+    "mean_pseudo_retention_pct": 100.0,
+    "mean_student_n_train": 12365.0,
+    "n_seeds": 5
+  },
+  "HandriseReadWrite": {
+    "student_val_acc_mean": 68.0822,
+    "student_val_acc_std": 0.2318,
+    "teacher_val_acc_mean": 67.8518,
+    "teacher_val_acc_std": 0.3584,
+    "mean_pseudo_retention_pct": 100.0,
+    "mean_student_n_train": 34524.0,
+    "n_seeds": 5
+  },
+  "TeacherBehavior": {
+    "student_val_acc_mean": 65.0643,
+    "student_val_acc_std": 0.3638,
+    "teacher_val_acc_mean": 64.4027,
+    "teacher_val_acc_std": 0.457,
+    "mean_pseudo_retention_pct": 100.0,
+    "mean_student_n_train": 40372.0,
+    "n_seeds": 5
+  }
+}

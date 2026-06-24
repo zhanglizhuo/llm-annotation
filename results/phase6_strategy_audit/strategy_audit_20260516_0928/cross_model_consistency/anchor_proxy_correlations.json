@@ -1,0 +1,26 @@
+[
+  {
+    "dataset": "BowTurnHead",
+    "n_classes": 2,
+    "pearson_r": NaN,
+    "pearson_p": NaN,
+    "spearman_rho": NaN,
+    "spearman_p": NaN
+  },
+  {
+    "dataset": "HandriseReadWrite",
+    "n_classes": 3,
+    "pearson_r": 0.995556,
+    "pearson_p": 0.060042,
+    "spearman_rho": 0.5,
+    "spearman_p": 0.666667
+  },
+  {
+    "dataset": "TeacherBehavior",
+    "n_classes": 8,
+    "pearson_r": 0.573133,
+    "pearson_p": 0.137514,
+    "spearman_rho": 0.439155,
+    "spearman_p": 0.276327
+  }
+]

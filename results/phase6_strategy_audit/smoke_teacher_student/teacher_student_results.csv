@@ -1,0 +1,2 @@
+dataset,seed,teacher_label_fraction,n_labeled_teacher,n_unlabeled_pool,n_pseudo_kept,pseudo_retention_pct,teacher_conf_threshold,teacher_best_val_acc,teacher_best_epoch,student_n_train,student_include_labeled_gt,student_best_val_acc,student_best_epoch
+BowTurnHead,43,0.2,16,64,64,100.0,0.0,4.6875,1,80,True,4.6875,1

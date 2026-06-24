@@ -1,0 +1,18 @@
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\usetikzlibrary{arrows.meta}
+
+\pgfplotsset{compat=1.16}
+\pgfplotsset{
+  singlebarlegend/.style={
+    legend image code/.code={
+      \draw[##1] (0cm,-0.08cm) rectangle (0.25cm,0.08cm);
+    }
+  }
+}
+
+\definecolor{paperBlue}{RGB}{55,96,146}
+\definecolor{paperTeal}{RGB}{74,135,126}
+\definecolor{paperGold}{RGB}{190,137,48}
+\definecolor{paperRed}{RGB}{164,78,76}
+\definecolor{paperGray}{RGB}{92,92,92}

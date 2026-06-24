@@ -1,0 +1,12 @@
+2026-05-07 08:45:59,531 [INFO] Device: cuda | GPUs: 2
+2026-05-07 08:45:59,531 [INFO] Loaded ViT-L-14 model config.
+/opt/conda/lib/python3.8/site-packages/open_clip/factory.py:388: UserWarning: These pretrained weights were trained with QuickGELU activation but the model config does not have that enabled. Consider using a model config with a "-quickgelu" suffix or enable with a flag.
+  warnings.warn(
+2026-05-07 08:46:03,802 [INFO] Loading pretrained ViT-L-14 weights (openai).
+2026-05-07 08:46:04,630 [INFO] LoRA injected into 48 layers | rank=8 alpha=16.0 | trainable params: 1966080
+2026-05-07 08:46:05,868 [INFO] Optimizer params: 1972232 | lr=1.00e-04
+2026-05-07 08:46:06,932 [INFO] Dataset TeacherBehavior/train: 40372 crops (GT)
+2026-05-07 08:46:07,512 [INFO] Dataset TeacherBehavior/val: 15327 crops (GT)
+/opt/conda/lib/python3.8/site-packages/torch/nn/parallel/scatter_gather.py:9: UserWarning: is_namedtuple is deprecated, please use the python checks instead
+  warnings.warn("is_namedtuple is deprecated, please use the python checks instead")
+2026-05-07 09:16:18,222 [INFO] Epoch   1/20 | loss=0.6810 train_acc=67.5% val_acc=73.9%

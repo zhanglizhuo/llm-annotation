@@ -1,0 +1,17 @@
+{
+  "BowTurnHead": {
+    "best_threshold": 0.3,
+    "best_mean_acc": 6.25,
+    "best_std_acc": 0.0,
+    "best_mean_retention_pct": 100.0,
+    "thresholds": [
+      {
+        "threshold": 0.3,
+        "mean_acc": 6.25,
+        "std_acc": 0.0,
+        "mean_retention_pct": 100.0,
+        "n_seeds": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "dataset": "HandriseReadWrite",
+  "split": "train",
+  "models": [
+    "qwen35_27b"
+  ],
+  "compatibility_pair": null,
+  "per_model": {
+    "qwen35_27b": {
+      "total": 34524,
+      "valid": 34524,
+      "overall_acc": 58.2,
+      "per_class": {
+        "hand-raise": {
+          "n": 10538,
+          "acc": 86.06
+        },
+        "read": {
+          "n": 17539,
+          "acc": 27.36
+        },
+        "write": {
+          "n": 6447,
+          "acc": 96.56
+        }
+      }
+    }
+  },
+  "pairwise_agreement": {}
+}
