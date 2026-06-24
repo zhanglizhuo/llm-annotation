@@ -1,0 +1,116 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\setstretch{1.2}
+
+\begin{document}
+
+\title{\textbf{Summary of Changes --- Manuscript \# Access-2026-23347}}
+\author{}
+\date{June 24, 2026}
+\maketitle
+
+\section*{Instructions for Reviewers}
+
+Due to the complexity of the IEEE Access template (custom fonts, multi-column
+layout, \texttt{\textbackslash PARstart}), the \texttt{latexdiff} tool could not
+produce a compilable highlighted PDF. This document provides a structured
+summary of every substantive change between the original submission and the
+revised manuscript. All changes address reviewer comments or incorporate new
+experimental data.
+
+Page and line numbers refer to the revised manuscript PDF
+(\texttt{llm\_annotation\_paper\_access\_revised.pdf}).
+
+\section*{Major Changes}
+
+\begin{enumerate}[leftmargin=*,label=\textbf{\arabic*.}]
+
+  \item \textbf{Abstract (p.~1).} Fully rewritten with a clearer
+  problem--method--findings--implication structure. Approximately 30\% shorter
+  than the original. The new Abstract also summarises the expanded ten-model
+  cross-model validation and the quality-threshold experiment.
+
+  \item \textbf{Introduction, new paragraphs (p.~1--2).}
+  \begin{itemize}
+    \item Formal definition of \emph{visual anchoring}: ``the degree to which
+    a category label can be recovered from a single cropped frame without
+    recourse to discourse context, temporal information, or speaker intent.''
+    \item Explicit motivation for agreement filtering: explains the intuitive
+    rationale (dual-model agreement as a reliability heuristic) before
+    discussing its failure modes.
+  \end{itemize}
+
+  \item \textbf{Methods, new Pipeline Overview subsection (p.~2).}
+  Three-stage summary of the experimental pipeline (Annotation $\to$
+  Filtering $\to$ Fine-tuning), with a compact enumerated list covering all
+  design choices.
+
+  \item \textbf{Methods, Table~1--2 merged (p.~3).}
+  The original separate tables (Dataset Overview and Per-Class Counts) are
+  merged into a single table with per-class bounding-box counts as sub-rows.
+
+  \item \textbf{Methods, cross-model section expanded (p.~5).}
+  The cross-model robustness check now describes ten MLLMs (expanded from
+  five), spanning three model families (Qwen, LLaVA, Gemma) and parameter
+  scales from 7B to 35B.
+
+  \item \textbf{Results, expanded cross-model tables (p.~7--8).}
+  \texttt{tab:crossmodel\_overall} and \texttt{tab:crossmodel\_intent} now
+  include all ten models with verified accuracy numbers. All values are
+  sourced from actual JSONL/CSV result files or execution logs.
+
+  \item \textbf{Results, new quality-threshold experiment (p.~7).}
+  New subsection reporting a targeted experiment with Qwen3.5-27B
+  pseudo-labels on TeacherBehavior. Key finding: the critical annotation
+  accuracy threshold at which pseudo-label fine-tuning surpasses the
+  zero-shot baseline lies between 41\% and 50\%. Includes new
+  \texttt{tab:quality\_threshold} and \texttt{fig:quality\_threshold}.
+
+  \item \textbf{Discussion, Finding~3 rewritten (p.~9--10).}
+  Updated to incorporate the quality-threshold evidence and the finding that
+  the selective-routing gain scales with annotator quality.
+
+  \item \textbf{Discussion, Limitations updated (p.~10--11).}
+  The ten-model cross-model validation is now described as providing
+  annotator-side external validity. The single-benchmark constraint is
+  explicitly acknowledged.
+
+  \item \textbf{Conclusions rewritten (p.~11--12).}
+  Now includes: (a) the quality-threshold finding, (b) the capability
+  boundary on guide/answer categories, and (c) a practical annotator
+  selection guideline.
+
+\end{enumerate}
+
+\section*{Minor Changes (Reviewer~2, Comment~2.7)}
+
+\begin{itemize}
+  \item Long paragraphs in Introduction and Discussion split into shorter
+  units.
+  \item Technical terms defined at first use.
+  \item Hedged compound sentences replaced by direct statements.
+  \item Tables reordered and captions shortened to avoid repetition.
+\end{itemize}
+
+\section*{New Experimental Data Added}
+
+\begin{itemize}
+  \item Cross-model validation expanded from 5 to 10 models (Qwen2-VL-7B,
+  LLaVA-1.5-7B, Qwen2.5-VL-7B, Gemma-3-27B, Qwen3.5-27B, Qwen3.5-35B-A3B,
+  Qwen3.6-27B, Qwen3.6-35B-A3B, Gemma4-26B-A4B, Gemma4-31B).
+  \item Qwen3.5-27B quality-threshold fine-tuning experiment on TeacherBehavior.
+  \item All new data verified against result files on the experiment server.
+\end{itemize}
+
+\section*{Data Provenance}
+
+All numerical values in the revised manuscript can be traced to specific
+JSON/CSV/JSONL files in the accompanying GitHub repository
+(\url{https://github.com/zhanglizhuo/llm-annotation}). Qwen3.6-27B values are
+reconstructed from execution logs (result directory was lost before backup).
+
+\end{document}
