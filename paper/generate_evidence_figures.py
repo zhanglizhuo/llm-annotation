@@ -269,11 +269,11 @@ def generate_overview_figure() -> None:
     # to get row-major display: Row1=color labels, Row2=dataset labels
     legend_handles = [
         Patch(facecolor=NEUTRAL_FILL_COLOR, edgecolor=EDGE_COLOR, linewidth=0.6, label="Zero-shot reference"),
-        Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, hatch="\\\\\\", linewidth=0.6, label="BowTurnHead"),
+        Patch(facecolor="white", edgecolor=EDGE_COLOR, hatch="\\\\\\", linewidth=0.6, label="BowTurnHead"),
         Patch(facecolor=SECONDARY_TEAL, edgecolor=EDGE_COLOR, linewidth=0.6, label="Weak baselines"),
-        Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, linewidth=0.6, alpha=0.82, label="HandriseReadWrite"),
+        Patch(facecolor="white", edgecolor=EDGE_COLOR, linewidth=0.6, alpha=0.82, label="HandriseReadWrite"),
         Patch(facecolor=PRIMARY_BLUE, edgecolor=EDGE_COLOR, linewidth=0.6, label="Agreement-based methods"),
-        Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, hatch="///", linewidth=0.6, label="TeacherBehavior"),
+        Patch(facecolor="white", edgecolor=EDGE_COLOR, hatch="///", linewidth=0.6, label="TeacherBehavior"),
         Patch(facecolor=ACCENT_GOLD, edgecolor=EDGE_COLOR, linewidth=0.6, label="GT upper-bound"),
         Line2D([0], [0], color=EDGE_COLOR, linewidth=0.6, marker="|", markersize=10, markeredgewidth=0.6, label="±1 SD"),
     ]
