@@ -39,6 +39,8 @@ Repeated-seed validation accuracy (mean ± std, 5 seeds) for CLIP ViT-L/14 fine-
 
 *ZS = zero-shot CLIP. None = unfiltered Qwen2-VL pseudo-labels. Agree = Qwen2-VL ∩ LLaVA-1.5 agreement subset. GT = ground-truth labels (upper bound). LP = linear probe. All values are % accuracy (val set).*
 
+![Main results overview](paper/fig_all_results_overview_access.pdf)
+
 ### Key findings
 
 1. **Pseudo-labels substantially beat zero-shot on simpler tasks, but gains shrink with task complexity.** Unfiltered pseudo-labels improve over zero-shot by +46pp on 2-class BowTurnHead, +19pp on 3-class HandriseReadWrite, but only +5pp on 8-class TeacherBehavior — revealing a difficulty boundary where LLM annotation quality alone cannot close the gap.
