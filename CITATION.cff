@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata from this file."
+title: "llm-annotation"
+type: software
+authors:
+  - family-names: "Ma"
+    given-names: "Yan"
+    affiliation: "School of Education, Hunan Agricultural University, Changsha, China"
+  - family-names: "Zhang"
+    given-names: "Lizhuo"
+    affiliation: "School of Information and Intelligent Science and Technology, Hunan Agricultural University, Changsha, China"
+    email: "zhanglizhuo@hunau.edu.cn"
+repository-code: "https://github.com/zhanglizhuo/llm-annotation"
+url: "https://github.com/zhanglizhuo/llm-annotation"
+abstract: "Code and experiment metadata for reproducing the classroom-behavior study on multimodal LLM pseudo-labeling and CLIP adaptation."
+keywords:
+  - "classroom behavior recognition"
+  - "multimodal large language models"
+  - "pseudo-labeling"
+  - "CLIP"
+  - "reproducibility"

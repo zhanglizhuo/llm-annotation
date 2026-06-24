@@ -31,7 +31,23 @@ Thumbs.db
 # Jupyter
 .ipynb_checkpoints/
 
-# Data files that may contain sensitive info
-# Uncomment if needed:
-# *.pkl
-# data/raw/
+# Dataset (downloaded separately with download_dataset.py)
+datasets_scb/
+
+# LaTeX build artifacts (paper/ only)
+paper/*.aux
+paper/*.bbl
+paper/*.bcf
+paper/*.blg
+paper/*.out
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.lof
+paper/*.lot
+paper/*.run.xml
+paper/*.synctex.gz
+paper/*.toc
+
+# Submission-only local files
+submission_*/
+submission_access.zip
