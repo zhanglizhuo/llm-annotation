@@ -138,6 +138,7 @@ def load_jsonl(path: Path) -> List[dict]:
 
 def save_figure(fig: plt.Figure, base_path: Path) -> None:
     fig.savefig(base_path.with_suffix(".pdf"), bbox_inches="tight")
+    fig.savefig(base_path.with_suffix(".png"), dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 

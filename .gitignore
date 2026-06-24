@@ -49,9 +49,6 @@ paper/*.run.xml
 paper/*.synctex.gz
 paper/*.toc
 
-# Legacy figure copies (keep only _access.pdf versions)
-paper/fig_*.png
-
 # Submission-only local files
 submission_*/
 submission_access.zip
