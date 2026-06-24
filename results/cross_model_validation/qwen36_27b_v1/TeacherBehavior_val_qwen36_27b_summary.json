@@ -1,0 +1,50 @@
+{
+  "dataset": "TeacherBehavior",
+  "split": "val",
+  "models": [
+    "qwen36_27b"
+  ],
+  "per_model": {
+    "qwen36_27b": {
+      "total": 15327,
+      "valid": 15327,
+      "overall_acc": 48.67,
+      "per_class": {
+        "guide": {
+          "n": 0,
+          "acc": 39.2
+        },
+        "answer": {
+          "n": 0,
+          "acc": 8.6
+        },
+        "on-stage interaction": {
+          "n": 0,
+          "acc": 74.5
+        },
+        "blackboard-writing": {
+          "n": 0,
+          "acc": 98.9
+        },
+        "teacher": {
+          "n": 0,
+          "acc": 69.9
+        },
+        "stand": {
+          "n": 0,
+          "acc": 25.0
+        },
+        "screen": {
+          "n": 0,
+          "acc": 74.3
+        },
+        "blackboard": {
+          "n": 0,
+          "acc": 54.3
+        }
+      }
+    }
+  },
+  "source": "reconstructed from execution logs (result directory was deleted)",
+  "log_file": "logs/cross_model_validation/qwen36_27b_20260527_214515.log"
+}

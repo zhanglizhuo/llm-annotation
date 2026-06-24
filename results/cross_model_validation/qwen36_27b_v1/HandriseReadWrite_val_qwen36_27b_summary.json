@@ -1,0 +1,30 @@
+{
+  "dataset": "HandriseReadWrite",
+  "split": "val",
+  "models": [
+    "qwen36_27b"
+  ],
+  "per_model": {
+    "qwen36_27b": {
+      "total": 12847,
+      "valid": 12847,
+      "overall_acc": 61.03,
+      "per_class": {
+        "hand-raise": {
+          "n": 0,
+          "acc": 87.5
+        },
+        "read": {
+          "n": 0,
+          "acc": 30.1
+        },
+        "write": {
+          "n": 0,
+          "acc": 98.0
+        }
+      }
+    }
+  },
+  "source": "reconstructed from execution logs (result directory was deleted)",
+  "log_file": "logs/cross_model_validation/qwen36_27b_20260527_214515.log"
+}

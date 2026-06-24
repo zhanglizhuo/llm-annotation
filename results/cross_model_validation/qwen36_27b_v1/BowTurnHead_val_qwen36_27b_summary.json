@@ -1,0 +1,26 @@
+{
+  "dataset": "BowTurnHead",
+  "split": "val",
+  "models": [
+    "qwen36_27b"
+  ],
+  "per_model": {
+    "qwen36_27b": {
+      "total": 3753,
+      "valid": 3753,
+      "overall_acc": 74.66,
+      "per_class": {
+        "bow-head": {
+          "n": 0,
+          "acc": 90.9
+        },
+        "turn-head": {
+          "n": 0,
+          "acc": 71.9
+        }
+      }
+    }
+  },
+  "source": "reconstructed from execution logs (result directory was deleted)",
+  "log_file": "logs/cross_model_validation/qwen36_27b_20260527_214515.log"
+}
