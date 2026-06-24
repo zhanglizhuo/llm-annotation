@@ -28,7 +28,7 @@ Reviewer 1 confirmed that the study is well designed and executed, contributions
 **Response:** We agree. The original Abstract mixed protocol details, mechanism descriptions, and numerical results in a way that made the central argument hard to follow. We have rewritten the Abstract following a four-part structure: (1) problem and motivation, (2) study design, (3) main findings, and (4) practical implication. The revised Abstract is approximately 30% shorter than the original and leads with the central claim rather than with methodological caveats.
 
 Additionally, the revised manuscript includes two new experiments completed after the original submission:
-- (a) An eleven-model cross-model validation (expanded from five models) that tests annotation reliability across Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3, and Gemma4 families (7B--35B, dense and MoE).
+- (a) A ten-model cross-model validation (expanded from five models) that tests annotation reliability across Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3, and Gemma4 families (7B--35B, dense and MoE).
 - (b) A quality-threshold experiment using Qwen3.5-27B pseudo-labels (annotation accuracy 50.3%) for CLIP fine-tuning on TeacherBehavior, identifying the annotation quality range at which pseudo-label fine-tuning begins to surpass the zero-shot baseline.
 
 **Action:** Abstract fully rewritten. New experimental results integrated.
@@ -67,7 +67,7 @@ Additionally, the revised manuscript includes two new experiments completed afte
 
 **Response:** We agree that the original manuscript contained redundant presentation:
 - (a) Table 2 (class balance counts) merged into Table 1 as a footnote summary.
-- (b) Cross-model data consolidated into two focused eleven-model tables (Tables 6--7) covering overall validation-set accuracy and per-category breakdowns.
+- (b) Cross-model data consolidated into two focused ten-model tables (Tables 6--7) covering overall validation-set accuracy and per-category breakdowns.
 - (c) Results section now opens with a one-paragraph summary of the three main quantitative conclusions.
 - (d) Numerical values reported once in Results, referenced by table number in Discussion rather than repeated in full.
 
@@ -79,7 +79,7 @@ Additionally, the revised manuscript includes two new experiments completed afte
 > "The study is primarily based on internal evaluation using sub-datasets of the SCB. The lack of broader external validation limits the generalizability of the conclusions."
 
 **Response:** We acknowledge this limitation. We address it in three ways in the revised manuscript:
-- (a) The expanded eleven-model cross-model validation provides annotator-side external validity. The key finding---that intent-dependent categories remain near-zero across all annotator families while visually anchored categories remain reliable---replicates across Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3, and Gemma4 families.
+- (a) The expanded ten-model cross-model validation provides annotator-side external validity. The key finding---that intent-dependent categories remain near-zero across all annotator families while visually anchored categories remain reliable---replicates across Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3, and Gemma4 families.
 - (b) The new Qwen3.5-27B fine-tuning experiment provides partial external evidence for the quality-threshold claim, confirming that downstream behavior tracks annotator quality rather than being fixed by dataset properties.
 - (c) An explicit paragraph in the Limitations section acknowledges the single-benchmark constraint and distinguishes dataset-dependent findings (exact retention-ratio thresholds) from those more likely to generalize (visual anchoring pattern, agreement filtering failure modes).
 
@@ -103,7 +103,7 @@ Additionally, the revised manuscript includes two new experiments completed afte
 
 ## ADDITIONAL CHANGES NOT REQUESTED BY REVIEWERS
 
-1. **Ten-model cross-model validation** (expanded from five models). Key findings: (a) generational boundary on *guide* (pre-2024 models all <25%, new models 39--83%); (b) *answer* remains <23% universally; (c) no single annotator is uniformly best.
+1. **Ten-model cross-model validation** (expanded from five models). Key findings: (a) capability boundary on *guide* (earlier-generation models all <25%, newer models 39--83%); (b) *answer* remains <19% universally; (c) no single annotator is uniformly best.
 
 2. **Quality-threshold experiment** with Qwen3.5-27B pseudo-labels. Identifies the critical annotation accuracy range (41--50%) at which pseudo-label fine-tuning crosses the zero-shot baseline on TeacherBehavior.
 
@@ -117,9 +117,9 @@ Additionally, the revised manuscript includes two new experiments completed afte
 |---------|--------|
 | Abstract | Fully rewritten; 4-part structure; 30% shorter; new results integrated |
 | Introduction | New paragraph: agreement filtering rationale; formal visual anchoring definition |
-| Methods | New Pipeline Overview subsection; cross-model expanded to 11 models |
-| Results | Opening summary; Table 1 + Table 2 merged; eleven-model cross-model tables; Qwen3.5-27B quality-threshold subsection |
+| Methods | New Pipeline Overview subsection; cross-model expanded to 10 models |
+| Results | Opening summary; Table 1 + Table 2 merged; ten-model cross-model tables; Qwen3.5-27B quality-threshold subsection |
 | Discussion | Finding 3 updated with quality-threshold evidence; Finding 5 updated; language polished |
 | Limitations | Updated with annotator-side external validity and quality-threshold evidence |
 | Conclusions | Critical threshold, generational boundary, and practical annotator selection guidance added |
-| Cross-model | Validation expanded from 5 to 11 models; new tables and analysis added |
+| Cross-model | Validation expanded from 5 to 10 models; new tables and analysis added |
