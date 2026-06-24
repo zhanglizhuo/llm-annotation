@@ -220,7 +220,7 @@ If you use this code or data, please cite:
 @software{ma_zhang_llm_annotation,
   title        = {llm-annotation: LLM-Assisted Annotation for Classroom Behavior Recognition},
   author       = {Ma, Yan and Zhang, Lizhuo},
-  year         = {2025},
+  year         = {2026},
   url          = {https://github.com/zhanglizhuo/llm-annotation},
   organization = {Hunan Agricultural University},
 }

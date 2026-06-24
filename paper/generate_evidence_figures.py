@@ -136,13 +136,8 @@ def load_jsonl(path: Path) -> List[dict]:
     return records
 
 
-def save_figure(
-    fig: plt.Figure, base_path: Path, extra_base_paths: Iterable[Path] = ()
-) -> None:
-    export_paths = (base_path, *tuple(extra_base_paths))
-    for export_path in export_paths:
-        fig.savefig(export_path.with_suffix(".pdf"), bbox_inches="tight")
-        fig.savefig(export_path.with_suffix(".png"), dpi=300, bbox_inches="tight")
+def save_figure(fig: plt.Figure, base_path: Path) -> None:
+    fig.savefig(base_path.with_suffix(".pdf"), bbox_inches="tight")
     plt.close(fig)
 
 
@@ -283,8 +278,7 @@ def generate_overview_figure() -> None:
               frameon=False, columnspacing=1.2, handletextpad=0.6, fontsize=7.5)
     fig.tight_layout(rect=(0, 0, 1, 0.90))
 
-    save_figure(fig, PAPER_ROOT / "fig_all_results_overview_access",
-                [PAPER_ROOT / "fig_all_results_overview"])
+    save_figure(fig, PAPER_ROOT / "fig_all_results_overview_access")
 
 
 def generate_quality_threshold_figure() -> None:
@@ -327,12 +321,12 @@ def generate_quality_threshold_figure() -> None:
     x = np.arange(len(conditions))
     width = 0.32
 
-    bars_qwen2 = ax.bar(
+    ax.bar(
         x - width / 2, qwen2_values, width * 0.92,
         color=SECONDARY_TEAL, edgecolor=EDGE_COLOR, linewidth=0.6, alpha=0.75,
         label="Qwen2-VL-7B\n(annot. acc. 41.2%)", zorder=3,
     )
-    bars_qwen35 = ax.bar(
+    ax.bar(
         x + width / 2, qwen35_values, width * 0.92,
         color=QWEN35_COLOR, edgecolor=EDGE_COLOR, linewidth=0.6, hatch="///",
         label="Qwen3.5-27B\n(annot. acc. 50.3%)", zorder=3,
@@ -342,12 +336,10 @@ def generate_quality_threshold_figure() -> None:
     ax.text(len(conditions) - 0.45, cape_tb + 0.8, f"Zero-shot CAPE: {cape_tb:.1f}%",
             fontsize=7.2, color=TEXT_COLOR, va="bottom")
 
-    for bar, val in zip(bars_qwen2, qwen2_values):
-        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.5,
-                f"{val:.1f}", ha="center", fontsize=7.5, color=TEXT_COLOR)
-    for bar, val in zip(bars_qwen35, qwen35_values):
-        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.5,
-                f"{val:.1f}", ha="center", fontsize=7.5, color=TEXT_COLOR)
+    for i, val in enumerate(qwen2_values):
+        ax.text(x[i] - width / 2, val + 0.5, f"{val:.1f}", ha="center", fontsize=7.5, color=TEXT_COLOR)
+    for i, val in enumerate(qwen35_values):
+        ax.text(x[i] + width / 2, val + 0.5, f"{val:.1f}", ha="center", fontsize=7.5, color=TEXT_COLOR)
 
     ax.set_ylabel("Validation accuracy (%)")
     ax.set_xticks(x)
@@ -357,8 +349,7 @@ def generate_quality_threshold_figure() -> None:
     style_axis(ax, grid_axis="y", tick_fontsize=8.0)
     fig.tight_layout()
 
-    save_figure(fig, PAPER_ROOT / "fig_quality_threshold_access",
-                [PAPER_ROOT / "fig_quality_threshold"])
+    save_figure(fig, PAPER_ROOT / "fig_quality_threshold_access")
 
 
 def generate_distribution_shift_figure() -> None:
@@ -412,8 +403,7 @@ def generate_distribution_shift_figure() -> None:
         loc="upper center", bbox_to_anchor=(1.1, 1.35), frameon=False, ncol=2, fontsize=7.8,
     )
     fig.tight_layout(rect=(0, 0, 1, 0.94))
-    save_figure(fig, PAPER_ROOT / "fig_distribution_shift_access",
-                [PAPER_ROOT / "fig_distribution_shift"])
+    save_figure(fig, PAPER_ROOT / "fig_distribution_shift_access")
 
 
 def normalize_label(label: str) -> str:
@@ -539,8 +529,7 @@ def generate_visual_anchoring_examples() -> None:
     fig.text(0.022, 0.69, "Example 1", rotation=90, fontsize=7.2, va="center")
     fig.text(0.022, 0.26, "Example 2", rotation=90, fontsize=7.2, va="center")
     fig.tight_layout(rect=(0.045, 0.02, 0.99, 0.9))
-    save_figure(fig, PAPER_ROOT / "fig_visual_anchoring_examples_access",
-                [PAPER_ROOT / "fig_visual_anchoring_examples"])
+    save_figure(fig, PAPER_ROOT / "fig_visual_anchoring_examples_access")
 
 
 def main() -> None:

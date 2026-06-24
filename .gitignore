@@ -39,6 +39,7 @@ paper/*.aux
 paper/*.bbl
 paper/*.bcf
 paper/*.blg
+paper/*.log
 paper/*.out
 paper/*.fdb_latexmk
 paper/*.fls
@@ -47,6 +48,9 @@ paper/*.lot
 paper/*.run.xml
 paper/*.synctex.gz
 paper/*.toc
+
+# Legacy figure copies (keep only _access.pdf versions)
+paper/fig_*.png
 
 # Submission-only local files
 submission_*/
