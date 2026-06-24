@@ -56,47 +56,41 @@
 \corresp{Corresponding author: Lizhuo Zhang (e-mail: zhanglizhuo@hunau.edu.cn).}
 
 \begin{abstract}
-\textbf{Problem:} Dual-model agreement is widely used as a pseudo-label
-reliability heuristic for multimodal large language models (MLLMs), but
-whether agreement-filtered labels improve downstream fine-tuning in
-fine-grained classroom behavior recognition remains unknown.
+Dual-model agreement is widely used as a pseudo-label reliability
+heuristic for multimodal large language models (MLLMs), but whether
+agreement-filtered labels improve downstream fine-tuning in fine-grained
+classroom behavior recognition remains uncertain.
+This study presents a reproducible reliability-audit protocol that
+evaluates agreement filtering under a single-frame protocol on three SCB
+classroom behavior sub-datasets (BowTurnHead, HandriseReadWrite,
+TeacherBehavior), linking bounding-box-level MLLM annotation quality
+measurement, four filtering strategies, repeated-seed CLIP fine-tuning
+(linear probe and LoRA), retention-ratio diagnostics, selective-routing
+analysis, and an eleven-model cross-model robustness check spanning
+seven model families (Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3,
+and Gemma4) across 7B--35B parameter scales.
 
-\textbf{Study design:} This work evaluates the downstream value of
-agreement filtering under a reproducible single-frame protocol on three
-SCB classroom behavior sub-datasets (BowTurnHead, HandriseReadWrite,
-TeacherBehavior). The protocol chains bounding-box-level MLLM annotation
-quality measurement, four filtering strategies, repeated-seed CLIP
-fine-tuning (linear probe and LoRA), retention-ratio diagnostics,
-selective-routing analysis, and a eleven-model cross-model robustness check
-spanning seven model families (Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA,
-Gemma3, and Gemma4) across 7B--35B parameter scales.
-
-\textbf{Main findings:} (1) Agreement filtering is not a portable
-denoising rule. On BowTurnHead, agreement-retained linear probing falls
+Three main findings emerge. First, agreement filtering is not a portable
+denoising rule: on BowTurnHead, agreement-retained linear probing falls
 to $15.53\% \pm 1.00\%$ while unfiltered pseudo-labels reach
-$88.02\% \pm 0.12\%$; retention-ratio controls confirm that this
-collapse is not explained by sample count alone but by class-composition
-shift and a label-quality ceiling. (2) The operative constraint is visual
-anchoring---the degree to which a category can be recovered from a single
-frame without discourse context. Categories with low zero-shot CLIP
-accuracy (e.g., \textit{guide}, \textit{answer}) systematically fail
-across all tested MLLMs, while visually anchored categories remain
-reliably annotated. A eleven-model cross-model validation confirms that
-newer-generation models (Qwen3.5-27B, Gemma4-31B) substantially improve
-on \textit{guide} (39--83\%) while \textit{answer} remains below 23\%
-universally, identifying a task-level single-frame observability
-boundary. (3) A quality-threshold experiment using Qwen3.5-27B
-pseudo-labels (annotation accuracy 50.3\% vs.\ Qwen2-VL-7B's 41.2\%)
-crosses the critical threshold at which pseudo-label fine-tuning begins
-to exceed the zero-shot baseline ($55.29\%$ vs.\ $53.43\%$), pinpointing
-the required annotation quality for practical deployment.
-
-\textbf{Implication:} Agreement filtering alone is insufficient as a
-universal pseudo-label quality guarantee for MLLM-assisted annotation in
-classroom behavior recognition. Downstream utility is gated by per-class
-visual anchoring and annotation quality thresholds, which together
-provide a task-internal screening signal for deciding when MLLM
-pseudo-labels are likely to provide useful supervision.
+$88.02\% \pm 0.12\%$, and retention-ratio controls confirm that this
+collapse reflects class-composition shift and a label-quality ceiling
+rather than sample count alone. Second, the operative constraint is
+visual anchoring---the degree to which a category can be recovered from a
+single frame without discourse context. Categories with low zero-shot
+CLIP accuracy (e.g., \textit{guide}, \textit{answer}) systematically fail
+across all tested MLLMs; newer-generation models (Qwen3.5-27B,
+Gemma4-31B) substantially improve on \textit{guide} (39--83\%) while
+\textit{answer} remains below 23\% universally, identifying a task-level
+single-frame observability boundary. Third, a quality-threshold
+experiment with Qwen3.5-27B pseudo-labels (annotation accuracy 50.3\%
+vs.\ Qwen2-VL-7B's 41.2\%) locates the critical annotation accuracy range
+between 41\% and 50\% at which pseudo-label fine-tuning crosses the
+zero-shot baseline ($55.29\%$ vs.\ $53.43\%$). Together, these findings
+show that downstream utility is gated by per-class visual anchoring and
+annotation quality thresholds, which provide a task-internal screening
+signal for deciding when MLLM pseudo-labels are likely to provide useful
+supervision in classroom behavior recognition.
 \end{abstract}
 
 \begin{keywords}
