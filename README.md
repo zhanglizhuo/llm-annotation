@@ -141,15 +141,42 @@ Every run writes structured outputs under `results/`:
 
 ---
 
+## Models
+
+### Primary annotators (dual-model pseudo-labeling)
+| Model | Hugging Face ID | Role |
+|---|---|---|
+| **Qwen2-VL-7B-Instruct** | `Qwen/Qwen2-VL-7B-Instruct` | Primary pseudo-label generator |
+| **LLaVA-1.5-7B** | `llava-hf/llava-1.5-7b-hf` | Secondary annotator (dual-model agreement) |
+
+### Cross-model validation (annotator robustness)
+| Model | Hugging Face ID | Size / Variant |
+|---|---|---|
+| **Qwen2.5-VL-7B-Instruct** | `Qwen/Qwen2.5-VL-7B-Instruct` | 7B |
+| **Qwen2.5-VL-32B-Instruct** | `Qwen/Qwen2.5-VL-32B-Instruct` | 32B |
+| **Qwen3.5-27B** | `Qwen/Qwen3.5-27B` | 27B |
+| **Qwen3.5-35B-A3B** | `Qwen/Qwen3.5-35B-A3B` | 35B MoE (3B active) |
+| **Qwen3.6-27B** | `Qwen/Qwen3.6-27B` | 27B |
+| **Qwen3.6-35B-A3B** | `Qwen/Qwen3.6-35B-A3B` | 35B MoE (3B active) |
+| **Qwen3.6-35B-A3B-FP8** | `Qwen/Qwen3.6-35B-A3B-FP8` | 35B MoE (FP8 quantized) |
+| **Gemma-3-27B-IT** | `unsloth/gemma-3-27b-it-bnb-4bit` | 27B (4-bit) |
+| **Gemma-4-26B-A4B-it** | `google/gemma-4-26B-A4B-it` | 26B MoE (4B active) |
+| **Gemma-4-31B-it** | `google/gemma-4-31B-it` | 31B |
+
+### Fine-tuned vision model
+| Model | Backbone | Library |
+|---|---|---|
+| **CLIP ViT-L/14** | Vision Transformer Large (OpenAI pretrained) | `open_clip_torch` |
+
+Training methods: **linear probe** and **LoRA** (rank=4).
+
 ## Environment & hardware
 
 - **Tested on:** Ubuntu 18.04, Python 3.8, 2× NVIDIA A100 40G
-- **LLM annotators:** Qwen2-VL-7B, LLaVA-1.5-7B (Hugging Face `transformers`)
-- **Cross-model validation:** Qwen2.5-7B/32B, Gemma-3-27B
-- **Fine-tuned model:** CLIP ViT-L/14 (`open_clip_torch`)
-- **GPU memory note:** Annotation phase needs ~20GB per LLM. With smaller GPUs, use `CUDA_VISIBLE_DEVICES` to run annotators sequentially.
+- **GPU memory note:** Annotation phase needs ~20GB per 7B LLM; larger models (27B–35B) use `device_map="auto"` across both GPUs. With smaller GPUs, use `CUDA_VISIBLE_DEVICES` to run annotators sequentially.
 
-For mainland China users:
+Models are downloaded automatically by `transformers` on first use. For Chinese mainland users:
+
 ```bash
 export HF_ENDPOINT=https://hf-mirror.com
 ```
