@@ -99,6 +99,7 @@ CSV files have two meanings in this project:
 | `cross_model_consistency.py` | Independent cross-model consistency analysis for anchoring diagnostics. | Main annotation JSONL and cross-model validation JSONL, optional phase-0 per-class zero-shot JSON. | `results/phase6_strategy_audit/*/cross_model_consistency/`. | Auxiliary anchoring check. |
 | `confidence_filtering.py` | CLIP-assisted confidence filtering over Qwen pseudo-labels. | Phase-2 pseudo-label JSONL plus SCB YOLO train/val splits. | `results/phase6_strategy_audit/*/confidence_filtering/`. | Auxiliary training-strategy baseline. |
 | `teacher_student_self_training.py` | Train-split teacher-student/self-training baseline. | SCB YOLO train/val splits. | `results/phase6_strategy_audit/*/teacher_student/`. | Auxiliary training-strategy baseline. |
+| `summarize_repeated_seeds.py` | Aggregates repeated-seed result JSONs into summary CSV. | `--results_root` (per-seed directories). | `phase3_repeated_seed_summary.csv`. | Generates mean/std tables used by `finetune_summary.csv`. |
 
 ## Logs (`logs/*.log`)
 

@@ -41,13 +41,13 @@ Repeated-seed validation accuracy (mean ± std, 5 seeds) for CLIP ViT-L/14 fine-
 
 ### Key findings
 
-1. **Pseudo-labels substantially beat zero-shot on simpler tasks, but gains shrink with task complexity.** Unfiltered pseudo-labels improve over zero-shot by +46pp on 2-class BowTurnHead, +19pp on 3-class HandriseReadWrite, but only +6pp on 8-class TeacherBehavior — revealing a difficulty boundary where LLM annotation quality alone cannot close the gap.
+1. **Pseudo-labels substantially beat zero-shot on simpler tasks, but gains shrink with task complexity.** Unfiltered pseudo-labels improve over zero-shot by +46pp on 2-class BowTurnHead, +19pp on 3-class HandriseReadWrite, but only +5pp on 8-class TeacherBehavior — revealing a difficulty boundary where LLM annotation quality alone cannot close the gap.
 
 2. **Dual-model agreement filtering is consistently worse than unfiltered pseudo-labels, with one marginal exception.** Agreement filtering sharply reduces sample count (retaining only 20.0% on BowTurnHead, 55.9% on HandriseReadWrite, 66.5% on TeacherBehavior). This causes severe performance drops on BowTurnHead (19.69% vs 88.65%) and HandriseReadWrite (59.25% vs 76.69%). The only exception is TeacherBehavior LP where agreement gives a marginal +0.63pp gain — insufficient to justify the sample loss.
 
 3. **The GT upper bound reveals where annotation quality vs. model capacity is the bottleneck.** On BowTurnHead, pseudo-label LoRA (88.65%) approaches GT LoRA (97.91%) — the gap is ~9pp. On TeacherBehavior, the gap is ~31pp. Our selective-routing diagnostic tests whether this is driven by specific low-anchor classes where zero-shot CLIP already fails.
 
-4. **LoRA offers no consistent advantage over linear probe under pseudo-labels.** Across all three datasets with pseudo-labels, the LP–LoRA difference is within 2pp. Under GT labels, LoRA shows clear gains (up to +5pp). This suggests that when labels are noisy, the bottleneck is label quality, not model expressiveness.
+4. **LoRA offers no consistent advantage over linear probe with unfiltered pseudo-labels.** Under the None (unfiltered) strategy, the LP–LoRA difference is within 2pp across all three datasets. Agreement-filtered labels and GT labels show larger LoRA gains (up to +5pp). This suggests that when labels are noisy, the bottleneck is label quality rather than model capacity; LoRA's expressiveness only matters when labels are sufficiently clean.
 
 ### Supplementary analyses
 
@@ -170,8 +170,7 @@ Every run writes structured outputs under `results/`:
 | **Qwen3.5-27B** | `Qwen/Qwen3.5-27B` | 27B |
 | **Qwen3.5-35B-A3B** | `Qwen/Qwen3.5-35B-A3B` | 35B MoE (3B active) |
 | **Qwen3.6-27B** | `Qwen/Qwen3.6-27B` | 27B |
-| **Qwen3.6-35B-A3B** | `Qwen/Qwen3.6-35B-A3B` | 35B MoE (3B active) |
-| **Qwen3.6-35B-A3B-FP8** | `Qwen/Qwen3.6-35B-A3B-FP8` | 35B MoE (FP8 quantized) |
+| **Qwen3.6-35B-A3B** | `Qwen/Qwen3.6-35B-A3B-FP8` | 35B MoE, FP8 quantized |
 | **Gemma-3-27B-IT** | `unsloth/gemma-3-27b-it-bnb-4bit` | 27B (4-bit) |
 | **Gemma-4-26B-A4B-it** | `google/gemma-4-26B-A4B-it` | 26B MoE (4B active) |
 | **Gemma-4-31B-it** | `google/gemma-4-31B-it` | 31B |

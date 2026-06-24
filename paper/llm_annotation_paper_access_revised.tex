@@ -80,9 +80,9 @@ visual anchoring---the degree to which a category can be recovered from a
 single frame without discourse context. Categories with low zero-shot
 CLIP accuracy (e.g., \textit{guide}, \textit{answer}) systematically fail
 across all tested MLLMs; newer-generation models (Qwen3.5-27B,
-Gemma4-31B) substantially improve on \textit{guide} (39--83\%) while
-\textit{answer} remains below 23\% universally, identifying a task-level
-single-frame observability boundary. Third, a quality-threshold
+Gemma4-31B) substantially improve on \textit{guide} (53\% and 83\%
+respectively) while \textit{answer} remains below 23\% universally,
+identifying a task-level single-frame observability boundary. Third, a quality-threshold
 experiment with Qwen3.5-27B pseudo-labels (annotation accuracy 50.3\%
 vs.\ Qwen2-VL-7B's 41.2\%) locates the critical annotation accuracy range
 between 41\% and 50\% at which pseudo-label fine-tuning crosses the
@@ -857,7 +857,7 @@ alternative to the MLLM pseudo-labeling pipeline.
 
 To test whether the main annotation findings depend strongly on the
 original two-model main pipeline (Qwen2-VL-7B and LLaVA-1.5-7B), the
-revised study includes an expanded cross-model robustness check with ten
+revised study includes an expanded cross-model robustness check with eleven
 open-weight MLLMs spanning seven model families (Qwen2, Qwen2.5, Qwen3.5,
 Qwen3.6, LLaVA, Gemma3, and Gemma4), three architectural types (dense,
 MoE, and 4-bit quantized), and parameter scales from 7B to 35B:
@@ -901,7 +901,7 @@ performance, it should be interpreted as an operational screening cue
 within this evaluation setup, not as an independent explanatory
 measurement.
 As a convergent diagnostic, the study also reports a class-level
-cross-model consistency (CMC) score computed from the ten MLLM
+cross-model consistency (CMC) score computed from the eleven MLLM
 annotators. For each ground-truth category, CMC is the mean pairwise
 agreement among model predictions on validation crops from that
 category. CMC is independent of the CLIP zero-shot classifier used to
@@ -1263,7 +1263,7 @@ selective-analysis section.}
 
 After the main downstream comparison, Tables~\ref{tab:crossmodel_overall}
 and~\ref{tab:crossmodel_intent} summarise validation-set annotation accuracy
-for the ten tested MLLMs under the common bbox-crop and index-only prompting
+for the eleven tested MLLMs under the common bbox-crop and index-only prompting
 protocol.
 The purpose of this analysis is not to redefine the main pipeline, but
 to test whether the category-level reliability pattern persists beyond
@@ -1274,22 +1274,26 @@ Three findings emerge from the expanded comparison.
 First, no single annotator is uniformly best across datasets: Qwen3.5-35B-A3B
 performs best on BowTurnHead (89.39\%), Qwen2 on HandriseReadWrite (70.59\%),
 and Qwen3.5-27B on TeacherBehavior (52.19\%).
-Second, a clear generational boundary exists on the \textit{guide} category:
-models released before 2024 (Qwen2, Qwen2.5, LLaVA, Gemma3) all score below
-25\%, while newer models (Qwen3.5-27B, Gemma4-31B) achieve 39--83\%,
+Second, a clear capability boundary exists on the \textit{guide} category:
+earlier-generation models (Qwen2, Qwen2.5, LLaVA, Gemma3-27B) all score below
+25\%, while newer-generation models (Qwen3.5-27B, Gemma4-31B) achieve 39--83\%,
 showing that \textit{guide} is a model-capacity bottleneck rather than a
 task-level impossibility.
-Third, the \textit{answer} category remains below 23\% across all ten models
+Third, the \textit{answer} category remains below 23\% across all eleven models
 (the best is Qwen3.6-35B-A3B at 22.4\%), consistent with a task-level
 single-frame observability constraint that even the newest models cannot
 overcome.
 
 \begin{table}[!t]
-\caption{Ten-model cross-model robustness check of validation-set annotation
+\caption{Eleven-model cross-model robustness check of validation-set annotation
 accuracy under a common bbox-crop and index-only prompting protocol.
-Abbreviations: Q3.5-27B = Qwen3.5-27B; Q3.5-35B = Qwen3.5-35B-A3B (MoE);
+Abbreviations: Q2.5-7B = Qwen2.5-VL-7B-Instruct;
+Q2.5-32B = Qwen2.5-VL-32B-Instruct; G3-27B = Gemma-3-27B-IT;
+Q3.5-27B = Qwen3.5-27B; Q3.5-35B = Qwen3.5-35B-A3B (MoE);
 Q3.6-27B = Qwen3.6-27B; Q3.6-35B = Qwen3.6-35B-A3B (MoE, FP8);
 G4-26B = Gemma4-26B-A4B-it (MoE); G4-31B = Gemma4-31B-it.
+Qwen2 = Qwen2-VL-7B-Instruct; LLaVA = LLaVA-1.5-7B.
+``---'' indicates the model was not evaluated on that dataset.
 Values are bbox-level pseudo-label accuracy (\%). Best per dataset in bold.}
 \label{tab:crossmodel_overall}
 \centering
@@ -1311,11 +1315,11 @@ TeacherBehavior   & 41.21 & 37.39 & 44.86 & 36.69 & 44.65 & \textbf{52.19} & 40.
 Table~\ref{tab:crossmodel_intent} reports per-category accuracy for
 four key TeacherBehavior categories that illustrate the generational and
 task-level boundaries.
-The \textit{guide} category shows a clear generational divide: pre-2024
-models (Qwen2, Qwen2.5, LLaVA, Gemma3) all score below 1\% except LLaVA
+The \textit{guide} category shows a clear generational divide: earlier-generation
+models (Qwen2, Qwen2.5, LLaVA, Gemma3-27B) all score below 1\% except LLaVA
 (24.05\%, likely a model-specific bias), while newer models reach
 12.9--82.9\%, with Gemma4-31B achieving 82.9\%.
-\textit{Answer} remains a near-universal failure: all ten models score
+\textit{Answer} remains a near-universal failure: all eleven models score
 below 23\%, with the best (Qwen3.6-35B-A3B at 22.4\%) still far below
 usable annotation quality---consistent with a task-level single-frame
 observability constraint.
@@ -1327,7 +1331,7 @@ highest overall accuracy (52.19\%) and the best or near-best per-category
 scores across all four classes shown.
 
 \begin{table}[!t]
-\caption{Ten-model cross-model validation on four key TeacherBehavior
+\caption{Eleven-model cross-model validation on four key TeacherBehavior
 categories illustrating the generational boundary (\textit{guide}) and the
 task-level constraint (\textit{answer}).
 Values are validation-set bbox-level accuracy (\%).
@@ -2078,12 +2082,6 @@ Available from: https://arxiv.org/abs/2401.00368
 Qwen Team.
 Qwen2.5-VL technical report. arXiv [Preprint]. 2025 [cited 2026 May 7].
 Available from: https://arxiv.org/abs/2502.13923
-
-\bibitem{deitke2024molmo}
-Deitke M, Clark C, Lee S, Tripathi S, Yang Y, Park J, et al.
-Molmo and PixMo: Open weights and open data for state-of-the-art
-multimodal models. arXiv [Preprint]. 2024 [cited 2026 May 7]. Available
-from: https://arxiv.org/abs/2409.17146
 
 \bibitem{chen2024internvl2}
 Chen Z, Wang K, Cao Y, Yu J, Zhou W, Li H, et al.
