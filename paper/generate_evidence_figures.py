@@ -107,7 +107,7 @@ CONDITION_COLORS = {
 }
 
 DATASET_STYLES = {
-    "BowTurnHead": {"alpha": 1.0, "hatch": "\\\\\\\\"},
+    "BowTurnHead": {"alpha": 1.0, "hatch": "\\\\\\"},
     "HandriseReadWrite": {"alpha": 0.82, "hatch": None},
     "TeacherBehavior": {"alpha": 1.0, "hatch": "///"},
 }
@@ -269,7 +269,7 @@ def generate_overview_figure() -> None:
     # to get row-major display: Row1=color labels, Row2=dataset labels
     legend_handles = [
         Patch(facecolor=NEUTRAL_FILL_COLOR, edgecolor=EDGE_COLOR, linewidth=0.6, label="Zero-shot reference"),
-        Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, hatch="\\\\\\\\", linewidth=0.6, label="BowTurnHead"),
+        Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, hatch="\\\\\\", linewidth=0.6, label="BowTurnHead"),
         Patch(facecolor=SECONDARY_TEAL, edgecolor=EDGE_COLOR, linewidth=0.6, label="Weak baselines"),
         Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, linewidth=0.6, alpha=0.82, label="HandriseReadWrite"),
         Patch(facecolor=PRIMARY_BLUE, edgecolor=EDGE_COLOR, linewidth=0.6, label="Agreement-based methods"),
