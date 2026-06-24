@@ -12,7 +12,7 @@
 \begin{document}
 
 \begin{flushright}
-May 16, 2026
+June 24, 2026
 \end{flushright}
 
 Editors \\
@@ -20,54 +20,61 @@ Editors \\
 
 Dear Editors,
 
-Please consider our manuscript entitled
+We are resubmitting our manuscript (Access-2026-23347) entitled
 
-\textbf{``When Agreement Fails: Visual Anchoring and Multimodal Pseudo-Label Reliability in Classroom Behavior Recognition''}
+\textbf{``When Agreement Fails: Visual Anchoring and Multimodal Pseudo-Label
+Reliability in Classroom Behavior Recognition''}
 
-for publication in \textit{IEEE Access}.
+following the reviewers' constructive feedback. We thank the Associate Editor
+and both reviewers for their careful reading. We have addressed all seven
+comments from Reviewer~2 in full; Reviewer~1 raised no technical concerns.
+A detailed point-by-point response accompanies this submission.
 
-We submit this paper as a reliability-audit study of multimodal large
-language model (MLLM) pseudo-labeling in classroom behavior recognition.
-Using three SCB sub-datasets, we organise the evidence into four
-linked analysis modules: a protocol-matched zero-shot CLIP baseline, MLLM
-annotation and cross-model validation, CLIP adaptation under label-source
-choices, and mechanism/strategy audits. The study addresses a practical
-deployment question that is increasingly important across computer vision and
-educational AI: when can general-purpose MLLMs provide useful pseudo-label
-supervision, and when does cross-model agreement simply preserve shared error?
+In addition to the reviewer-driven revisions (restructured Abstract, new
+Pipeline Overview, formal visual-anchoring definition, merged tables, and
+language polish throughout), the revised manuscript incorporates two new
+experiments completed during the revision period:
 
-The manuscript makes four main contributions. First, it provides a
-reproducible audit protocol that links annotation quality, downstream
+\begin{enumerate}
+  \item \textbf{Ten-model cross-model validation} (expanded from five models
+  in the original submission), spanning three model families (Qwen, LLaVA,
+  Gemma) across 7B--35B parameter scales. The expanded analysis reveals a
+  clear capability boundary on intent-dependent categories and identifies
+  Qwen3.5-27B as the most balanced annotator on the hardest dataset.
+  \item \textbf{Quality-threshold experiment} using Qwen3.5-27B pseudo-labels
+  on TeacherBehavior, which locates the critical annotation accuracy range
+  at which pseudo-label fine-tuning begins to exceed the zero-shot baseline---a
+  finding with direct practical implications for MLLM-assisted annotation
+  pipelines.
+\end{enumerate}
+
+The revised manuscript makes four contributions. First, it provides a
+reproducible audit protocol linking annotation quality, downstream CLIP
 adaptation, retention controls, distribution-shift checks, anchor-proxy
-analysis, auxiliary filtering and self-training baselines, and cross-model
-robustness. Second, it shows that pseudo-label usefulness depends on
-category-level visual evidence. Third, it demonstrates that agreement
-filtering is not a portable denoising rule: in the observed setting,
-agreement-filtered subsets can be affected by data-volume loss,
-class-composition shift, and shared label error. Fourth, it separates these
-boundary conditions from a single annotator choice or optimisation path using
-repeated-seed downstream evaluation, targeted LoRA replications, train-split
-teacher--student and confidence-filtering baselines, and a five-model
-robustness check.
+analysis, auxiliary baselines, and a ten-model cross-model robustness check.
+Second, it demonstrates that pseudo-label usefulness is conditional on
+category-level visual anchoring. Third, it shows that agreement filtering is
+not a portable denoising rule. Fourth, it identifies a practical annotation
+quality threshold and shows that the selective-routing gain scales with
+annotator quality.
 
-We believe the manuscript is well suited to \textit{IEEE Access} because it
-offers a reproducible, application-driven study at the intersection of
-multimodal AI, computer vision, and intelligent education. The emphasis is not
-another benchmark comparison; it is an auditable methodology and evidence base
-for designing reliable MLLM-based annotation workflows in classroom sensing and
-related vision systems.
+We believe the revised manuscript is now substantially stronger and well
+suited to \textit{IEEE Access}. All data are publicly available; the code
+repository (\url{https://github.com/zhanglizhuo/llm-annotation}) includes
+environment specifications, reproduction scripts, and tracked result files.
 
-This submission is original, has not been published previously, and is not under
-consideration elsewhere. All authors have approved the submitted version and
-agree to its submission to \textit{IEEE Access}. The authors declare no
+This submission is original, has not been published previously, and is not
+under consideration elsewhere. All authors have approved the revised version
+and agree to its resubmission to \textit{IEEE Access}. The authors declare no
 competing interests.
 
 Funding statement: This research was funded by the Education Department of
 Hunan Province, grant number HNJG-2022-0608.
 
 Data and code availability: The SCB dataset is publicly available at
-\url{https://huggingface.co/datasets/wintonYF/SCB-Dataset}. The experiment code
-is available at \url{https://github.com/zhanglizhuo/llm-annotation}.
+\url{https://huggingface.co/datasets/wintonYF/SCB-Dataset}. The experiment
+code and results are available at
+\url{https://github.com/zhanglizhuo/llm-annotation}.
 
 Ethics and privacy: This study is a secondary analysis of a publicly released
 benchmark. The manuscript reports aggregate results, makes no re-identification
