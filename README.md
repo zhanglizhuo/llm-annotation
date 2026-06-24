@@ -208,8 +208,8 @@ export HF_ENDPOINT=https://hf-mirror.com
 
 ## Paper & citation
 
-This work has been submitted to **IEEE Access** (Manuscript # Access-2026-23347).
-The manuscript source is in `paper/`:
+This work is under review at **IEEE Access**.
+The accompanying manuscript source is in `paper/`:
 - `paper/llm_annotation_paper_access.tex` — original IEEE Access submission (archived)
 - `paper/llm_annotation_paper_access_revised.tex` — revised IEEE Access manuscript (current)
 - `response_to_reviewers.md` — point-by-point response to reviewer comments
