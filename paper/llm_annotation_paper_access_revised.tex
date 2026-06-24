@@ -67,7 +67,7 @@ TeacherBehavior), linking bounding-box-level MLLM annotation quality
 measurement, four filtering strategies, repeated-seed CLIP fine-tuning
 (linear probe and LoRA), retention-ratio diagnostics, selective-routing
 analysis, and a ten-model cross-model robustness check spanning
-seven model families (Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3,
+three model families (Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3,
 and Gemma4) across 7B--35B parameter scales.
 
 Three main findings emerge. First, agreement filtering is not a portable
@@ -858,7 +858,7 @@ alternative to the MLLM pseudo-labeling pipeline.
 To test whether the main annotation findings depend strongly on the
 original two-model main pipeline (Qwen2-VL-7B and LLaVA-1.5-7B), the
 revised study includes an expanded cross-model robustness check with ten
-open-weight MLLMs spanning seven model families (Qwen2, Qwen2.5, Qwen3.5,
+open-weight MLLMs spanning three model families (Qwen2, Qwen2.5, Qwen3.5,
 Qwen3.6, LLaVA, Gemma3, and Gemma4), three architectural types (dense,
 MoE, and 4-bit quantized), and parameter scales from 7B to 35B:
 Qwen2-VL-7B-Instruct, LLaVA-1.5-7B, Qwen2.5-VL-7B-Instruct,
@@ -1719,7 +1719,7 @@ deployment-ready.
 Several limitations should be noted.
 First, the main annotation pipeline evaluates two 7B-scale locally
 deployable MLLMs, and the expanded cross-model robustness analysis spans
-ten models across seven families: Qwen2-VL-7B, LLaVA-1.5-7B,
+ten models across three families (Qwen, LLaVA, Gemma): Qwen2-VL-7B, LLaVA-1.5-7B,
 Qwen2.5-VL-7B-Instruct, Qwen2.5-VL-32B-Instruct, Qwen3.5-27B,
 Qwen3.5-35B-A3B, Qwen3.6-27B, Qwen3.6-35B-A3B, Gemma-3-27B-IT,
 Gemma4-26B-A4B-it, and Gemma4-31B-it.

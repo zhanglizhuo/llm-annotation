@@ -28,7 +28,7 @@ Reviewer 1 confirmed that the study is well designed and executed, contributions
 **Response:** We agree. The original Abstract mixed protocol details, mechanism descriptions, and numerical results in a way that made the central argument hard to follow. We have rewritten the Abstract following a four-part structure: (1) problem and motivation, (2) study design, (3) main findings, and (4) practical implication. The revised Abstract is approximately 30% shorter than the original and leads with the central claim rather than with methodological caveats.
 
 Additionally, the revised manuscript includes two new experiments completed after the original submission:
-- (a) A ten-model cross-model validation (expanded from five models) that tests annotation reliability across Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3, and Gemma4 families (7B--35B, dense and MoE).
+- (a) A ten-model cross-model validation (expanded from five models) that tests annotation reliability across the Qwen, LLaVA, and Gemma families (7B--35B, dense and MoE).
 - (b) A quality-threshold experiment using Qwen3.5-27B pseudo-labels (annotation accuracy 50.3%) for CLIP fine-tuning on TeacherBehavior, identifying the annotation quality range at which pseudo-label fine-tuning begins to surpass the zero-shot baseline.
 
 **Action:** Abstract fully rewritten. New experimental results integrated.
@@ -79,7 +79,7 @@ Additionally, the revised manuscript includes two new experiments completed afte
 > "The study is primarily based on internal evaluation using sub-datasets of the SCB. The lack of broader external validation limits the generalizability of the conclusions."
 
 **Response:** We acknowledge this limitation. We address it in three ways in the revised manuscript:
-- (a) The expanded ten-model cross-model validation provides annotator-side external validity. The key finding---that intent-dependent categories remain near-zero across all annotator families while visually anchored categories remain reliable---replicates across Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3, and Gemma4 families.
+- (a) The expanded ten-model cross-model validation provides annotator-side external validity. The key finding---that intent-dependent categories remain near-zero across all annotator families while visually anchored categories remain reliable---replicates across the Qwen, LLaVA, and Gemma families.
 - (b) The new Qwen3.5-27B fine-tuning experiment provides partial external evidence for the quality-threshold claim, confirming that downstream behavior tracks annotator quality rather than being fixed by dataset properties.
 - (c) An explicit paragraph in the Limitations section acknowledges the single-benchmark constraint and distinguishes dataset-dependent findings (exact retention-ratio thresholds) from those more likely to generalize (visual anchoring pattern, agreement filtering failure modes).
 

@@ -55,7 +55,7 @@ Repeated-seed validation accuracy (mean ± std, 5 seeds) for CLIP ViT-L/14 fine-
 
 | Analysis | Key result | Location |
 |----------|-----------|----------|
-| **Cross-model validation** (10 LLMs across 7 model families) | Qwen2.5-7B achieves 84.86% on BowTurnHead val; LLaVA-1.5 gets 14.76%. Qwen3.5-27B is the most balanced annotator on TeacherBehavior (52.19%). Cross-model rankings are dataset-dependent but highly consistent within each dataset. | `results/cross_model_validation/` |
+| **Cross-model validation** (10 LLMs across 3 model families) | Qwen2.5-7B achieves 84.86% on BowTurnHead val; LLaVA-1.5 gets 14.76%. Qwen3.5-27B is the most balanced annotator on TeacherBehavior (52.19%). Cross-model rankings are dataset-dependent but highly consistent within each dataset. | `results/cross_model_validation/` |
 | **Quality-threshold experiment** (Qwen3.5-27B vs Qwen2-VL-7B on TeacherBehavior) | Qwen3.5-27B pseudo-labels (annot. acc. 50.3%) cross the zero-shot baseline at 55.29% None+LP, while Qwen2-VL-7B labels (41.2%) stay below it at 42.38%. The critical annotation accuracy threshold lies between 41% and 50%. | `results/phase3_finetune/qwen35_27b_none/` |
 | **Selective annotation** (Scheme B on TeacherBehavior) | Training only high-anchor classes boosts overall accuracy to 58.37% (Qwen2 LP) / 62.10% (Qwen3.5-27B LP), showing the selective-routing gain scales with annotator quality. | `results/phase4_selective_annotation/` |
 | **Retention curve** (TeacherBehavior) | The agreement endpoint (66.5% retention, 42.97% LP) lies well below the random-retention curve, indicating that agreement filtering introduces a systematic bias beyond simple sample-size reduction. | `results/phase5_retention_curve/` |
