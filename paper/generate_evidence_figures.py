@@ -324,13 +324,14 @@ def generate_quality_threshold_figure() -> None:
 
     ax.bar(
         x - width / 2, qwen2_values, width * 0.92,
-        color=SECONDARY_TEAL, edgecolor=EDGE_COLOR, linewidth=0.6, alpha=0.75,
-        label="Qwen2-VL-7B\n(annot. acc. 41.2%)", zorder=3,
+        color=lighten_color(SECONDARY_TEAL, blend=0.20),
+        edgecolor=EDGE_COLOR, linewidth=0.6, alpha=0.82,
+        label="Qwen2-VL-7B (41.2%)", zorder=3,
     )
     ax.bar(
         x + width / 2, qwen35_values, width * 0.92,
-        color=QWEN35_COLOR, edgecolor=EDGE_COLOR, linewidth=0.6, hatch="///",
-        label="Qwen3.5-27B\n(annot. acc. 50.3%)", zorder=3,
+        color=PRIMARY_BLUE, edgecolor=EDGE_COLOR, linewidth=0.6, hatch="///",
+        label="Qwen3.5-27B (50.3%)", zorder=3,
     )
 
     ax.axhline(y=cape_tb, color=NEUTRAL_FILL_COLOR, linewidth=1.0, linestyle="--", zorder=2)
@@ -346,9 +347,11 @@ def generate_quality_threshold_figure() -> None:
     ax.set_xticks(x)
     ax.set_xticklabels(conditions)
     ax.set_title("TeacherBehavior: Annotation Quality Threshold", fontsize=9.2, pad=8)
-    ax.legend(loc="upper left", frameon=False, fontsize=7.2)
+    ax.legend(loc="lower center", frameon=False, fontsize=7.2, ncol=2,
+              bbox_to_anchor=(0.5, -0.18))
     style_axis(ax, grid_axis="y", tick_fontsize=8.0)
-    fig.tight_layout()
+    ax.set_ylim(0, 72)
+    fig.tight_layout(rect=(0, 0.06, 1, 1))
 
     save_figure(fig, PAPER_ROOT / "fig_quality_threshold_access")
 
