@@ -54,7 +54,8 @@ Repeated-seed validation accuracy (mean ± std, 5 seeds) for CLIP ViT-L/14 fine-
 | Analysis | Key result | Location |
 |----------|-----------|----------|
 | **Cross-model validation** (11 LLMs across 7 model families) | Qwen2.5-7B achieves 84.86% on BowTurnHead val; LLaVA-1.5 gets 14.76%. Qwen3.5-27B is the most balanced annotator on TeacherBehavior (52.19%). Cross-model rankings are dataset-dependent but highly consistent within each dataset. | `results/cross_model_validation/` |
-| **Selective annotation** (Scheme B on TeacherBehavior) | Training only high-anchor classes boosts overall accuracy to 58.37% (LP) / 62.10% (Qwen3.5-27B pseudo), confirming that per-category heterogeneity matters. | `results/phase4_selective_annotation/` |
+| **Quality-threshold experiment** (Qwen3.5-27B vs Qwen2-VL-7B on TeacherBehavior) | Qwen3.5-27B pseudo-labels (annot. acc. 50.3%) cross the zero-shot baseline at 55.29% None+LP, while Qwen2-VL-7B labels (41.2%) stay below it at 42.38%. The critical annotation accuracy threshold lies between 41% and 50%. | `results/phase3_finetune/qwen35_27b_none/` |
+| **Selective annotation** (Scheme B on TeacherBehavior) | Training only high-anchor classes boosts overall accuracy to 58.37% (Qwen2 LP) / 62.10% (Qwen3.5-27B LP), showing the selective-routing gain scales with annotator quality. | `results/phase4_selective_annotation/` |
 | **Retention curve** (TeacherBehavior) | The agreement endpoint (66.5% retention, 42.97% LP) lies well below the random-retention curve, indicating that agreement filtering introduces a systematic bias beyond simple sample-size reduction. | `results/phase5_retention_curve/` |
 | **Teacher-student self-training** | Student models trained on teacher pseudo-labels achieve 89.17% (BowTurnHead) and 65.06% (TeacherBehavior) — comparable to the primary pseudo-label pipeline, showing the approach generalizes across training paradigms. | `results/phase6_strategy_audit/` |
 | **CLIP confidence filtering** | Using CLIP embedding similarity as a confidence proxy for pseudo-label selection does not outperform the simpler none/agreement strategies. | `results/phase6_strategy_audit/` |
@@ -148,9 +149,11 @@ Every run writes structured outputs under `results/`:
 | 1 — LLM annotation | `results/phase1_annotations/*/*_annotations.jsonl` | JSONL (one record per bbox) |
 | 2 — Filtering analysis | `results/phase2_filtering/*/*_filter_comparison.csv` | CSV |
 | 3 — CLIP fine-tuning | `results/phase3_finetune/**/*_result.json` | JSON (accuracy + epoch history) |
-| 4 — Selective routing | `results/phase4_selective_annotation/default/` | JSON |
+| 3b — Qwen3.5-27B quality threshold | `results/phase3_finetune/qwen35_27b_none/` | JSON |
+| 4 — Selective routing | `results/phase4_selective_annotation/{default,qwen35_27b_none}/` | JSON |
 | 5 — Retention curves | `results/phase5_retention_curve/default/` | JSON |
 | 6 — Strategy audit | `results/phase6_strategy_audit/*/` | CSV + JSON + PNG |
+| — Cross-model validation (11 models) | `results/cross_model_validation/{default,qwen35_*,gemma4_*}/` | JSONL + CSV + JSON |
 
 ---
 
