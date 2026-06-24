@@ -211,7 +211,6 @@ export HF_ENDPOINT=https://hf-mirror.com
 This work has been submitted to **IEEE Access** (Manuscript # Access-2026-23347).
 The manuscript source is in `paper/`:
 - `paper/llm_annotation_paper_access.tex` — IEEE Access submission (current)
-- `paper/llm_annotation_paper_plos.tex` — earlier PLOS ONE version (archived)
 - `response_to_reviewers.md` — point-by-point response to reviewer comments
 
 If you use this code or data, please cite:
