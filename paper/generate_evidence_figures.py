@@ -246,7 +246,7 @@ def generate_overview_figure() -> None:
             yerr = entry["sd"] if entry["sd"] is not None else None
             error_kw = {"elinewidth": 0.6, "capsize": 2.5, "capthick": 0.6, "ecolor": EDGE_COLOR}
             bar_kwargs = {
-                "x": positions[idx], "height": entry["value"], "width": width * 0.95,
+                "x": positions[idx], "height": entry["value"], "width": width * 0.78,
                 "color": condition_color, "alpha": dataset_style["alpha"],
                 "hatch": dataset_style["hatch"], "edgecolor": EDGE_COLOR,
                 "linewidth": 0.6, "zorder": 3,
