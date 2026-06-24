@@ -62,6 +62,10 @@ Repeated-seed validation accuracy (mean ± std, 5 seeds) for CLIP ViT-L/14 fine-
 | **Teacher-student self-training** | Student models trained on teacher pseudo-labels achieve 89.17% (BowTurnHead) and 65.06% (TeacherBehavior) — comparable to the primary pseudo-label pipeline, showing the approach generalizes across training paradigms. | `results/phase6_strategy_audit/` |
 | **CLIP confidence filtering** | Using CLIP embedding similarity as a confidence proxy for pseudo-label selection does not outperform the simpler none/agreement strategies. | `results/phase6_strategy_audit/` |
 
+The most consequential finding is the annotation quality threshold: replacing the original Qwen2-VL-7B annotator (41.2%) with Qwen3.5-27B (50.3%) on the hardest dataset crosses the zero-shot baseline for the first time. The critical threshold lies between 41% and 50% — a practical quality target for MLLM-assisted annotation pipelines.
+
+![Quality threshold: Qwen2-VL-7B vs Qwen3.5-27B on TeacherBehavior](paper/fig_quality_threshold_access.png)
+
 ---
 
 ## Repository structure
