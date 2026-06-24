@@ -208,7 +208,13 @@ export HF_ENDPOINT=https://hf-mirror.com
 
 ## Paper & citation
 
-The manuscript source is in `paper/`. If you use this code or data, please cite:
+This work has been submitted to **IEEE Access** (Manuscript # Access-2026-23347).
+The manuscript source is in `paper/`:
+- `paper/llm_annotation_paper_access.tex` — IEEE Access submission (current)
+- `paper/llm_annotation_paper_plos.tex` — earlier PLOS ONE version (archived)
+- `response_to_reviewers.md` — point-by-point response to reviewer comments
+
+If you use this code or data, please cite:
 
 ```bibtex
 @software{ma_zhang_llm_annotation,
@@ -220,7 +226,7 @@ The manuscript source is in `paper/`. If you use this code or data, please cite:
 }
 ```
 
-See `CITATION.cff` for full metadata. A Zenodo DOI will be added upon release.
+See `CITATION.cff` for full metadata. A Zenodo DOI will be added upon publication.
 
 ---
 
@@ -231,7 +237,8 @@ See `CITATION.cff` for full metadata. A Zenodo DOI will be added upon release.
 3. `docs/research_plan.md` — study design and hypotheses (5 minutes)
 4. `docs/experiment_file_map.md` — which file is which (5 minutes)
 5. `results/phase3_finetune/` — drill into specific conditions
-6. `paper/llm_annotation_paper_plos.tex` — full manuscript
+6. `paper/llm_annotation_paper_access.tex` — IEEE Access manuscript
+7. `response_to_reviewers.md` — response to reviewer comments
 
 ---
 
