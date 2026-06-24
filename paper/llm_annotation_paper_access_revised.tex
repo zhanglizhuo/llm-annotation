@@ -66,7 +66,7 @@ classroom behavior sub-datasets (BowTurnHead, HandriseReadWrite,
 TeacherBehavior), linking bounding-box-level MLLM annotation quality
 measurement, four filtering strategies, repeated-seed CLIP fine-tuning
 (linear probe and LoRA), retention-ratio diagnostics, selective-routing
-analysis, and an eleven-model cross-model robustness check spanning
+analysis, and a ten-model cross-model robustness check spanning
 seven model families (Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3,
 and Gemma4) across 7B--35B parameter scales.
 
@@ -81,7 +81,7 @@ single frame without discourse context. Categories with low zero-shot
 CLIP accuracy (e.g., \textit{guide}, \textit{answer}) systematically fail
 across all tested MLLMs; newer-generation models (Qwen3.5-27B,
 Gemma4-31B) substantially improve on \textit{guide} (53\% and 83\%
-respectively) while \textit{answer} remains below 23\% universally,
+respectively) while \textit{answer} remains below 19\% universally,
 identifying a task-level single-frame observability boundary. Third, a quality-threshold
 experiment with Qwen3.5-27B pseudo-labels (annotation accuracy 50.3\%
 vs.\ Qwen2-VL-7B's 41.2\%) locates the critical annotation accuracy range
@@ -208,7 +208,7 @@ The main pseudo-label annotation pipeline uses two MLLMs
 (Qwen2-VL-7B-Instruct and LLaVA-1.5-7B) to annotate cropped
 bounding-box regions from three SCB sub-datasets covering 13 behavior
 categories across more than 87{,}000 bounding boxes.
-An eleven-model robustness analysis (expanded from five models in the original submission) is treated as a boundary
+A ten-model robustness analysis (expanded from five models in the original submission) is treated as a boundary
 condition check, not as the paper's main claim.
 The core answer comes from the downstream fine-tuning matrix,
 while the additional diagnostics explain why that answer changes across
@@ -242,7 +242,7 @@ technical object rather than any single routing heuristic.
   annotator choice or optimisation path.}
   An oracle selective-routing diagnostic, targeted LoRA replications,
   auxiliary teacher--student and confidence-filtering baselines, and a
-  eleven-model robustness check bound the claim and point to label quality
+  ten-model robustness check bound the claim and point to label quality
   and category semantics as the main constraints in the present setting.
 
 \end{enumerate}
@@ -412,7 +412,7 @@ fixed artifacts consumed by downstream analyses:
   zero-shot baselines. Four diagnostic modules---selective routing,
   retention-ratio curves, strategy audits (confidence filtering,
   teacher--student self-training, cross-model consistency), and an
-  eleven-model cross-model robustness check---read frozen artifacts from
+  ten-model cross-model robustness check---read frozen artifacts from
   earlier stages to isolate specific mechanisms.
 \end{enumerate}
 
@@ -857,7 +857,7 @@ alternative to the MLLM pseudo-labeling pipeline.
 
 To test whether the main annotation findings depend strongly on the
 original two-model main pipeline (Qwen2-VL-7B and LLaVA-1.5-7B), the
-revised study includes an expanded cross-model robustness check with eleven
+revised study includes an expanded cross-model robustness check with ten
 open-weight MLLMs spanning seven model families (Qwen2, Qwen2.5, Qwen3.5,
 Qwen3.6, LLaVA, Gemma3, and Gemma4), three architectural types (dense,
 MoE, and 4-bit quantized), and parameter scales from 7B to 35B:
@@ -901,7 +901,7 @@ performance, it should be interpreted as an operational screening cue
 within this evaluation setup, not as an independent explanatory
 measurement.
 As a convergent diagnostic, the study also reports a class-level
-cross-model consistency (CMC) score computed from the eleven MLLM
+cross-model consistency (CMC) score computed from the ten MLLM
 annotators. For each ground-truth category, CMC is the mean pairwise
 agreement among model predictions on validation crops from that
 category. CMC is independent of the CLIP zero-shot classifier used to
@@ -1263,7 +1263,7 @@ selective-analysis section.}
 
 After the main downstream comparison, Tables~\ref{tab:crossmodel_overall}
 and~\ref{tab:crossmodel_intent} summarise validation-set annotation accuracy
-for the eleven tested MLLMs under the common bbox-crop and index-only prompting
+for the ten tested MLLMs under the common bbox-crop and index-only prompting
 protocol.
 The purpose of this analysis is not to redefine the main pipeline, but
 to test whether the category-level reliability pattern persists beyond
@@ -1279,33 +1279,34 @@ earlier-generation models (Qwen2, Qwen2.5, LLaVA, Gemma3-27B) all score below
 25\%, while newer-generation models (Qwen3.5-27B, Gemma4-31B) achieve 39--83\%,
 showing that \textit{guide} is a model-capacity bottleneck rather than a
 task-level impossibility.
-Third, the \textit{answer} category remains below 23\% across all eleven models
-(the best is Qwen3.6-35B-A3B at 22.4\%), consistent with a task-level
+Third, the \textit{answer} category remains below 19\% across all ten models
+(the best is Qwen3.5-35B at 18.9\%), consistent with a task-level
 single-frame observability constraint that even the newest models cannot
 overcome.
 
 \begin{table}[!t]
-\caption{Eleven-model cross-model robustness check of validation-set annotation
+\caption{Ten-model cross-model robustness check of validation-set annotation
 accuracy under a common bbox-crop and index-only prompting protocol.
 Abbreviations: Q2.5-7B = Qwen2.5-VL-7B-Instruct;
-Q2.5-32B = Qwen2.5-VL-32B-Instruct; G3-27B = Gemma-3-27B-IT;
+G3-27B = Gemma-3-27B-IT (4-bit);
 Q3.5-27B = Qwen3.5-27B; Q3.5-35B = Qwen3.5-35B-A3B (MoE);
 Q3.6-27B = Qwen3.6-27B; Q3.6-35B = Qwen3.6-35B-A3B (MoE, FP8);
 G4-26B = Gemma4-26B-A4B-it (MoE); G4-31B = Gemma4-31B-it.
 Qwen2 = Qwen2-VL-7B-Instruct; LLaVA = LLaVA-1.5-7B.
 ``---'' indicates the model was not evaluated on that dataset.
+Q3.6-27B values sourced from log files (result directory lost).
 Values are bbox-level pseudo-label accuracy (\%). Best per dataset in bold.}
 \label{tab:crossmodel_overall}
 \centering
 \scriptsize
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lccccccccccc}
+\begin{tabular}{lcccccccccc}
 \toprule
-\textbf{Dataset} & \textbf{Qwen2} & \textbf{LLaVA} & \textbf{Q2.5-7B} & \textbf{Q2.5-32B} & \textbf{G3-27B} & \textbf{Q3.5-27B} & \textbf{Q3.5-35B} & \textbf{Q3.6-27B} & \textbf{Q3.6-35B} & \textbf{G4-26B} & \textbf{G4-31B} \\
+\textbf{Dataset} & \textbf{Qwen2} & \textbf{LLaVA} & \textbf{Q2.5-7B} & \textbf{G3-27B} & \textbf{Q3.5-27B} & \textbf{Q3.5-35B} & \textbf{Q3.6-27B} & \textbf{Q3.6-35B} & \textbf{G4-26B} & \textbf{G4-31B} \\
 \midrule
-BowTurnHead       & 82.55 & 14.76 & 84.86 & 63.78 & 75.19 & 84.93 & \textbf{89.39} & --- & 80.35 & 86.43 & 86.35 \\
-HandriseReadWrite & \textbf{70.59} & 53.20 & 51.74 & 69.11 & 57.21 & --- & 62.71 & --- & 62.41 & 56.97 & 56.95 \\
-TeacherBehavior   & 41.21 & 37.39 & 44.86 & 36.69 & 44.65 & \textbf{52.19} & 40.33 & 48.74 & 41.03 & 45.15 & 43.51 \\
+BowTurnHead       & 82.55 & 14.76 & 84.71 & 75.19 & 79.48 & \textbf{89.37} & 74.66 & 63.26 & 89.61 & 86.36 \\
+HandriseReadWrite & \textbf{70.59} & 53.20 & 51.16 & 57.21 & 59.25 & 62.66 & 61.03 & 69.11 & 55.84 & 56.90 \\
+TeacherBehavior   & 41.21 & 37.39 & 44.84 & 44.65 & \textbf{52.21} & 40.33 & 48.67 & 36.69 & 45.10 & 43.51 \\
 \bottomrule
 \end{tabular}
 }
@@ -1317,10 +1318,10 @@ four key TeacherBehavior categories that illustrate the generational and
 task-level boundaries.
 The \textit{guide} category shows a clear generational divide: earlier-generation
 models (Qwen2, Qwen2.5, LLaVA, Gemma3-27B) all score below 1\% except LLaVA
-(24.05\%, likely a model-specific bias), while newer models reach
-12.9--82.9\%, with Gemma4-31B achieving 82.9\%.
-\textit{Answer} remains a near-universal failure: all eleven models score
-below 23\%, with the best (Qwen3.6-35B-A3B at 22.4\%) still far below
+(24.05\%, likely a model-specific bias), while newer-generation models reach
+0.9--82.9\%, with Gemma4-31B achieving 82.9\%.
+\textit{Answer} remains a near-universal failure: all ten models score
+below 19\%, with the best (Qwen3.5-35B at 18.9\%) still far below
 usable annotation quality---consistent with a task-level single-frame
 observability constraint.
 \textit{Blackboard-writing} and \textit{screen} are reliably annotated
@@ -1331,26 +1332,24 @@ highest overall accuracy (52.19\%) and the best or near-best per-category
 scores across all four classes shown.
 
 \begin{table}[!t]
-\caption{Eleven-model cross-model validation on four key TeacherBehavior
-categories illustrating the generational boundary (\textit{guide}) and the
+\caption{Ten-model cross-model validation on four key TeacherBehavior
+categories illustrating the capability boundary (\textit{guide}) and the
 task-level constraint (\textit{answer}).
 Values are validation-set bbox-level accuracy (\%).
 $n$ = number of validation crops.
-``---'' indicates per-category data was not collected for that model--dataset
-combination (overall accuracy for those models is reported in
-Table~\ref{tab:crossmodel_overall}).}
+Q3.6-27B values sourced from log files (result directory lost).}
 \label{tab:crossmodel_intent}
 \centering
 \scriptsize
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lccccccccccc}
+\begin{tabular}{lcccccccccc}
 \toprule
-\textbf{Category} & \textbf{$n$} & \textbf{Qwen2} & \textbf{LLaVA} & \textbf{Q2.5-7B} & \textbf{Q2.5-32B} & \textbf{G3-27B} & \textbf{Q3.5-27B} & \textbf{Q3.5-35B} & \textbf{Q3.6-27B} & \textbf{Q3.6-35B} & \textbf{G4-26B} & \textbf{G4-31B} \\
+\textbf{Category} & \textbf{$n$} & \textbf{Qwen2} & \textbf{LLaVA} & \textbf{Q2.5-7B} & \textbf{G3-27B} & \textbf{Q3.5-27B} & \textbf{Q3.5-35B} & \textbf{Q3.6-27B} & \textbf{Q3.6-35B} & \textbf{G4-26B} & \textbf{G4-31B} \\
 \midrule
-guide               & 449 & 0.22 & 24.05 & 0.00 & 0.89 & 0.22 & 52.34 & 24.50 & 39.20 & 12.92 & 36.04 & \textbf{82.85} \\
-answer              & 853 & 0.00 & 0.00 & 1.17 & 5.16 & 1.41 & 17.70 & 18.87 & 8.56 & \textbf{22.39} & 0.35 & 9.38 \\
-blackboard-writing  & 277 & 98.56 & 36.82 & 95.67 & --- & --- & 98.19 & 98.56 & \textbf{98.92} & 97.11 & 94.58 & 95.67 \\
-screen              & 1959 & 69.37 & 13.78 & 56.41 & --- & --- & \textbf{88.82} & 73.51 & 74.27 & 68.86 & 52.78 & 48.09 \\
+guide               & 449 & 0.22 & 24.05 & 0.00 & 0.22 & 52.34 & 24.50 & 39.20 & 0.89 & 36.04 & \textbf{82.85} \\
+answer              & 853 & 0.00 & 0.00 & 1.17 & 1.41 & 17.70 & 18.87 & 8.60 & 5.16 & 0.35 & 9.38 \\
+blackboard-writing  & 277 & 98.56 & 36.82 & 95.67 & 70.04 & 98.19 & 98.56 & \textbf{98.90} & 85.92 & 94.58 & 95.67 \\
+screen              & 1959 & 69.37 & 13.78 & 56.37 & 56.76 & \textbf{88.77} & 73.51 & 74.30 & 35.53 & 52.83 & 48.14 \\
 \bottomrule
 \end{tabular}
 }
@@ -1513,7 +1512,7 @@ explanation: $\mathrm{AnchorProxy}(y)=\mathrm{Acc}^{\mathrm{ZS}}_{y}$
 helps distinguish categories that are visually legible under the
 current protocol from those that are not.
 
-The eleven-model boundary check strengthens this interpretation.
+The ten-model boundary check strengthens this interpretation.
 Although the best annotator changes across datasets, the same
 intent-dependent failure classes remain near-collapse under model
 substitution.
@@ -1720,7 +1719,7 @@ deployment-ready.
 Several limitations should be noted.
 First, the main annotation pipeline evaluates two 7B-scale locally
 deployable MLLMs, and the expanded cross-model robustness analysis spans
-eleven models across seven families: Qwen2-VL-7B, LLaVA-1.5-7B,
+ten models across seven families: Qwen2-VL-7B, LLaVA-1.5-7B,
 Qwen2.5-VL-7B-Instruct, Qwen2.5-VL-32B-Instruct, Qwen3.5-27B,
 Qwen3.5-35B-A3B, Qwen3.6-27B, Qwen3.6-35B-A3B, Gemma-3-27B-IT,
 Gemma4-26B-A4B-it, and Gemma4-31B-it.
@@ -1761,7 +1760,7 @@ small differences in conditions that remain single-run, and future
 work should extend repeated-seed evaluation to the remaining LoRA and
 auxiliary diagnostic analyses, together with bootstrap- or
 permutation-based uncertainty estimates.
-The eleven-model robustness analysis and the Qwen3.5-27B quality-threshold
+The ten-model robustness analysis and the Qwen3.5-27B quality-threshold
 experiment partly strengthen external validity with respect to annotator
 choice, but they do not remove the internal validity limitations in the
 downstream fine-tuning matrix.
@@ -1881,13 +1880,13 @@ The targeted LoRA replications indicate that label quality constrains
 not only attainable accuracy but also run-to-run stability.
 The quality-threshold experiment locates the critical annotation accuracy
 range at which pseudo-label fine-tuning crosses the zero-shot baseline on
-TeacherBehavior (between 41\% and 50\%), and the expanded eleven-model
+TeacherBehavior (between 41\% and 50\%), and the expanded ten-model
 cross-model validation reveals a generational boundary on
-\textit{guide} while confirming that \textit{answer} remains below 23\%
+\textit{guide} while confirming that \textit{answer} remains below 19\%
 across all tested models.
 The CMC diagnostic, the auxiliary confidence-filtering and
 teacher--student baselines, the oracle Scheme~B diagnostic, and the
-eleven-model robustness check then bound the claim: pseudo-label
+ten-model robustness check then bound the claim: pseudo-label
 supervision is most plausible for high-anchor categories, not as a
 universal replacement for human annotation or temporal and multimodal
 evidence.
