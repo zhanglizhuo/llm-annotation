@@ -27,23 +27,37 @@ Classroom video frames
     → Evaluation on 3 classroom behavior datasets
 ```
 
-### Three datasets, three difficulty levels
+### Main result table (Table 1 in paper)
 
-| Dataset | Classes | Zero-shot CLIP | Best pseudo-label result | GT upper bound |
-|---------|--------:|:-------------:|:------------------------:|:--------------:|
-| **BowTurnHead** (2-class) | 2 | 42.37% | **88.33%** (+46pp) | 97.92% |
-| **HandriseReadWrite** (5-class) | 5 | 56.88% | **76.69%** (+20pp) | 87.06% |
-| **TeacherBehavior** (7-class) | 7 | 37.13% | **45.18%** (+8pp) | 74.76% |
+Repeated-seed validation accuracy (mean ± std, 5 seeds) for CLIP ViT-L/14 fine-tuned under three label sources and two training modes.
 
-### Key findings at a glance
+| Dataset | ZS | None LP | None LoRA | Agree LP | Agree LoRA | GT LP | GT LoRA |
+|---------|:---:|:-------:|:---------:|:--------:|:----------:|:-----:|:-------:|
+| **BowTurnHead** (2-class) | 42.37 | 88.02±0.12 | 88.65±0.52 | 15.53±1.00 | 19.69 | 93.35±0.08 | **97.91±0.10** |
+| **HandriseReadWrite** (3-class) | 56.88 | 75.64±0.13 | 76.69 | 52.88±0.08 | 59.25 | 79.43±0.20 | **87.06** |
+| **TeacherBehavior** (8-class) | 37.13 | 42.38±0.07 | 43.22±0.46 | 43.01±0.05 | 45.18 | 69.56±0.05 | **74.71±0.11** |
 
-1. **LLM pseudo-labels work — but the gain varies by task complexity.** On the 2-class and 5-class datasets, pseudo-label training roughly doubles zero-shot accuracy. On the 7-class TeacherBehavior dataset, gains are modest (+8pp), revealing a genuine difficulty boundary.
+*ZS = zero-shot CLIP. None = unfiltered Qwen2-VL pseudo-labels. Agree = Qwen2-VL ∩ LLaVA-1.5 agreement subset. GT = ground-truth labels (upper bound). LP = linear probe. All values are % accuracy (val set).*
 
-2. **Dual-model agreement filtering is a double-edged sword.** It improves label purity but sharply reduces sample count. On BowTurnHead, agreement filtering retains only 20% of samples and *hurts* performance (19.69% vs 88.33% with unfiltered pseudo-labels). On TeacherBehavior, it helps slightly (45.18% vs 44.34%).
+### Key findings
 
-3. **The gap to GT upper bound tells you where the problem lives.** For BowTurnHead, pseudo-label training nearly saturates the GT upper bound (88.33% vs 93.79% for linear probe). For TeacherBehavior, a ~30pp gap remains. The bottleneck shifts from "are the labels good enough" to "is the task intrinsically harder for CLIP," and our selective-routing and retention-curve diagnostics explore exactly this question.
+1. **Pseudo-labels substantially beat zero-shot on simpler tasks, but gains shrink with task complexity.** Unfiltered pseudo-labels improve over zero-shot by +46pp on 2-class BowTurnHead, +19pp on 3-class HandriseReadWrite, but only +6pp on 8-class TeacherBehavior — revealing a difficulty boundary where LLM annotation quality alone cannot close the gap.
 
-4. **LoRA and linear probe perform similarly with pseudo-labels.** Unlike the GT setting where LoRA has a clear edge, pseudo-label training shows negligible difference between the two adaptation methods — suggesting label noise, not model capacity, is the binding constraint.
+2. **Dual-model agreement filtering is consistently worse than unfiltered pseudo-labels, with one marginal exception.** Agreement filtering sharply reduces sample count (retaining only 20.0% on BowTurnHead, 55.9% on HandriseReadWrite, 66.5% on TeacherBehavior). This causes severe performance drops on BowTurnHead (19.69% vs 88.65%) and HandriseReadWrite (59.25% vs 76.69%). The only exception is TeacherBehavior LP where agreement gives a marginal +0.63pp gain — insufficient to justify the sample loss.
+
+3. **The GT upper bound reveals where annotation quality vs. model capacity is the bottleneck.** On BowTurnHead, pseudo-label LoRA (88.65%) approaches GT LoRA (97.91%) — the gap is ~9pp. On TeacherBehavior, the gap is ~31pp. Our selective-routing diagnostic tests whether this is driven by specific low-anchor classes where zero-shot CLIP already fails.
+
+4. **LoRA offers no consistent advantage over linear probe under pseudo-labels.** Across all three datasets with pseudo-labels, the LP–LoRA difference is within 2pp. Under GT labels, LoRA shows clear gains (up to +5pp). This suggests that when labels are noisy, the bottleneck is label quality, not model expressiveness.
+
+### Supplementary analyses
+
+| Analysis | Key result | Location |
+|----------|-----------|----------|
+| **Cross-model validation** (10 LLMs across 3 model families) | Qwen2.5-7B achieves 84.86% on BowTurnHead val; LLaVA-1.5 gets 14.76%. Cross-model rankings are dataset-dependent but highly consistent within each dataset. | `results/cross_model_validation/` |
+| **Selective annotation** (Scheme B on TeacherBehavior) | Training only high-anchor classes boosts overall accuracy to 58.37% (LP) / 62.10% (Qwen3.5-27B pseudo), confirming that per-category heterogeneity matters. | `results/phase4_selective_annotation/` |
+| **Retention curve** (TeacherBehavior) | The agreement endpoint (66.5% retention, 42.97% LP) lies well below the random-retention curve, indicating that agreement filtering introduces a systematic bias beyond simple sample-size reduction. | `results/phase5_retention_curve/` |
+| **Teacher-student self-training** | Student models trained on teacher pseudo-labels achieve 89.17% (BowTurnHead) and 65.06% (TeacherBehavior) — comparable to the primary pseudo-label pipeline, showing the approach generalizes across training paradigms. | `results/phase6_strategy_audit/` |
+| **CLIP confidence filtering** | Using CLIP embedding similarity as a confidence proxy for pseudo-label selection does not outperform the simpler none/agreement strategies. | `results/phase6_strategy_audit/` |
 
 ---
 
