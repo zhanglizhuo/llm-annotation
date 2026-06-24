@@ -346,7 +346,6 @@ def generate_quality_threshold_figure() -> None:
     ax.set_ylabel("Validation accuracy (%)")
     ax.set_xticks(x)
     ax.set_xticklabels(conditions)
-    ax.set_title("TeacherBehavior: Annotation Quality Threshold", fontsize=9.2, pad=8)
     ax.legend(loc="upper center", frameon=False, fontsize=7.2, ncol=2,
               bbox_to_anchor=(0.5, 1.18))
     style_axis(ax, grid_axis="y", tick_fontsize=8.0)
