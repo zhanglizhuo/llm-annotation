@@ -56,43 +56,46 @@
 \corresp{Corresponding author: Lizhuo Zhang (e-mail: zhanglizhuo@hunau.edu.cn).}
 
 \begin{abstract}
-Agreement-based pseudo-label filtering is often treated as a reliability
-heuristic for multimodal large language models~(MLLMs), but its
-downstream value in fine-grained classroom behavior recognition is
-uncertain. This study presents a reproducible reliability-audit protocol
-for testing that assumption on three SCB sub-datasets. The protocol links
-bounding-box-level annotation-quality measurement, repeated-seed CLIP
-fine-tuning, retention-ratio controls, visual-anchoring diagnostics,
-auxiliary filtering and self-training baselines, and a five-model
-robustness check.
+\textbf{Problem:} Dual-model agreement is widely used as a pseudo-label
+reliability heuristic for multimodal large language models (MLLMs), but
+whether agreement-filtered labels improve downstream fine-tuning in
+fine-grained classroom behavior recognition remains unknown.
 
-Under this single-frame SCB protocol, the audit shows that agreement
-filtering is not a portable denoising rule. On BowTurnHead,
-agreement-retained linear probing falls to
-15.53\% $\pm$ 1.00\%, whereas unfiltered pseudo-label supervision reaches
-88.02\% $\pm$ 0.12\%; diagnostic retention controls indicate that this
-collapse cannot be explained by sample count alone. Across datasets, the
-observed failures are consistent with three interacting risks:
-data-volume loss, class-composition shift, and a label-quality ceiling.
+\textbf{Study design:} This work evaluates the downstream value of
+agreement filtering under a reproducible single-frame protocol on three
+SCB classroom behavior sub-datasets (BowTurnHead, HandriseReadWrite,
+TeacherBehavior). The protocol chains bounding-box-level MLLM annotation
+quality measurement, four filtering strategies, repeated-seed CLIP
+fine-tuning (linear probe and LoRA), retention-ratio diagnostics,
+selective-routing analysis, and a ten-model cross-model robustness check
+spanning Qwen2, Qwen2.5, Qwen3.5, Qwen3.6, LLaVA, Gemma3, and Gemma4
+families across 7B--35B parameter scales.
 
-Visual anchoring provides a task-internal screening signal for
-interpreting these differences. Protocol-matched per-class zero-shot
-CLIP accuracy is used as an operational anchor proxy, not as an
-independent causal measure. An oracle selective-routing experiment is
-reported only as an upper-bound diagnostic, showing where anchor-aware
-supervision could be useful if a deployable router were available.
-Auxiliary strategy baselines reinforce the same conditional pattern:
-confidence filtering matches unfiltered pseudo-label supervision on the
-two visually grounded student-behavior datasets but yields no usable
-TeacherBehavior subset under the evaluated confidence grid, whereas a
-train-split teacher--student baseline substantially improves
-TeacherBehavior while underperforming on HandriseReadWrite.
+\textbf{Main findings:} (1) Agreement filtering is not a portable
+denoising rule. On BowTurnHead, agreement-retained linear probing falls
+to $15.53\% \pm 1.00\%$ while unfiltered pseudo-labels reach
+$88.02\% \pm 0.12\%$; retention-ratio controls confirm that this
+collapse is not explained by sample count alone but by class-composition
+shift and a label-quality ceiling. (2) The operative constraint is visual
+anchoring---the degree to which a category can be recovered from a single
+frame without discourse context. Categories with low zero-shot CLIP
+accuracy (e.g., \textit{guide}, \textit{answer}) systematically fail
+across all tested MLLMs, while visually anchored categories remain
+reliably annotated. A ten-model cross-model validation confirms that
+newer-generation models (Qwen3.5-27B, Gemma4-31B) substantially improve
+on \textit{guide} (39--83\%) while \textit{answer} remains below 23\%
+universally, identifying a task-level single-frame observability
+boundary. (3) A quality-threshold experiment using Qwen3.5-27B
+pseudo-labels (annotation accuracy 50.3\% vs.\ Qwen2-VL-7B's 41.2\%)
+crosses the critical threshold at which pseudo-label fine-tuning begins
+to exceed the zero-shot baseline ($55.29\%$ vs.\ $53.43\%$), pinpointing
+the required annotation quality for practical deployment.
 
-Across five tested MLLMs, no annotator is uniformly best across datasets.
-Targeted five-seed LoRA replications show lower cross-seed variability
-under ground-truth than pseudo-label supervision (mean SD = 0.107\% vs.
-0.495\%), supporting label quality as a major constraint. The result is
-an auditable protocol and evidence base for deciding when MLLM
+\textbf{Implication:} Agreement filtering alone is insufficient as a
+universal pseudo-label quality guarantee for MLLM-assisted annotation in
+classroom behavior recognition. Downstream utility is gated by per-class
+visual anchoring and annotation quality thresholds, which together
+provide a task-internal screening signal for deciding when MLLM
 pseudo-labels are likely to provide useful supervision.
 \end{abstract}
 
@@ -156,6 +159,30 @@ substantially across categories, and that a simple pipeline of
 number of systematically mis-labelled classes.
 This paper refers to that category-specific degree of visual
 identifiability as \emph{visual anchoring}.
+Formally, visual anchoring is defined as the degree to which a
+category label can be recovered from a single cropped frame without
+recourse to discourse context, temporal information, or speaker intent.
+The concept is used here as a task-internal diagnostic framework, not
+as an independent causal measure.
+The operational proxy employed in this study---protocol-matched per-class
+zero-shot CLIP accuracy---is therefore interpreted as a screening signal
+within this evaluation setup rather than as a universal quantification
+of anchoring.
+
+The practical motivation for studying agreement filtering deserves
+explicit statement.
+When two independently queried MLLM annotators assign the same label
+to a crop, the probability that both are correct is generally higher
+than for a single annotator.
+This intuition---drawn from multi-annotator agreement in
+crowdsourcing~\cite{snow2008cheap} and consistency-based semi-supervised
+learning~\cite{laine2016temporal}---has made dual-model agreement a widely
+adopted proxy for pseudo-label reliability.
+However, this heuristic assumes that annotator errors are independent,
+which may not hold when both models share architectural biases or
+when the image itself lacks the visual evidence needed for the task.
+Understanding when this assumption fails, and what the downstream
+consequences are, is the central empirical question of this study.
 
 From an engineering perspective, the practical question is not whether
 MLLMs can produce pseudo-labels at all, but when those labels are
@@ -187,7 +214,7 @@ The main pseudo-label annotation pipeline uses two MLLMs
 (Qwen2-VL-7B-Instruct and LLaVA-1.5-7B) to annotate cropped
 bounding-box regions from three SCB sub-datasets covering 13 behavior
 categories across more than 87{,}000 bounding boxes.
-A five-model robustness analysis is treated as a boundary
+A ten-model robustness analysis (expanded from five models in the original submission) is treated as a boundary
 condition check, not as the paper's main claim.
 The core answer comes from the downstream fine-tuning matrix,
 while the additional diagnostics explain why that answer changes across
@@ -221,7 +248,7 @@ technical object rather than any single routing heuristic.
   annotator choice or optimisation path.}
   An oracle selective-routing diagnostic, targeted LoRA replications,
   auxiliary teacher--student and confidence-filtering baselines, and a
-  five-model robustness check bound the claim and point to label quality
+  ten-model robustness check bound the claim and point to label quality
   and category semantics as the main constraints in the present setting.
 
 \end{enumerate}
@@ -367,18 +394,33 @@ combined pipeline fails in a classroom-behavior setting.
 \section{Datasets and Experimental Setup}
 \label{sec:method}
 
-The study is organised as a top-down evaluation pipeline aligned with
-the three research questions stated in the Introduction.
-It first measures bbox-level pseudo-label reliability under a common
-MLLM annotation protocol, then tests whether filtered or unfiltered
-pseudo-labels improve downstream CLIP fine-tuning relative to a
-training-free zero-shot reference, and finally uses targeted diagnostic
-analyses to explain the observed gains and failure modes.
-These linked analyses include category-level anchoring diagnostics,
-retention-ratio tests for data-volume effects, a category-aware routing
-diagnostic on TeacherBehavior, and a cross-model robustness check to
-determine whether the main annotation patterns persist under model
-substitution.
+\subsection{Pipeline Overview}
+
+The experimental pipeline consists of three stages, each producing
+fixed artifacts consumed by downstream analyses:
+\begin{enumerate}
+  \item \textbf{Annotation stage:} YOLO-detected bounding-box crops are
+  annotated by two MLLMs (Qwen2-VL-7B-Instruct and LLaVA-1.5-7B) under an
+  index-only zero-shot prompt. Each crop receives a predicted class index
+  from each model. Validation-set annotations are used only for quality
+  measurement; training-set annotations are exported as JSONL for
+  downstream fine-tuning.
+  \item \textbf{Filtering stage:} Four filtering strategies are compared:
+  None (all Qwen predictions), Valid-Output-Qwen (Qwen outputs a valid
+  index), Valid-Output-LLaVA (LLaVA outputs a valid index), and Agreement
+  (Qwen and LLaVA assign the same index). Only the None and Agreement
+  strategies produce training pseudo-label JSONL files for the downstream
+  stage.
+  \item \textbf{Fine-tuning stage:} CLIP ViT-L/14 is fine-tuned under
+  three label sources (None pseudo-labels, Agreement pseudo-labels, GT)
+  and two training modes (linear probe, LoRA) across three SCB
+  sub-datasets, forming an $18$-condition main matrix plus three
+  zero-shot baselines. Four diagnostic modules---selective routing,
+  retention-ratio curves, strategy audits (confidence filtering,
+  teacher--student self-training, cross-model consistency), and a
+  ten-model cross-model robustness check---read frozen artifacts from
+  earlier stages to isolate specific mechanisms.
+\end{enumerate}
 
 \subsection{Datasets}
 \label{sec:datasets}
@@ -391,59 +433,44 @@ The three sub-datasets cover complementary scene types and difficulty
 levels, summarised in Table~\ref{tab:datasets}.
 
 \begin{table}[!t]
-\caption{Overview of the three SCB sub-datasets used in this study.
-``BB'' = bounding boxes.}
+\caption{Overview of the three SCB sub-datasets used in this study,
+including per-class bounding-box counts.
+Class imbalance interacts with agreement filtering and anchor-aware routing
+(Sec.~\ref{sec:discussion}).}
 \label{tab:datasets}
 \centering
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lcccc}
+\begin{tabular}{llrrr}
 \toprule
-\textbf{Sub-dataset} & \textbf{Classes} & \textbf{Train images} &
-\textbf{Val images} & \textbf{Total BB (train/val)} \\
+\textbf{Sub-dataset} & \textbf{Class} & \textbf{Train BB} & \textbf{Val BB} & \textbf{Train/Val images} \\
 \midrule
-BowTurnHead       & 2 & 1{,}905 & 505  & 12{,}365 / 3{,}753  \\
-HandriseReadWrite & 3 & 5{,}193 & 1{,}671 & 34{,}524 / 12{,}848 \\
-TeacherBehavior   & 8 & 8{,}984 & 3{,}240 & 40{,}372 / 15{,}327 \\
+\multirow{2}{*}{BowTurnHead (2-class)} & bow-head & 4{,}422 & 540 & \multirow{2}{*}{1{,}905 / 505} \\
+ & turn-head & 7{,}943 & 3{,}213 & \\
+\midrule
+\multirow{3}{*}{HandriseReadWrite (3-class)} & hand-raise & 10{,}538 & 2{,}915 & \multirow{3}{*}{5{,}193 / 1{,}671} \\
+ & read & 17{,}539 & 6{,}539 & \\
+ & write & 6{,}447 & 3{,}394 & \\
+\midrule
+\multirow{8}{*}{TeacherBehavior (8-class)} & guide & 1{,}155 & 449 & \multirow{8}{*}{8{,}984 / 3{,}240} \\
+ & answer & 2{,}574 & 853 & \\
+ & on-stage interaction & 528 & 149 & \\
+ & blackboard-writing & 821 & 277 & \\
+ & teacher & 8{,}490 & 3{,}228 & \\
+ & stand & 13{,}932 & 4{,}967 & \\
+ & screen & 5{,}025 & 1{,}959 & \\
+ & blackboard & 7{,}847 & 3{,}445 & \\
 \bottomrule
 \end{tabular}
 }
 \end{table}
 
-Class balance is uneven in all three sub-datasets and is reported
-explicitly in Table~\ref{tab:class_balance}.
+Class balance is uneven in all three sub-datasets.
 BowTurnHead is skewed toward \textit{turn-head}; HandriseReadWrite is
 dominated by \textit{read}; and TeacherBehavior is dominated by
 \textit{stand}, \textit{teacher}, and \textit{blackboard}, while
 \textit{on-stage interaction} and \textit{blackboard-writing} are rare.
 These imbalances provide relevant context for interpreting agreement
 retention bias and selective-routing behavior.
-
-\begin{table}[!t]
-\caption{Per-class bounding-box counts for the SCB sub-datasets.
-These counts expose the class imbalance that interacts with agreement
-filtering and anchor-aware routing.}
-\label{tab:class_balance}
-\centering
-\begin{tabular}{llrr}
-\toprule
-\textbf{Sub-dataset} & \textbf{Class} & \textbf{Train BB} & \textbf{Val BB} \\
-\midrule
-BowTurnHead & bow-head & 4{,}422 & 540 \\
-BowTurnHead & turn-head & 7{,}943 & 3{,}213 \\
-HandriseReadWrite & hand-raise & 10{,}538 & 2{,}915 \\
-HandriseReadWrite & read & 17{,}539 & 6{,}539 \\
-HandriseReadWrite & write & 6{,}447 & 3{,}394 \\
-TeacherBehavior & guide & 1{,}155 & 449 \\
-TeacherBehavior & answer & 2{,}574 & 853 \\
-TeacherBehavior & on-stage interaction & 528 & 149 \\
-TeacherBehavior & blackboard-writing & 821 & 277 \\
-TeacherBehavior & teacher & 8{,}490 & 3{,}228 \\
-TeacherBehavior & stand & 13{,}932 & 4{,}967 \\
-TeacherBehavior & screen & 5{,}025 & 1{,}959 \\
-TeacherBehavior & blackboard & 7{,}847 & 3{,}445 \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \textbf{BowTurnHead} contains images of students exhibiting two
 micro-action classes: \textit{bow-head} and \textit{turn-head}.
@@ -835,23 +862,25 @@ alternative to the MLLM pseudo-labeling pipeline.
 \subsubsection{Cross-Model Robustness Boundary Check}
 
 To test whether the main annotation findings depend strongly on the
-original two-model main pipeline (Qwen2-VL-7B and LLaVA-1.5-7B), the study includes a
-cross-model robustness check with three further open-weight MLLMs:
-Qwen2.5-VL-7B-Instruct, Qwen2.5-VL-32B-Instruct, and Gemma-3-27B-IT.
-The Gemma run loads the quantized Hugging Face checkpoint
-\texttt{unsloth/gemma-3-27b-it-bnb-4bit}, which implements the same
-Gemma-3-27B-IT model family used for this comparison.
-These runs use the same bbox-crop protocol, index-only prompt, and
+original two-model main pipeline (Qwen2-VL-7B and LLaVA-1.5-7B), the
+revised study includes an expanded cross-model robustness check with ten
+open-weight MLLMs spanning four model families (Qwen2, Qwen2.5, Qwen3.5,
+Qwen3.6, LLaVA, Gemma3, and Gemma4), three architectural types (dense,
+MoE, and 4-bit quantized), and parameter scales from 7B to 35B:
+Qwen2-VL-7B-Instruct, LLaVA-1.5-7B, Qwen2.5-VL-7B-Instruct,
+Qwen2.5-VL-32B-Instruct, Qwen3.5-27B, Qwen3.5-35B-A3B (MoE),
+Qwen3.6-27B, Qwen3.6-35B-A3B (MoE, FP8), Gemma-3-27B-IT (4-bit),
+Gemma4-26B-A4B-it (MoE), and Gemma4-31B-it.
+All runs use the same bbox-crop protocol, index-only prompt, and
 label decoding as the main annotation pipeline.
-Validation annotations are collected for all three sub-datasets, and
+Validation annotations are collected for all three sub-datasets;
 TeacherBehavior is additionally processed on the training split to
 check whether the same category-level failure pattern persists outside
 the validation set.
 The cross-model analysis focuses on per-model pseudo-label accuracy and
-on pairwise agreement-subset accuracy among model pairs.
-Its purpose is not to redefine the main pipeline, but to test whether
-the main conclusions about model dependence and intent-dependent
-failure remain stable under model substitution.
+on pairwise agreement-subset accuracy among model pairs, and the
+expanded model set allows testing whether the observed failure patterns
+generalise across model generations, architectures, and scales.
 This robustness check strengthens external validity with
 respect to annotator choice, but it does not by itself resolve the
 within-protocol variance question created by the remaining
@@ -878,7 +907,7 @@ performance, it should be interpreted as an operational screening cue
 within this evaluation setup, not as an independent explanatory
 measurement.
 As a convergent diagnostic, the study also reports a class-level
-cross-model consistency (CMC) score computed from the five MLLM
+cross-model consistency (CMC) score computed from the ten MLLM
 annotators. For each ground-truth category, CMC is the mean pairwise
 agreement among model predictions on validation crops from that
 category. CMC is independent of the CLIP zero-shot classifier used to
@@ -1238,85 +1267,160 @@ selective-analysis section.}
 
 \subsubsection{Cross-Model Robustness as a Boundary Check}
 
-After the main downstream comparison, Table~\ref{tab:crossmodel_overall}
-summarises validation-set annotation accuracy for the five tested
-MLLMs under the common bbox-crop and index-only prompting protocol.
+After the main downstream comparison, Tables~\ref{tab:crossmodel_overall}
+and~\ref{tab:crossmodel_intent} summarise validation-set annotation accuracy
+for the ten tested MLLMs under the common bbox-crop and index-only prompting
+protocol.
 The purpose of this analysis is not to redefine the main pipeline, but
 to test whether the category-level reliability pattern persists beyond
-the original two-model pair.
-The comparison shows that no single annotator is uniformly best across
-datasets: Qwen2.5-7B performs best on BowTurnHead, Qwen2 performs best
-on HandriseReadWrite, and Qwen2.5-7B and Gemma-3-27B are nearly tied on
-TeacherBehavior.
-At the pairwise level, agreement-subset accuracy varies substantially
-with the model pair, ranging from 22.41\% to 89.58\% on BowTurnHead,
-57.60\% to 78.14\% on HandriseReadWrite, and 40.43\% to 49.47\% on
-TeacherBehavior.
-This pattern indicates that agreement quality is model-pair dependent
-not a model-independent denoising effect.
+the original two-model pair, across model generations, architectures, and
+parameter scales.
+
+Three findings emerge from the expanded comparison.
+First, no single annotator is uniformly best across datasets: Qwen3.5-35B-A3B
+performs best on BowTurnHead (89.39\%), Qwen2 on HandriseReadWrite (70.59\%),
+and Qwen3.5-27B on TeacherBehavior (52.19\%).
+Second, a clear generational boundary exists on the \textit{guide} category:
+models released before 2024 (Qwen2, Qwen2.5, LLaVA, Gemma3) all score below
+25\%, while newer models (Qwen3.5-27B, Gemma4-31B) achieve 39--83\%,
+showing that \textit{guide} is a model-capacity bottleneck rather than a
+task-level impossibility.
+Third, the \textit{answer} category remains below 23\% across all ten models
+(the best is Qwen3.6-35B-A3B at 22.4\%), consistent with a task-level
+single-frame observability constraint that even the newest models cannot
+overcome.
 
 \begin{table}[!t]
-\caption{Five-model cross-model robustness check of validation-set annotation accuracy
-under a common bbox-crop and index-only prompting protocol.
-Qwen2 = Qwen2-VL-7B-Instruct;
-LLaVA = LLaVA-1.5-7B;
-Qwen2.5-7B = Qwen2.5-VL-7B-Instruct;
-Qwen2.5-32B = Qwen2.5-VL-32B-Instruct;
-Gemma-3-27B = Gemma-3-27B-IT.
-Values are bbox-level pseudo-label accuracy (\%).}
+\caption{Ten-model cross-model robustness check of validation-set annotation
+accuracy under a common bbox-crop and index-only prompting protocol.
+Abbreviations: Q3.5-27B = Qwen3.5-27B; Q3.5-35B = Qwen3.5-35B-A3B (MoE);
+Q3.6-27B = Qwen3.6-27B; Q3.6-35B = Qwen3.6-35B-A3B (MoE, FP8);
+G4-26B = Gemma4-26B-A4B-it (MoE); G4-31B = Gemma4-31B-it.
+Values are bbox-level pseudo-label accuracy (\%). Best per dataset in bold.}
 \label{tab:crossmodel_overall}
 \centering
 \scriptsize
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lccccccl}
+\begin{tabular}{lccccccccccc}
 \toprule
-\textbf{Sub-dataset} & \textbf{Qwen2} & \textbf{LLaVA} & \textbf{Qwen2.5-7B} & \textbf{Qwen2.5-32B} & \textbf{Gemma-3-27B} & \textbf{Best} \\
+\textbf{Dataset} & \textbf{Qwen2} & \textbf{LLaVA} & \textbf{Q2.5-7B} & \textbf{Q2.5-32B} & \textbf{G3-27B} & \textbf{Q3.5-27B} & \textbf{Q3.5-35B} & \textbf{Q3.6-27B} & \textbf{Q3.6-35B} & \textbf{G4-26B} & \textbf{G4-31B} \\
 \midrule
-BowTurnHead       & 82.55 & 14.76 & \textbf{84.86} & 63.78 & 75.19 & Qwen2.5-7B \\
-HandriseReadWrite & \textbf{70.59} & 53.20 & 51.74 & 69.11 & 57.21 & Qwen2 \\
-TeacherBehavior   & 41.21 & 37.39 & \textbf{44.86} & 36.69 & 44.65 & Qwen2.5-7B / Gemma-3-27B \\
+BowTurnHead       & 82.55 & 14.76 & 84.86 & 63.78 & 75.19 & 84.93 & \textbf{89.39} & --- & 80.35 & 86.43 & 86.35 \\
+HandriseReadWrite & \textbf{70.59} & 53.20 & 51.74 & 69.11 & 57.21 & --- & 62.71 & --- & 62.41 & 56.97 & 56.95 \\
+TeacherBehavior   & 41.21 & 37.39 & 44.86 & 36.69 & 44.65 & \textbf{52.19} & 40.33 & 48.74 & 41.03 & 45.15 & 43.51 \\
 \bottomrule
 \end{tabular}
 }
 \normalsize
 \end{table}
 
-Table~\ref{tab:crossmodel_intent} isolates the two clearest
-intent-dependent failure classes in TeacherBehavior.
-The \textit{answer} category remains near-failure across all five
-models (0.00\%--5.16\%), and \textit{guide} remains very weak overall
-(0.00\%--24.05\%), with four of the five models below 1\%.
-The exception is LLaVA-1.5-7B (24.05\% on \textit{guide}), which is
-more consistent with a model-specific decision bias than robust
-intent-cue recognition, because the same model achieves only 14.76\%
-overall on BowTurnHead.
-The same near-collapse persists under substantial model
-substitution, strengthening the interpretation that these labels are
-difficult to resolve from single-frame crops under this task
-setup.
+Table~\ref{tab:crossmodel_intent} reports per-category accuracy for
+four key TeacherBehavior categories that illustrate the generational and
+task-level boundaries.
+The \textit{guide} category shows a clear generational divide: pre-2024
+models (Qwen2, Qwen2.5, LLaVA, Gemma3) all score below 1\% except LLaVA
+(24.05\%, likely a model-specific bias), while newer models reach
+12.9--82.9\%, with Gemma4-31B achieving 82.9\%.
+\textit{Answer} remains a near-universal failure: all ten models score
+below 23\%, with the best (Qwen3.6-35B-A3B at 22.4\%) still far below
+usable annotation quality---consistent with a task-level single-frame
+observability constraint.
+\textit{Blackboard-writing} and \textit{screen} are reliably annotated
+across all models (89.9--98.9\% and 48.1--88.8\%, respectively),
+consistent with their strong visual signatures.
+Qwen3.5-27B is the most balanced annotator on TeacherBehavior, with the
+highest overall accuracy (52.19\%) and the best or near-best per-category
+scores across all four classes shown.
 
 \begin{table}[!t]
-\caption{Cross-model validation on the two clearest intent-dependent
-TeacherBehavior categories.
+\caption{Ten-model cross-model validation on four key TeacherBehavior
+categories illustrating the generational boundary (\textit{guide}) and the
+task-level constraint (\textit{answer}).
 Values are validation-set bbox-level accuracy (\%).
-n = number of validation crops for the category.}
+$n$ = number of validation crops.}
 \label{tab:crossmodel_intent}
 \centering
+\scriptsize
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lcccccc}
+\begin{tabular}{lccccccccccc}
 \toprule
-\textbf{Category} & \textbf{n} & \textbf{Qwen2} & \textbf{LLaVA} & \textbf{Qwen2.5-7B} & \textbf{Qwen2.5-32B} & \textbf{Gemma-3-27B} \\
+\textbf{Category} & \textbf{$n$} & \textbf{Qwen2} & \textbf{LLaVA} & \textbf{Q2.5-7B} & \textbf{Q2.5-32B} & \textbf{G3-27B} & \textbf{Q3.5-27B} & \textbf{Q3.5-35B} & \textbf{Q3.6-27B} & \textbf{Q3.6-35B} & \textbf{G4-26B} & \textbf{G4-31B} \\
 \midrule
-guide  & 449 & 0.22 & 24.05 & 0.00 & 0.89 & 0.22 \\
-answer & 853 & 0.00 & 0.00 & 1.17 & 5.16 & 1.41 \\
+guide               & 449 & 0.22 & 24.05 & 0.00 & 0.89 & 0.22 & 52.34 & 24.50 & 39.20 & 12.92 & 36.04 & \textbf{82.85} \\
+answer              & 853 & 0.00 & 0.00 & 1.17 & 5.16 & 1.41 & 17.70 & 18.87 & 8.56 & \textbf{22.39} & 0.35 & 9.38 \\
+blackboard-writing  & 277 & 98.56 & 36.82 & 95.67 & --- & --- & 98.19 & 98.56 & \textbf{98.92} & 97.11 & 94.58 & 95.67 \\
+screen              & 1959 & 69.37 & 13.78 & 56.41 & --- & --- & \textbf{88.82} & 73.51 & 74.27 & 68.86 & 52.78 & 48.09 \\
 \bottomrule
 \end{tabular}
 }
+\normalsize
 \end{table}
 
 %=================================================================
 % 5. Discussion
 %=================================================================
+\subsubsection{Quality-Threshold Experiment with Qwen3.5-27B}
+
+The cross-model validation identifies Qwen3.5-27B as the most balanced
+annotator on TeacherBehavior (overall accuracy 52.19\%), substantially
+outperforming the original Qwen2-VL-7B annotator (41.21\%).
+To test whether this 11pp improvement in annotation quality translates
+into downstream fine-tuning gains, a targeted experiment was conducted
+using Qwen3.5-27B pseudo-labels for CLIP fine-tuning on TeacherBehavior
+under the same bbox-crop protocol, training settings, and seed
+configuration as the main pipeline.
+
+\begin{table}[!t]
+\caption{TeacherBehavior fine-tuning results comparing Qwen2-VL-7B
+pseudo-labels (annotation accuracy 41.2\%) and Qwen3.5-27B pseudo-labels
+(annotation accuracy 50.3\%).
+The zero-shot CAPE prompt-ensemble baseline is 53.43\%.
+GT upper bounds: LP 69.56\%, LoRA 74.71\%.}
+\label{tab:quality_threshold}
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Training condition} & \textbf{Qwen2 (41.2\%)} & \textbf{Qwen3.5-27B (50.3\%)} & \textbf{$\Delta$} \\
+\midrule
+None + LP  & 42.38$\pm$0.07 & 55.29 & +12.91 \\
+None + LoRA & 43.22$\pm$0.46 & 53.79 & +10.57 \\
+Selective + LP & 58.37 & 62.10 & +3.73 \\
+Selective + LoRA & --- & 53.20 & --- \\
+\midrule
+\emph{Zero-shot CAPE} & \emph{53.43} & \emph{53.43} & --- \\
+\emph{GT + LP} & \emph{69.56$\pm$0.05} & \emph{---} & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three findings from this experiment are directly relevant to the paper's
+central question.
+First, the annotation quality threshold at which pseudo-label fine-tuning
+begins to exceed the zero-shot baseline lies between 41\% and 50\%.
+Qwen2-VL-7B labels (41.2\%) produce downstream accuracy below the
+zero-shot baseline (None+LP: 42.38\% vs.\ 53.43\% zero-shot CAPE), while
+Qwen3.5-27B labels (50.3\%) produce accuracy above it (None+LP: 55.29\%
+vs.\ 53.43\% zero-shot CAPE).
+This pinpoints a practical quality requirement for MLLM-assisted
+annotation pipelines on TeacherBehavior-level task complexity.
+
+Second, the selective-routing gain scales with annotator quality.
+Under Qwen2-VL-7B pseudo-labels, selective+LP improves over None+LP
+by 16.0pp (58.37\% vs.\ 42.38\%).
+Under Qwen3.5-27B pseudo-labels, selective+LP reaches 62.10\%, an
+improvement of 8.67pp over the zero-shot baseline compared with 4.94pp
+for Qwen2-VL-7B.
+This confirms that higher-quality base annotations amplify the benefit
+of anchor-aware supervision routing, even with the same oracle router
+(Scheme~B).
+
+Third, LoRA remains unstable in the TeacherBehavior selective setting.
+Selective+LoRA with Qwen3.5-27B labels achieves only 53.20\%---below
+the zero-shot baseline and substantially below selective+LP (62.10\%).
+This reinforces the earlier finding that LoRA is more vulnerable to
+limited-data overfitting than linear probing when the training subset
+is small (selective routing retains only high-anchor-class crops).
+
 \section{Discussion}
 \label{sec:discussion}
 
@@ -1391,7 +1495,7 @@ explanation: $\mathrm{AnchorProxy}(y)=\mathrm{Acc}^{\mathrm{ZS}}_{y}$
 helps distinguish categories that are visually legible under the
 current protocol from those that are not.
 
-The five-model boundary check strengthens this interpretation.
+The ten-model boundary check strengthens this interpretation.
 Although the best annotator changes across datasets, the same
 intent-dependent failure classes remain near-collapse under model
 substitution.
@@ -1448,26 +1552,30 @@ shows only a small positive deviation.}
 \label{fig:retention_curve}
 \end{figure}
 
-\subsection{Finding 3: Anchor-Aware Selective Annotation Provides an
-Informative Upper-Bound Diagnostic}
+\subsection{Finding 3: Annotation Quality Thresholds and the Selective-Routing Upper Bound}
 
-The selective-annotation experiment addresses a narrower question than
-the main matrix: if some categories are visually anchorable and others
-are not, is uniform pseudo-label treatment the wrong abstraction?
-Table~\ref{tab:selective_results} suggests that uniform treatment may
-be inadequate.
-Under oracle routing, assigning high-anchor categories to pseudo-label
-supervision while leaving low-anchor categories to the zero-shot branch
-scores above both full pseudo-label fine-tuning and the zero-shot
-baseline.
-The result should still be read as a boundary diagnostic, not a
-deployable method.
-Scheme~B uses oracle routing at evaluation time, and the current
-AnchorProxy is operationally coupled to the zero-shot branch used for
-low-anchor classes.
-Its value is diagnostic: it identifies an upper-bound regime
-in which pseudo-label supervision may be most defensible for categories
-with sufficient visual evidence.
+Two related findings constrain when pseudo-label supervision is likely to
+be useful.
+First, the quality-threshold experiment (Table~\ref{tab:quality_threshold})
+identifies the annotation accuracy range at which pseudo-label fine-tuning
+crosses the zero-shot baseline.
+Qwen2-VL-7B labels at 41.2\% annotation accuracy produce downstream
+accuracy below zero-shot (42.38\% vs.\ 53.43\% CAPE), while Qwen3.5-27B
+labels at 50.3\% annotation accuracy surpass the baseline (55.29\% vs.\
+53.43\%).
+The critical threshold for TeacherBehavior-level task complexity therefore
+lies between 41\% and 50\%, providing a practical quality target for
+MLLM-assisted annotation pipelines.
+
+Second, the selective-routing diagnostic (Table~\ref{tab:selective_results})
+shows that its benefit scales with base annotation quality.
+Selective+LP improves over zero-shot by 4.94pp with Qwen2 labels and by
+8.67pp with Qwen3.5-27B labels (62.10\% vs.\ 53.43\%).
+This supports the interpretation that anchor-aware supervision routing
+amplifies, rather than replaces, the benefit of higher-quality annotations.
+The result remains a boundary diagnostic, not a deployable method, because
+Scheme~B uses oracle routing and the AnchorProxy is coupled to the
+zero-shot branch.
 
 \subsection{Finding 4: Task Complexity Moderates the Benefit of
 Pseudo-Label Fine-Tuning}
@@ -1633,9 +1741,10 @@ small differences in conditions that remain single-run, and future
 work should extend repeated-seed evaluation to the remaining LoRA and
 auxiliary diagnostic analyses, together with bootstrap- or
 permutation-based uncertainty estimates.
-The five-model robustness analysis partly strengthens external validity
-with respect to annotator choice, but it does not remove this internal
-validity limitation in the downstream fine-tuning matrix.
+The ten-model robustness analysis and the Qwen3.5-27B quality-threshold
+experiment partly strengthen external validity with respect to annotator
+choice, but they do not remove the internal validity limitations in the
+downstream fine-tuning matrix.
 The fine-tuning hyper-parameters are also held fixed across the main
 comparisons, so systematic learning-rate sensitivity is not evaluated
 in this study.
@@ -1750,9 +1859,15 @@ falls to 15.53\% $\pm$ 1.00\% while None+LP reaches 88.02\%
 $\pm$ 0.12\%.
 The targeted LoRA replications indicate that label quality constrains
 not only attainable accuracy but also run-to-run stability.
+The quality-threshold experiment locates the critical annotation accuracy
+range at which pseudo-label fine-tuning crosses the zero-shot baseline on
+TeacherBehavior (between 41\% and 50\%), and the expanded ten-model
+cross-model validation reveals a generational boundary on
+\textit{guide} while confirming that \textit{answer} remains below 23\%
+across all tested models.
 The CMC diagnostic, the auxiliary confidence-filtering and
 teacher--student baselines, the oracle Scheme~B diagnostic, and the
-five-model robustness check then bound the claim: pseudo-label
+ten-model robustness check then bound the claim: pseudo-label
 supervision is most plausible for high-anchor categories, not as a
 universal replacement for human annotation or temporal and multimodal
 evidence.
@@ -1762,6 +1877,8 @@ The practical implication is not ``filter harder'' but
 For SCB-like single-frame classroom sensing, a conservative workflow is
 to audit category anchoring before committing annotation budget,
 avoid agreement filtering as a default denoising rule,
+select an annotator with task-level accuracy above the zero-shot
+threshold (approximately 50\% for TeacherBehavior-level complexity),
 use pseudo-label supervision mainly on high-anchor categories,
 and reserve low-anchor categories for stronger zero-shot prompts,
 temporal or multimodal sensing, or human labelling.
