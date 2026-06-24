@@ -1,4 +1,4 @@
-# LLM-Assisted Annotation for Classroom Behavior Recognition
+# When Agreement Fails: Visual Anchoring and Multimodal Pseudo-Label Reliability in Classroom Behavior Recognition
 
 **Can multimodal LLMs replace manual annotation for fine-grained classroom behavior recognition — and does it actually work when you try to train on those labels?**
 
