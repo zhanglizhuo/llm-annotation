@@ -1,137 +1,199 @@
-# llm-annotation
+# LLM-Assisted Annotation for Classroom Behavior Recognition
 
-Code and experiment metadata for reproducing the classroom-behavior study on multimodal LLM pseudo-labeling and CLIP adaptation.
+**Can multimodal LLMs replace manual annotation for fine-grained classroom behavior recognition — and does it actually work when you try to train on those labels?**
 
-This repository is maintained as a reproducibility repo. Optional manuscript source is kept under `paper/`, but it is not required for rerunning the pipeline.
+This repository provides the complete experiment pipeline, results, and analysis code for our study. Every number in the paper can be traced back to a specific script, log file, and result JSON.
 
-## Tested environment
+---
 
-- Linux (Ubuntu 18.04+)
-- Python 3.8
-- CUDA-enabled PyTorch stack (tested on 2× A100 40G)
-- Tested package set is captured in `requirements.txt` and `environment.yml`
+## What this research is about
 
-## Repository layout
+Classroom behavior recognition matters: it enables automated teaching quality assessment, real-time feedback, and large-scale pedagogical research. But the bottleneck has always been **annotation cost** — frame-by-frame labeling of classroom videos requires domain experts and is prohibitively expensive at scale.
 
-- `download_dataset.py`: downloads the public SCB dataset files from Hugging Face into `datasets_scb/`.
-- `datasets_scb/`: dataset downloads used by the experiments. This directory is **not** tracked by git — you must run `download_dataset.py` first.
-- `docs/`: planning and experiment-governance documents.
-  - `docs/research_plan.md`: study design, analysis modules, and recommended execution order.
-  - `docs/experiment_file_map.md`: source-of-truth map from scripts to canonical output files used by the paper.
-- `results/`: phase-organized experimental outputs (JSON, JSONL, CSV).
-- `logs/`: phase-organized launcher and audit logs.
-- `finetune_summary.csv`: final paper-level result matrix (21 conditions × 3 datasets).
-- `paper/`: optional manuscript source (LaTeX + figures). Not required for reproduction.
-- `EXPERIMENTS_SUMMARY.md`: quick overview of all scripts with one-line descriptions.
-- `CITATION.cff` / `.zenodo.json`: citation metadata and Zenodo archival configuration.
+We test a simple but underexplored idea:
 
-## Quick start
+> **Use multimodal LLMs (Qwen2-VL, LLaVA) to generate pseudo-labels for bbox-cropped classroom images, then fine-tune CLIP on those labels.**
 
-### 1. Environment setup
+The question is not whether LLM labels are perfect (they aren't). The question is whether they are **good enough to train a downstream model that beats zero-shot CLIP**.
+
+### The pipeline
+
+```
+Classroom video frames
+    → YOLO bbox detection
+    → Multimodal LLM annotation (Qwen2-VL + LLaVA)
+    → Pseudo-label filtering (none / dual-model agreement)
+    → CLIP ViT-L/14 fine-tuning (linear probe / LoRA)
+    → Evaluation on 3 classroom behavior datasets
+```
+
+### Three datasets, three difficulty levels
+
+| Dataset | Classes | Zero-shot CLIP | Best pseudo-label result | GT upper bound |
+|---------|--------:|:-------------:|:------------------------:|:--------------:|
+| **BowTurnHead** (2-class) | 2 | 42.37% | **88.33%** (+46pp) | 97.92% |
+| **HandriseReadWrite** (5-class) | 5 | 56.88% | **76.69%** (+20pp) | 87.06% |
+| **TeacherBehavior** (7-class) | 7 | 37.13% | **45.18%** (+8pp) | 74.76% |
+
+### Key findings at a glance
+
+1. **LLM pseudo-labels work — but the gain varies by task complexity.** On the 2-class and 5-class datasets, pseudo-label training roughly doubles zero-shot accuracy. On the 7-class TeacherBehavior dataset, gains are modest (+8pp), revealing a genuine difficulty boundary.
+
+2. **Dual-model agreement filtering is a double-edged sword.** It improves label purity but sharply reduces sample count. On BowTurnHead, agreement filtering retains only 20% of samples and *hurts* performance (19.69% vs 88.33% with unfiltered pseudo-labels). On TeacherBehavior, it helps slightly (45.18% vs 44.34%).
+
+3. **The gap to GT upper bound tells you where the problem lives.** For BowTurnHead, pseudo-label training nearly saturates the GT upper bound (88.33% vs 93.79% for linear probe). For TeacherBehavior, a ~30pp gap remains. The bottleneck shifts from "are the labels good enough" to "is the task intrinsically harder for CLIP," and our selective-routing and retention-curve diagnostics explore exactly this question.
+
+4. **LoRA and linear probe perform similarly with pseudo-labels.** Unlike the GT setting where LoRA has a clear edge, pseudo-label training shows negligible difference between the two adaptation methods — suggesting label noise, not model capacity, is the binding constraint.
+
+---
+
+## Repository structure
+
+| Directory / File | Purpose |
+|---|---|
+| `download_dataset.py` | Download SCB dataset from Hugging Face |
+| `requirements.txt` / `environment.yml` | Python dependencies |
+| `*.py` | All experiment scripts (annotation, filtering, training, diagnostics) |
+| `*.sh` | Shell launchers for each experiment phase |
+| `results/` | **Tracked** — all experimental outputs (JSON, JSONL, CSV) |
+| `logs/` | **Tracked** — execution traces for every run |
+| `finetune_summary.csv` | **The final result table** — 21 conditions across 3 datasets |
+| `docs/research_plan.md` | Study design, hypotheses, module dependencies |
+| `docs/experiment_file_map.md` | Which script produced which file → which table in the paper |
+| `paper/` | Manuscript source (LaTeX + figures). Optional; not needed for reproduction. |
+
+**Why results are tracked:** You can inspect every number in the paper without re-running a single experiment. Each result file links back to a specific script and log.
+
+---
+
+## Quick start (reproduction)
+
+### 1. Install dependencies
 
 ```bash
-# Option A: conda
+# conda (recommended)
 conda env create -f environment.yml
 conda activate llm-annotation
 
-# Option B: pip only
-python -m pip install -r requirements.txt
+# or pip
+pip install -r requirements.txt
 ```
 
-All shell runners also accept `PYTHON_BIN=/path/to/python` if you want to use a non-default interpreter.
-
 ### 2. Download the dataset
-
-The SCB (Student Classroom Behavior) dataset is publicly hosted on Hugging Face. Download it with:
 
 ```bash
 python download_dataset.py
 ```
 
-This creates `datasets_scb/` at the repository root with four subsets:
-- `SCB_BowTurnHead/` (~615 MB)
-- `SCB5_HandriseReadWrite/` (~1.5 GB)
-- `SCB5_TeacherBehavior/` (~3.2 GB)
-- `SCB5_Discuss/` (~116 MB)
+This downloads ~5.4 GB from Hugging Face (HF-Mirror for mainland China, with resume support) into `datasets_scb/`.
 
-The script uses [HF-Mirror](https://hf-mirror.com) for users in mainland China and supports resume-on-failure.
-
-If you already have the dataset elsewhere, set the environment variable:
-
+If you already have the data elsewhere:
 ```bash
-export SCB_DATASET_ROOT=/path/to/your/datasets_scb
+export SCB_DATASET_ROOT=/path/to/datasets_scb
 ```
 
-The Python scripts resolve data in this order:
-1. `SCB_DATASET_ROOT` environment variable
-2. `./datasets_scb` at the repository root
-
-### 3. Reproduce the main experiments
+### 3. Run the pipeline
 
 ```bash
-# Full pipeline: annotation → filtering → fine-tuning
+# Full pipeline: annotation → filtering → CLIP fine-tuning
 bash run_phase123_full_pipeline.sh
 
-# LoRA sweep
+# LoRA hyperparameter sweep
 bash run_phase3_lora_sweep_2gpu.sh
 
-# Diagnostics (selective routing + retention curve)
+# Mechanism diagnostics (selective routing + retention curves)
 bash run_phase45_diagnostics.sh
 
 # Strategy audit (cross-model consistency, confidence filtering, teacher-student)
 bash run_phase6_strategy_audit.sh
 ```
 
-To skip dependency installation in an already-prepared environment:
-
+**Skip dependency re-installation** in an already-prepared environment:
 ```bash
 INSTALL_DEPS=0 bash run_phase123_full_pipeline.sh
 ```
 
-## LLM model setup for annotation
+### 4. Check the results
 
-The annotation scripts (`step1_llm_annotate.py`, `cross_model_annotate.py`) use Hugging Face models:
-- **Qwen2-VL-7B** — primary annotator
-- **LLaVA-1.5-7B** — secondary annotator (agreement filtering)
-- **Qwen2.5-7B / 32B, Gemma-3-27B** — cross-model validation
+```bash
+# The final result matrix
+cat finetune_summary.csv
 
-These models are downloaded automatically by `transformers` on first use. For Chinese mainland users, set:
+# Per-condition details (accuracy curves, epoch history)
+cat results/phase3_finetune/full_pipeline/full_20260418_0001/BowTurnHead_linear_none_result.json
+```
 
+---
+
+## Expected outputs
+
+Every run writes structured outputs under `results/`:
+
+| Phase | Output | Format |
+|-------|--------|--------|
+| 0 — Zero-shot baseline | `results/phase0_zero_shot/canonical_*/phase0_zero_shot_results.json` | JSON |
+| 1 — LLM annotation | `results/phase1_annotations/*/*_annotations.jsonl` | JSONL (one record per bbox) |
+| 2 — Filtering analysis | `results/phase2_filtering/*/*_filter_comparison.csv` | CSV |
+| 3 — CLIP fine-tuning | `results/phase3_finetune/**/*_result.json` | JSON (accuracy + epoch history) |
+| 4 — Selective routing | `results/phase4_selective_annotation/default/` | JSON |
+| 5 — Retention curves | `results/phase5_retention_curve/default/` | JSON |
+| 6 — Strategy audit | `results/phase6_strategy_audit/*/` | CSV + JSON + PNG |
+
+---
+
+## Environment & hardware
+
+- **Tested on:** Ubuntu 18.04, Python 3.8, 2× NVIDIA A100 40G
+- **LLM annotators:** Qwen2-VL-7B, LLaVA-1.5-7B (Hugging Face `transformers`)
+- **Cross-model validation:** Qwen2.5-7B/32B, Gemma-3-27B
+- **Fine-tuned model:** CLIP ViT-L/14 (`open_clip_torch`)
+- **GPU memory note:** Annotation phase needs ~20GB per LLM. With smaller GPUs, use `CUDA_VISIBLE_DEVICES` to run annotators sequentially.
+
+For mainland China users:
 ```bash
 export HF_ENDPOINT=https://hf-mirror.com
 ```
 
-## Reproducing later-stage diagnostics
+---
 
-After phase 1–3 outputs exist, the later runners auto-discover the newest filtering directory. You can also set it explicitly:
+## Reproducibility guarantees
 
-```bash
-ANALYSIS_DIR=./results/phase2_filtering/<your_run_tag> bash run_phase45_diagnostics.sh
+- **Deterministic results:** All training scripts accept a `--seed` flag. The canonical results use fixed seeds.
+- **File provenance:** `docs/experiment_file_map.md` traces every paper figure/table back to its source file.
+- **No silent fallbacks:** Training scripts explicitly error if pseudo-label files are missing (no silent fallback to GT).
+- **Tracked outputs:** All result JSON/CSV/JSONL files are checked into this repo. Model weights (`.pt`) are excluded due to size, but can be regenerated by re-running the training scripts.
+
+---
+
+## Paper & citation
+
+The manuscript source is in `paper/`. If you use this code or data, please cite:
+
+```bibtex
+@software{ma_zhang_llm_annotation,
+  title        = {llm-annotation: LLM-Assisted Annotation for Classroom Behavior Recognition},
+  author       = {Ma, Yan and Zhang, Lizhuo},
+  year         = {2025},
+  url          = {https://github.com/zhanglizhuo/llm-annotation},
+  organization = {Hunan Agricultural University},
+}
 ```
 
-Use `docs/experiment_file_map.md` to identify the canonical JSONL, CSV, and JSON outputs referenced by the manuscript.
+See `CITATION.cff` for full metadata. A Zenodo DOI will be added upon release.
 
-## Hardware requirements
+---
 
-The experiments were run on 2× NVIDIA A100 40G GPUs. The recommended execution policy is documented in `docs/research_plan.md` (§2). Key points:
-- Phase A (annotation): GPU 0 runs Qwen, GPU 1 runs LLaVA
-- Phase B: stop LLM services to free memory
-- Phase C (fine-tuning): both GPUs used for CLIP training via DataParallel
+## Reading order for reviewers
 
-With smaller GPUs, you may need to reduce `batch_size` from the default 64.
+1. This README — overview and key results
+2. `finetune_summary.csv` — the main result table (30 seconds)
+3. `docs/research_plan.md` — study design and hypotheses (5 minutes)
+4. `docs/experiment_file_map.md` — which file is which (5 minutes)
+5. `results/phase3_finetune/` — drill into specific conditions
+6. `paper/llm_annotation_paper_plos.tex` — full manuscript
 
-## Archival DOI via Zenodo
+---
 
-This repository includes `CITATION.cff` and `.zenodo.json`. To archive a release:
+## License
 
-1. Push the desired commit to GitHub.
-2. In Zenodo, connect the `zhanglizhuo/llm-annotation` repository and enable archiving.
-3. Create a GitHub release with a version tag (e.g., `v1.0.0`).
-4. Zenodo will mint both a version-specific DOI and a concept DOI.
-
-## Notes
-
-- Model weights (`.pt`, `.pth`, `.bin`, `.safetensors`, `.ckpt`) are **not** tracked in git — they are too large for GitHub. Re-run the training scripts to regenerate them.
-- The dataset (`datasets_scb/`) is **not** tracked — download it with `download_dataset.py`.
-- If you only want the paper source, see `paper/`. If you only want to reproduce experiments, start from the root scripts — the paper directory is optional.
-- Generated outputs under `results/` and `logs/` are **tracked** so reviewers can inspect exact experimental outcomes without re-running.
+This repository is made available for research reproducibility. A formal license will be added before the first release.
