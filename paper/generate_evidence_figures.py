@@ -16,7 +16,6 @@ from PIL import Image, ImageFilter, ImageOps
 
 PAPER_ROOT = Path(__file__).resolve().parent
 ANNOTATION_ROOT = PAPER_ROOT.parent
-ACCESS_ROOT = PAPER_ROOT / "ACCESS_latex_template_20240429"
 
 PHASE0_FILE = (
     ANNOTATION_ROOT
@@ -34,6 +33,21 @@ PHASE3_LORA_SUMMARY = (
 )
 PHASE3_SINGLE_LORA_DIR = (
     ANNOTATION_ROOT / "results/phase3_finetune/lora_sweep/20260421_235410"
+)
+PHASE3_QWEN35_DIR = (
+    ANNOTATION_ROOT / "results/phase3_finetune/qwen35_27b_none"
+)
+PHASE4_QWEN35_SELECTIVE = (
+    ANNOTATION_ROOT
+    / "results/phase4_selective_annotation/qwen35_27b_none/TeacherBehavior_selective_linear_result.json"
+)
+PHASE4_DEFAULT_SELECTIVE = (
+    ANNOTATION_ROOT
+    / "results/phase4_selective_annotation/default/TeacherBehavior_selective_linear_result.json"
+)
+PHASE0_CAPE_FILE = (
+    ANNOTATION_ROOT
+    / "results/phase0_zero_shot/cape_aux/phase0_cape_zero_shot_setABC_results.json"
 )
 
 TEACHERBEHAVIOR_IMAGE_ROOT = Path(
@@ -76,58 +90,34 @@ GRID_COLOR = "#E5E7EB"
 BACKGROUND_COLOR = "#FFFFFF"
 PANEL_BACKGROUND = "#F9FAFB"
 
+QWEN35_COLOR = "#C44E52"  # Distinct red for Qwen3.5-27B
+
 # =========================================================
 # Semantic color mapping (IEEE-style)
 # =========================================================
 
 CONDITION_COLORS = {
-    # zero-shot reference
     "ZS": NEUTRAL_FILL_COLOR,
-
-    # weak baselines
     "None-LP": SECONDARY_TEAL,
     "None-LoRA": SECONDARY_TEAL,
-
-    # proposed / agreement-based
     "Agree-LP": PRIMARY_BLUE,
     "Agree-LoRA": PRIMARY_BLUE,
-
-    # oracle / upper-bound
     "GT-LP": ACCENT_GOLD,
     "GT-LoRA": ACCENT_GOLD,
 }
 
-# =========================================================
-# Dataset styles (texture instead of color)
-# =========================================================
-
 DATASET_STYLES = {
-    "BowTurnHead": {
-        "alpha": 1.0,
-        "hatch": None,
-    },
-    "HandriseReadWrite": {
-        "alpha": 0.82,
-        "hatch": None,
-    },
-    "TeacherBehavior": {
-        "alpha": 1.0,
-        "hatch": "///",
-    },
+    "BowTurnHead": {"alpha": 1.0, "hatch": None},
+    "HandriseReadWrite": {"alpha": 0.82, "hatch": None},
+    "TeacherBehavior": {"alpha": 1.0, "hatch": "///"},
 }
 LANCZOS = getattr(getattr(Image, "Resampling", Image), "LANCZOS")
 BILINEAR = getattr(getattr(Image, "Resampling", Image), "BILINEAR")
 NEAREST = getattr(getattr(Image, "Resampling", Image), "NEAREST")
 PRIVACY_THUMBNAIL_SIZE = (22, 22)
 TEACHERBEHAVIOR_SHIFT_ORDER = [
-    "teacher",
-    "stand",
-    "guide",
-    "blackboard-writing",
-    "blackboard",
-    "screen",
-    "answer",
-    "on-stage interaction",
+    "teacher", "stand", "guide", "blackboard-writing",
+    "blackboard", "screen", "answer", "on-stage interaction",
 ]
 
 
@@ -157,57 +147,36 @@ def save_figure(
 
 
 def configure_paper_figure(font_size: float = 8.0) -> None:
-    plt.rcParams.update(
-        {
-            "font.family": "serif",
-            "font.size": font_size,
-
-            "text.color": TEXT_COLOR,
-            "axes.labelcolor": TEXT_COLOR,
-            "xtick.color": TEXT_COLOR,
-            "ytick.color": TEXT_COLOR,
-
-            "axes.facecolor": BACKGROUND_COLOR,
-            "figure.facecolor": BACKGROUND_COLOR,
-
-            "axes.edgecolor": EDGE_COLOR,
-            "axes.linewidth": 0.6,
-        }
-    )
+    plt.rcParams.update({
+        "font.family": "serif",
+        "font.size": font_size,
+        "text.color": TEXT_COLOR,
+        "axes.labelcolor": TEXT_COLOR,
+        "xtick.color": TEXT_COLOR,
+        "ytick.color": TEXT_COLOR,
+        "axes.facecolor": BACKGROUND_COLOR,
+        "figure.facecolor": BACKGROUND_COLOR,
+        "axes.edgecolor": EDGE_COLOR,
+        "axes.linewidth": 0.6,
+    })
 
 
 def lighten_color(hex_color: str, blend: float = 0.28) -> tuple[float, float, float]:
     hex_color = hex_color.lstrip("#")
-    rgb = tuple(int(hex_color[index:index + 2], 16) / 255.0 for index in (0, 2, 4))
-    return tuple(channel * (1.0 - blend) + blend for channel in rgb)
+    rgb = tuple(int(hex_color[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
+    return tuple(c * (1.0 - blend) + blend for c in rgb)
 
 
 def style_axis(ax, grid_axis: str | None = None, tick_fontsize: float = 8.0) -> None:
-
     if grid_axis:
-        ax.grid(
-            axis=grid_axis,
-            color=GRID_COLOR,
-            linewidth=0.5,
-            alpha=0.7,
-            zorder=0,
-        )
-
+        ax.grid(axis=grid_axis, color=GRID_COLOR, linewidth=0.5, alpha=0.7, zorder=0)
     ax.set_axisbelow(True)
-
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-
     for spine_name in ["left", "bottom"]:
         ax.spines[spine_name].set_color(EDGE_COLOR)
         ax.spines[spine_name].set_linewidth(0.6)
-
-    ax.tick_params(
-        labelsize=tick_fontsize,
-        colors=TEXT_COLOR,
-        width=0.6,
-        length=3.0,
-    )
+    ax.tick_params(labelsize=tick_fontsize, colors=TEXT_COLOR, width=0.6, length=3.0)
 
 
 def build_overview_plot_data() -> Dict[str, Dict[str, dict]]:
@@ -219,17 +188,13 @@ def build_overview_plot_data() -> Dict[str, Dict[str, dict]]:
 
     repeated_linear = {
         (row.dataset, row.pseudo_strategy): {
-            "value": float(row.mean_val_acc),
-            "sd": float(row.std_val_acc),
-            "evidence": "repeated",
+            "value": float(row.mean_val_acc), "sd": float(row.std_val_acc), "evidence": "repeated",
         }
         for row in linear_summary.itertuples(index=False)
     }
     repeated_lora = {
         (row.dataset, row.pseudo_strategy): {
-            "value": float(row.mean_val_acc),
-            "sd": float(row.std_val_acc),
-            "evidence": "replicated",
+            "value": float(row.mean_val_acc), "sd": float(row.std_val_acc), "evidence": "replicated",
         }
         for row in lora_summary.itertuples(index=False)
     }
@@ -240,9 +205,7 @@ def build_overview_plot_data() -> Dict[str, Dict[str, dict]]:
             result_path = PHASE3_SINGLE_LORA_DIR / f"{dataset}_lora_{strategy}_result.json"
             result = load_json(result_path)
             single_lora[(dataset, strategy)] = {
-                "value": float(result["best_val_acc"]),
-                "sd": None,
-                "evidence": "single",
+                "value": float(result["best_val_acc"]), "sd": None, "evidence": "single",
             }
 
     plot_data: Dict[str, Dict[str, dict]] = {}
@@ -251,9 +214,7 @@ def build_overview_plot_data() -> Dict[str, Dict[str, dict]]:
         for condition_label, strategy, mode in CONDITION_SPECS:
             if mode == "zs":
                 dataset_data[condition_label] = {
-                    "value": float(zero_shot[dataset]),
-                    "sd": None,
-                    "evidence": "single",
+                    "value": float(zero_shot[dataset]), "sd": None, "evidence": "single",
                 }
             elif mode == "linear":
                 dataset_data[condition_label] = repeated_linear[(dataset, strategy)]
@@ -264,25 +225,16 @@ def build_overview_plot_data() -> Dict[str, Dict[str, dict]]:
                     dataset_data[condition_label] = single_lora[(dataset, strategy)]
         plot_data[dataset] = dataset_data
 
-    with (ACCESS_ROOT / "fig_all_results_overview_access_data.json").open(
-        "w", encoding="utf-8"
-    ) as handle:
-        json.dump(plot_data, handle, indent=2)
-
     return plot_data
 
 
 def generate_overview_figure() -> None:
     plot_data = build_overview_plot_data()
-
     configure_paper_figure(font_size=8.5)
-
     fig, ax = plt.subplots(figsize=(8.6, 4.8))
 
     x = np.arange(len(CONDITION_SPECS))
-
     width = 0.22
-
     offsets = {
         "BowTurnHead": -width,
         "HandriseReadWrite": 0.0,
@@ -290,164 +242,123 @@ def generate_overview_figure() -> None:
     }
 
     for dataset in DATASET_ORDER:
-
         positions = x + offsets[dataset]
-
         dataset_style = DATASET_STYLES[dataset]
-
         for idx, (condition_label, _, _) in enumerate(CONDITION_SPECS):
-
             entry = plot_data[dataset][condition_label]
-
             condition_color = CONDITION_COLORS[condition_label]
-
             yerr = entry["sd"] if entry["sd"] is not None else None
-
-            error_kw = {
-                "elinewidth": 0.6,
-                "capsize": 2.5,
-                "capthick": 0.6,
-                "ecolor": EDGE_COLOR,
-            }
-
+            error_kw = {"elinewidth": 0.6, "capsize": 2.5, "capthick": 0.6, "ecolor": EDGE_COLOR}
             bar_kwargs = {
-                "x": positions[idx],
-                "height": entry["value"],
-                "width": width * 0.95,
-
-                # semantic-driven colors
-                "color": condition_color,
-
-                # dataset distinction via style
-                "alpha": dataset_style["alpha"],
-                "hatch": dataset_style["hatch"],
-
-                "edgecolor": EDGE_COLOR,
-                "linewidth": 0.6,
-
-                "zorder": 3,
+                "x": positions[idx], "height": entry["value"], "width": width * 0.95,
+                "color": condition_color, "alpha": dataset_style["alpha"],
+                "hatch": dataset_style["hatch"], "edgecolor": EDGE_COLOR,
+                "linewidth": 0.6, "zorder": 3,
             }
-
             if yerr is not None:
                 bar_kwargs["yerr"] = yerr
                 bar_kwargs["error_kw"] = error_kw
-
-            # single-run reference
             if entry["evidence"] == "single":
                 bar_kwargs["linewidth"] = 0.9
                 bar_kwargs["edgecolor"] = "#6B7280"
-
             ax.bar(**bar_kwargs)
 
     ax.set_ylabel("Validation accuracy (%)")
-
     ax.set_ylim(0, 105)
-
     ax.set_xticks(x)
-
-    ax.set_xticklabels(
-        [
-            "ZS",
-            "None\nLP",
-            "None\nLoRA",
-            "Agree\nLP",
-            "Agree\nLoRA",
-            "GT\nLP",
-            "GT\nLoRA",
-        ],
-        rotation=0,
-    )
-
+    ax.set_xticklabels(["ZS", "None\nLP", "None\nLoRA", "Agree\nLP", "Agree\nLoRA", "GT\nLP", "GT\nLoRA"], rotation=0)
     style_axis(ax, grid_axis="y", tick_fontsize=8.0)
 
-    # =====================================================
-    # Semantic legend
-    # =====================================================
-
     legend_handles = [
-        Patch(
-            facecolor=PRIMARY_BLUE,
-            edgecolor=EDGE_COLOR,
-            linewidth=0.6,
-            label="Agreement-based methods",
-        ),
-        Patch(
-            facecolor=SECONDARY_TEAL,
-            edgecolor=EDGE_COLOR,
-            linewidth=0.6,
-            label="Weak baselines",
-        ),
-        Patch(
-            facecolor=ACCENT_GOLD,
-            edgecolor=EDGE_COLOR,
-            linewidth=0.6,
-            label="GT upper-bound",
-        ),
-        Patch(
-            facecolor=NEUTRAL_FILL_COLOR,
-            edgecolor=EDGE_COLOR,
-            linewidth=0.6,
-            label="Zero-shot reference",
-        ),
+        Patch(facecolor=PRIMARY_BLUE, edgecolor=EDGE_COLOR, linewidth=0.6, label="Agreement-based methods"),
+        Patch(facecolor=SECONDARY_TEAL, edgecolor=EDGE_COLOR, linewidth=0.6, label="Weak baselines"),
+        Patch(facecolor=ACCENT_GOLD, edgecolor=EDGE_COLOR, linewidth=0.6, label="GT upper-bound"),
+        Patch(facecolor=NEUTRAL_FILL_COLOR, edgecolor=EDGE_COLOR, linewidth=0.6, label="Zero-shot reference"),
+        Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, linewidth=0.6, label="BowTurnHead"),
+        Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, linewidth=0.6, alpha=0.82, label="HandriseReadWrite"),
+        Patch(facecolor="#D1D5DB", edgecolor=EDGE_COLOR, hatch="///", linewidth=0.6, label="TeacherBehavior"),
+        Line2D([0], [0], color=EDGE_COLOR, linewidth=0.6, marker="|", markersize=10, markeredgewidth=0.6, label="±1 SD"),
     ]
-
-    # =====================================================
-    # Dataset texture legend
-    # =====================================================
-
-    legend_handles.extend(
-        [
-            Patch(
-                facecolor="#D1D5DB",
-                edgecolor=EDGE_COLOR,
-                linewidth=0.6,
-                label="BowTurnHead",
-            ),
-            Patch(
-                facecolor="#D1D5DB",
-                edgecolor=EDGE_COLOR,
-                linewidth=0.6,
-                alpha=0.82,
-                label="HandriseReadWrite",
-            ),
-            Patch(
-                facecolor="#D1D5DB",
-                edgecolor=EDGE_COLOR,
-                hatch="///",
-                linewidth=0.6,
-                label="TeacherBehavior",
-            ),
-            Line2D(
-                [0],
-                [0],
-                color=EDGE_COLOR,
-                linewidth=0.6,
-                marker="|",
-                markersize=10,
-                markeredgewidth=0.6,
-                label="±1 SD",
-            ),
-        ]
-    )
-
-    ax.legend(
-        handles=legend_handles,
-        loc="upper center",
-        ncol=4,
-        bbox_to_anchor=(0.5, 1.22),
-        frameon=False,
-        columnspacing=1.2,
-        handletextpad=0.6,
-        fontsize=7.5,
-    )
-
+    ax.legend(handles=legend_handles, loc="upper center", ncol=4, bbox_to_anchor=(0.5, 1.22),
+              frameon=False, columnspacing=1.2, handletextpad=0.6, fontsize=7.5)
     fig.tight_layout(rect=(0, 0, 1, 0.90))
 
-    save_figure(
-        fig,
-        ACCESS_ROOT / "fig_all_results_overview_access_generated",
-        [PAPER_ROOT / "fig_all_results_overview"],
+    save_figure(fig, PAPER_ROOT / "fig_all_results_overview_access",
+                [PAPER_ROOT / "fig_all_results_overview"])
+
+
+def generate_quality_threshold_figure() -> None:
+    """TeacherBehavior: Qwen2-VL-7B vs Qwen3.5-27B pseudo-label quality threshold."""
+    zero_shot_cape = load_json(PHASE0_CAPE_FILE)
+    cape_tb = None
+    for item in zero_shot_cape:
+        if item["dataset"] == "TeacherBehavior":
+            cape_tb = float(item["overall_acc"])
+            break
+
+    qwen2_none_lp = load_json(
+        ANNOTATION_ROOT / "results/phase3_finetune/full_pipeline/full_20260418_0001/TeacherBehavior_linear_none_result.json"
     )
+    qwen2_none_lora = load_json(
+        PHASE3_SINGLE_LORA_DIR / "TeacherBehavior_lora_none_result.json"
+    )
+
+    qwen35_none_lp = load_json(PHASE3_QWEN35_DIR / "TeacherBehavior_linear_none_result.json")
+    qwen35_none_lora = load_json(PHASE3_QWEN35_DIR / "TeacherBehavior_lora_none_result.json")
+
+    qwen2_selective_lp = load_json(PHASE4_DEFAULT_SELECTIVE)
+    qwen35_selective_lp = load_json(PHASE4_QWEN35_SELECTIVE)
+
+    conditions = ["None\nLP", "None\nLoRA", "Selective\nLP"]
+    qwen2_values = [
+        float(qwen2_none_lp["best_val_acc"]),
+        float(qwen2_none_lora["best_val_acc"]),
+        float(qwen2_selective_lp["best_overall_acc"]),
+    ]
+    qwen35_values = [
+        float(qwen35_none_lp["best_val_acc"]),
+        float(qwen35_none_lora["best_val_acc"]),
+        float(qwen35_selective_lp["best_overall_acc"]),
+    ]
+
+    configure_paper_figure(font_size=8.5)
+    fig, ax = plt.subplots(figsize=(5.8, 3.8))
+
+    x = np.arange(len(conditions))
+    width = 0.32
+
+    bars_qwen2 = ax.bar(
+        x - width / 2, qwen2_values, width * 0.92,
+        color=SECONDARY_TEAL, edgecolor=EDGE_COLOR, linewidth=0.6, alpha=0.75,
+        label="Qwen2-VL-7B\n(annot. acc. 41.2%)", zorder=3,
+    )
+    bars_qwen35 = ax.bar(
+        x + width / 2, qwen35_values, width * 0.92,
+        color=QWEN35_COLOR, edgecolor=EDGE_COLOR, linewidth=0.6, hatch="///",
+        label="Qwen3.5-27B\n(annot. acc. 50.3%)", zorder=3,
+    )
+
+    ax.axhline(y=cape_tb, color=NEUTRAL_FILL_COLOR, linewidth=1.0, linestyle="--", zorder=2)
+    ax.text(len(conditions) - 0.45, cape_tb + 0.8, f"Zero-shot CAPE: {cape_tb:.1f}%",
+            fontsize=7.2, color=TEXT_COLOR, va="bottom")
+
+    for bar, val in zip(bars_qwen2, qwen2_values):
+        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.5,
+                f"{val:.1f}", ha="center", fontsize=7.5, color=TEXT_COLOR)
+    for bar, val in zip(bars_qwen35, qwen35_values):
+        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.5,
+                f"{val:.1f}", ha="center", fontsize=7.5, color=TEXT_COLOR)
+
+    ax.set_ylabel("Validation accuracy (%)")
+    ax.set_xticks(x)
+    ax.set_xticklabels(conditions)
+    ax.set_title("TeacherBehavior: Annotation Quality Threshold", fontsize=9.2, pad=8)
+    ax.legend(loc="upper left", frameon=False, fontsize=7.2)
+    style_axis(ax, grid_axis="y", tick_fontsize=8.0)
+    fig.tight_layout()
+
+    save_figure(fig, PAPER_ROOT / "fig_quality_threshold_access",
+                [PAPER_ROOT / "fig_quality_threshold"])
 
 
 def generate_distribution_shift_figure() -> None:
@@ -464,15 +375,9 @@ def generate_distribution_shift_figure() -> None:
     for dataset in DATASET_ORDER:
         df = pd.read_csv(PHASE2_DIR / f"{dataset}_train_distribution_shift.csv")
         reference_color = lighten_color(NEUTRAL_FILL_COLOR, blend=0.12)
-        agreement_color = lighten_color(
-            PRIMARY_BLUE,
-            blend=0.15,
-        )
+        agreement_color = lighten_color(PRIMARY_BLUE, blend=0.15)
         if dataset == "TeacherBehavior":
-            order_map = {
-                class_name: index
-                for index, class_name in enumerate(TEACHERBEHAVIOR_SHIFT_ORDER)
-            }
+            order_map = {name: i for i, name in enumerate(TEACHERBEHAVIOR_SHIFT_ORDER)}
             df["plot_order"] = df["class_name"].map(order_map).fillna(len(order_map))
             df = df.sort_values("plot_order", kind="stable").drop(columns=["plot_order"])
         else:
@@ -480,38 +385,15 @@ def generate_distribution_shift_figure() -> None:
         df = df.reset_index(drop=True)
         ax = axes[dataset]
         y = np.arange(len(df))
-        ax.barh(
-            y - 0.18,
-            df["all_pct"],
-            height=0.34,
-            color=reference_color,
-            edgecolor=EDGE_COLOR,
-            linewidth=0.5,
-            alpha=0.82,
-        )
-        ax.barh(
-            y + 0.18,
-            df["agreement_pct"],
-            height=0.34,
-            color=agreement_color,
-            edgecolor=EDGE_COLOR,
-            linewidth=0.5,
-            hatch="///",
-            alpha=0.94,
-        )
-
+        ax.barh(y - 0.18, df["all_pct"], height=0.34, color=reference_color,
+                edgecolor=EDGE_COLOR, linewidth=0.5, alpha=0.82)
+        ax.barh(y + 0.18, df["agreement_pct"], height=0.34, color=agreement_color,
+                edgecolor=EDGE_COLOR, linewidth=0.5, hatch="///", alpha=0.94)
         max_pct = max(df["all_pct"].max(), df["agreement_pct"].max())
         for idx, row in df.iterrows():
             delta = float(row["agreement_minus_all_pct"])
-            ax.text(
-                max(row["all_pct"], row["agreement_pct"]) + 1.0,
-                y[idx] + 0.18,
-                f"{delta:+.1f} pp",
-                va="center",
-                fontsize=7,
-                color=TEXT_COLOR,
-            )
-
+            ax.text(max(row["all_pct"], row["agreement_pct"]) + 1.0, y[idx] + 0.18,
+                    f"{delta:+.1f} pp", va="center", fontsize=7, color=TEXT_COLOR)
         ax.set_title(dataset, fontsize=8.8, pad=6)
         ax.set_yticks(y)
         ax.set_yticklabels(df["class_name"], fontsize=7)
@@ -522,33 +404,16 @@ def generate_distribution_shift_figure() -> None:
     axes["TeacherBehavior"].set_xlabel("Class share of the training split (%)")
     axes["BowTurnHead"].legend(
         handles=[
-            Patch(
-                facecolor=lighten_color(NEUTRAL_FILL_COLOR, blend=0.12),
-                edgecolor=EDGE_COLOR,
-                linewidth=0.5,
-                label="Full train set",
-            ),
-            Patch(
-                facecolor=lighten_color(PRIMARY_BLUE, blend=0.15),
-                edgecolor=EDGE_COLOR,
-                hatch="///",
-                linewidth=0.5,
-                label="Agreement subset",
-            ),
+            Patch(facecolor=lighten_color(NEUTRAL_FILL_COLOR, blend=0.12),
+                  edgecolor=EDGE_COLOR, linewidth=0.5, label="Full train set"),
+            Patch(facecolor=lighten_color(PRIMARY_BLUE, blend=0.15),
+                  edgecolor=EDGE_COLOR, hatch="///", linewidth=0.5, label="Agreement subset"),
         ],
-        loc="upper center",
-        bbox_to_anchor=(1.1, 1.35),
-        frameon=False,
-        ncol=2,
-        fontsize=7.8,
+        loc="upper center", bbox_to_anchor=(1.1, 1.35), frameon=False, ncol=2, fontsize=7.8,
     )
-
     fig.tight_layout(rect=(0, 0, 1, 0.94))
-    save_figure(
-        fig,
-        ACCESS_ROOT / "fig_distribution_shift_access",
-        [PAPER_ROOT / "fig_distribution_shift"],
-    )
+    save_figure(fig, PAPER_ROOT / "fig_distribution_shift_access",
+                [PAPER_ROOT / "fig_distribution_shift"])
 
 
 def normalize_label(label: str) -> str:
@@ -605,19 +470,10 @@ def extract_crop(record: dict, output_size: Tuple[int, int] = (260, 260)) -> Ima
 
 
 def choose_example_records(records: List[dict], category: str, require_correct: bool) -> List[dict]:
-    candidates = [
-        record
-        for record in records
-        if record["gt_name"] == category and record.get("agreement")
-    ]
-    filtered = [
-        record
-        for record in candidates
-        if (record["pred_qwen_name"] == category) == require_correct
-    ]
+    candidates = [r for r in records if r["gt_name"] == category and r.get("agreement")]
+    filtered = [r for r in candidates if (r["pred_qwen_name"] == category) == require_correct]
     ranked = filtered if len(filtered) >= 2 else candidates
-    ranked = sorted(ranked, key=lambda record: record["w"] * record["h"], reverse=True)
-
+    ranked = sorted(ranked, key=lambda r: r["w"] * r["h"], reverse=True)
     selected: List[dict] = []
     seen_images = set()
     for record in ranked:
@@ -627,7 +483,6 @@ def choose_example_records(records: List[dict], category: str, require_correct: 
         seen_images.add(record["image"])
         if len(selected) == 2:
             break
-
     if len(selected) < 2:
         for record in ranked:
             if record in selected:
@@ -635,7 +490,6 @@ def choose_example_records(records: List[dict], category: str, require_correct: 
             selected.append(record)
             if len(selected) == 2:
                 break
-
     return selected
 
 
@@ -651,26 +505,10 @@ def generate_visual_anchoring_examples() -> None:
         ("guide", False, "Intent-dependent categories"),
     ]
 
-    selection_meta: Dict[str, List[dict]] = {}
     crops: Dict[str, List[Image.Image]] = {}
     for category, require_correct, _ in category_specs:
         chosen = choose_example_records(records, category, require_correct=require_correct)
         crops[category] = [extract_crop(record) for record in chosen]
-        selection_meta[category] = [
-            {
-                "image": record["image"],
-                "bbox_idx": record["bbox_idx"],
-                "pred_qwen_name": record["pred_qwen_name"],
-                "pred_llava_name": record["pred_llava_name"],
-                "agreement": record["agreement"],
-            }
-            for record in chosen
-        ]
-
-    with (ACCESS_ROOT / "fig_visual_anchoring_examples_access_selection.json").open(
-        "w", encoding="utf-8"
-    ) as handle:
-        json.dump(selection_meta, handle, indent=2)
 
     configure_paper_figure(font_size=8.0)
     fig, axes = plt.subplots(2, 4, figsize=(8.35, 5.75))
@@ -685,75 +523,29 @@ def generate_visual_anchoring_examples() -> None:
                 spine.set_edgecolor(EDGE_COLOR)
         axes[0, col].set_title(
             f"{normalize_label(category)}\nAgreement acc. {acc_map.get(category, 0.0):.1f}%",
-            fontsize=7.8,
-            pad=7,
+            fontsize=7.8, pad=7,
         )
 
-    fig.lines.append(
-        Line2D(
-            [0.5, 0.5],
-            [0.12, 0.875],
-            transform=fig.transFigure,
-            color=GRID_COLOR,
-            linewidth=0.6,
-        )
-    )
-    fig.text(
-        0.26,
-        0.982,
-        "Strong visual anchors",
-        ha="center",
-        va="top",
-        fontsize=8.8,
-        bbox={
-            "boxstyle": "square,pad=0.25",
-            "facecolor": strong_anchor_tint,
-            "edgecolor": PRIMARY_BLUE,
-            "linewidth": 0.6,
-        },
-    )
-    fig.text(
-        0.76,
-        0.982,
-        "Intent-dependent categories",
-        ha="center",
-        va="top",
-        fontsize=8.8,
-        bbox={
-            "boxstyle": "square,pad=0.25",
-            "facecolor": difficult_anchor_tint,
-            "edgecolor": ACCENT_GOLD,
-            "linewidth": 0.6,
-        },
-    )
-    fig.text(
-        0.26,
-        0.948,
-        "blackboard-writing, screen",
-        ha="center",
-        va="top",
-        fontsize=7.3,
-    )
-    fig.text(
-        0.76,
-        0.948,
-        "answer, guide",
-        ha="center",
-        va="top",
-        fontsize=7.3,
-    )
+    fig.lines.append(Line2D([0.5, 0.5], [0.12, 0.875], transform=fig.transFigure,
+                             color=GRID_COLOR, linewidth=0.6))
+    fig.text(0.26, 0.982, "Strong visual anchors", ha="center", va="top", fontsize=8.8,
+             bbox={"boxstyle": "square,pad=0.25", "facecolor": strong_anchor_tint,
+                   "edgecolor": PRIMARY_BLUE, "linewidth": 0.6})
+    fig.text(0.76, 0.982, "Intent-dependent categories", ha="center", va="top", fontsize=8.8,
+             bbox={"boxstyle": "square,pad=0.25", "facecolor": difficult_anchor_tint,
+                   "edgecolor": ACCENT_GOLD, "linewidth": 0.6})
+    fig.text(0.26, 0.948, "blackboard-writing, screen", ha="center", va="top", fontsize=7.3)
+    fig.text(0.76, 0.948, "answer, guide", ha="center", va="top", fontsize=7.3)
     fig.text(0.022, 0.69, "Example 1", rotation=90, fontsize=7.2, va="center")
     fig.text(0.022, 0.26, "Example 2", rotation=90, fontsize=7.2, va="center")
     fig.tight_layout(rect=(0.045, 0.02, 0.99, 0.9))
-    save_figure(
-        fig,
-        ACCESS_ROOT / "fig_visual_anchoring_examples_access",
-        [PAPER_ROOT / "fig_visual_anchoring_examples"],
-    )
+    save_figure(fig, PAPER_ROOT / "fig_visual_anchoring_examples_access",
+                [PAPER_ROOT / "fig_visual_anchoring_examples"])
 
 
 def main() -> None:
     generate_overview_figure()
+    generate_quality_threshold_figure()
     generate_distribution_shift_figure()
     generate_visual_anchoring_examples()
 

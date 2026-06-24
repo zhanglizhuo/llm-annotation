@@ -1393,6 +1393,20 @@ Selective + LoRA & --- & 53.20 & --- \\
 \end{tabular}
 \end{table}
 
+Figure~\ref{fig:quality_threshold} visualises the Qwen2 vs.\ Qwen3.5-27B
+comparison for the three training conditions where both annotators have results.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.85\linewidth]{fig_quality_threshold_access.pdf}
+\caption{TeacherBehavior validation accuracy under Qwen2-VL-7B pseudo-labels
+(annotation accuracy 41.2\%) versus Qwen3.5-27B pseudo-labels (50.3\%).
+The dashed line marks the zero-shot CAPE prompt-ensemble baseline (53.43\%).
+Qwen3.5-27B labels cross the zero-shot threshold for None+LP and Selective+LP,
+while Qwen2-VL-7B labels remain below it for all conditions.}
+\label{fig:quality_threshold}
+\end{figure}
+
 Three findings from this experiment are directly relevant to the paper's
 central question.
 First, the annotation quality threshold at which pseudo-label fine-tuning
