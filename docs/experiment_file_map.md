@@ -16,12 +16,13 @@ Use these files and directories for manuscript tracing, grouped by analysis modu
 
 - Protocol-matched baseline JSON: `results/phase0_zero_shot/canonical_20260425_231347/phase0_zero_shot_results.json`.
 - MLLM annotation JSONL: `results/phase1_annotations/full_20260418_0001/`.
-- Cross-model validation annotations: `results/cross_model_validation/default/`.
+- Cross-model validation annotations (11 models): `results/cross_model_validation/default/` (original 5-model set), `results/cross_model_validation/qwen35_27b_v1/`, `results/cross_model_validation/qwen35_35b_a3b_v1/`, `results/cross_model_validation/gemma4_26b_a4b_v1/`, `results/cross_model_validation/gemma4_31b_v1/`.
 - Filtering statistics and pseudo-label files: `results/phase2_filtering/full_20260418_0001/`.
 - CLIP linear-probe result JSON and checkpoints: `results/phase3_finetune/full_pipeline/full_20260418_0001/`.
 - CLIP LoRA sweep result JSON and checkpoints: `results/phase3_finetune/lora_sweep/20260421_235410/`.
 - CLIP LoRA supplement retained for the paper summary: `results/phase3_finetune/lora_supplement/HandriseReadWrite_lora_gt_result.json`.
-- Selective-routing diagnostics: `results/phase4_selective_annotation/default/`.
+- Qwen3.5-27B quality-threshold experiment (TeacherBehavior): `results/phase3_finetune/qwen35_27b_none/`.
+- Selective-routing diagnostics: `results/phase4_selective_annotation/default/` (Qwen2-VL-7B), `results/phase4_selective_annotation/qwen35_27b_none/` (Qwen3.5-27B).
 - Retention-ratio diagnostics: `results/phase5_retention_curve/default/phase5_retention_curve_results.json`.
 - Strategy-audit analyses: `results/phase6_strategy_audit/strategy_audit_20260516_0928/`.
 - Final summary table: `finetune_summary.csv`.
@@ -48,10 +49,12 @@ More specifically:
 |---|---|---|---|---|
 | Zero-shot baseline | manual or background command history | `step0b_cape_zeroshot.py` | `results/phase0_zero_shot/canonical_20260425_231347/phase0_zero_shot_results.json` and auxiliary CAPE outputs in `results/phase0_zero_shot/cape_aux/` | `logs/phase0/phase0_zero_shot_20260425_231347.log`. |
 | MLLM annotation | `run_phase123_full_pipeline.sh` or historical `run_phase123_full_legacy.sh` | `step1_llm_annotate.py` | `results/phase1_annotations/*/*_annotations.jsonl` | Pipeline launcher log under `logs/pipeline/`. |
-| Cross-model validation | `run_cross_model_qwen25_teacher_bg.sh`, `run_cross_model_remaining_bg.sh` | `cross_model_annotate.py` | `results/cross_model_validation/default/` | `logs/cross_model_validation/`. |
+| Cross-model validation (5-model) | `run_cross_model_qwen25_teacher_bg.sh`, `run_cross_model_remaining_bg.sh` | `cross_model_annotate.py` | `results/cross_model_validation/default/` | `logs/cross_model_validation/`. |
+| Cross-model validation (expanded) | `run_cross_model_gemma4_dual_bg.sh`, `run_cross_model_qwen35_dual_bg.sh`, `run_cross_model_qwen36_35b_v2_bg.sh` | `cross_model_annotate.py` | `results/cross_model_validation/{qwen35_27b,qwen35_35b_a3b,gemma4_26b_a4b,gemma4_31b}_v1/` | `logs/cross_model_validation/`. |
 | Filtering analysis | `run_phase123_full_pipeline.sh` or historical `run_phase123_full_legacy.sh` | `step2_filter_analysis.py` | `results/phase2_filtering/*/*_filter_comparison.csv`, `*_pseudo_none.jsonl`, `*_pseudo_agreement.jsonl` | Pipeline launcher log under `logs/pipeline/`. |
 | CLIP linear and LoRA fine-tuning | `run_phase123_full_pipeline.sh`, `run_phase3_lora_sweep_2gpu.sh`, `run_phase3_teacher_linear_bg.sh` | `step3_clip_finetune.py` | `results/phase3_finetune/**/*_result.json`, `*_best.pt` | Dedicated logs under `logs/phase3/`. |
-| Selective-routing diagnostics | `run_phase45_diagnostics.sh` | `step4_selective_annotation.py` | `results/phase4_selective_annotation/default/` | `logs/phase45/`. |
+| Qwen3.5-27B quality-threshold (TeacherBehavior) | `run_phase34_qwen35_27b_none_bg.sh` | `step3_clip_finetune.py`, `step4_selective_annotation.py` | `results/phase3_finetune/qwen35_27b_none/`, `results/phase4_selective_annotation/qwen35_27b_none/` | `logs/phase34/`. |
+| Selective-routing diagnostics | `run_phase45_diagnostics.sh` | `step4_selective_annotation.py` | `results/phase4_selective_annotation/{default,qwen35_27b_none}/` | `logs/phase45/`. |
 | Retention-ratio diagnostics | `run_phase45_diagnostics.sh`, `run_phase5_teacher_bg.sh` | `step5_retention_curve.py` | `results/phase5_retention_curve/default/phase5_retention_curve_results.json` | `logs/phase45/` and `logs/phase5/`. |
 | Strategy audit | `run_phase6_strategy_audit.sh`, `run_phase6_strategy_audit_bg.sh` | `cross_model_consistency.py`, `confidence_filtering.py`, `teacher_student_self_training.py` | `results/phase6_strategy_audit/<RUN_TAG>/` | `logs/phase6/`. |
 
@@ -67,11 +70,15 @@ CSV files have two meanings in this project:
 | `run_phase123_full_pipeline.sh` | Full staged runner for annotation, filtering, and fine-tuning. | Recommended canonical runner for new full runs. | Writes outputs to `results/phase1_annotations/`, `results/phase2_filtering/`, and `results/phase3_finetune/full_pipeline/`. |
 | `run_phase3_lora_sweep_2gpu.sh` | Sequential LoRA sweep over 3 datasets x 3 label sources. | Used for final LoRA source. | Writes to `results/phase3_finetune/lora_sweep/`. |
 | `run_phase3_teacher_linear_bg.sh` | Background rerun helper for TeacherBehavior linear `agreement` and `gt`. | Used for final TeacherBehavior linear补跑. | Writes logs under `logs/phase3/` and results under `results/phase3_finetune/full_pipeline/`. |
-| `run_phase45_diagnostics.sh` | Phase 4 plus phase 5 diagnostics runner. | Recommended for later-stage diagnostics. | Writes to `results/phase4_selective_annotation/default/` and `results/phase5_retention_curve/default/phase5_retention_curve_results.json`. |
+| `run_phase45_diagnostics.sh` | Phase 4 plus phase 5 diagnostics runner. | Recommended for later-stage diagnostics. | Writes to `results/phase4_selective_annotation/{default,qwen35_27b_none}/` and `results/phase5_retention_curve/default/`. |
 | `run_phase3_repeated_seeds.sh` | Repeated-seed phase-3 experiments. | Supplementary robustness runner. | Writes to `results/phase3_finetune/repeated_seeds/`. |
 | `run_phase3_repeated_seeds_bg.sh` | Background wrapper for repeated-seed runs. | Supplementary helper. | Writes launcher logs under `logs/phase3/`. |
-| `run_cross_model_qwen25_teacher_bg.sh` | TeacherBehavior qwen25 cross-model background launcher. | Cross-model helper. | Writes outputs under `results/cross_model_validation/default/`. |
-| `run_cross_model_remaining_bg.sh` | Remaining cross-model background launcher. | Cross-model helper. | Writes outputs under `results/cross_model_validation/default/` and smoke outputs under `results/cross_model_validation/smoke/`. |
+| `run_cross_model_qwen25_teacher_bg.sh` | TeacherBehavior qwen25 cross-model background launcher. | Cross-model helper (5-model set). | Writes outputs under `results/cross_model_validation/default/`. |
+| `run_cross_model_remaining_bg.sh` | Remaining cross-model background launcher. | Cross-model helper (5-model set). | Writes outputs under `results/cross_model_validation/default/`. |
+| `run_cross_model_gemma4_dual_bg.sh` | Gemma4-26B + Gemma4-31B cross-model launcher. | Expanded cross-model. | Writes to `results/cross_model_validation/{gemma4_26b_a4b,gemma4_31b}_v1/`. |
+| `run_cross_model_qwen35_dual_bg.sh` | Qwen3.5-27B + Qwen3.5-35B-A3B cross-model launcher. | Expanded cross-model. | Writes to `results/cross_model_validation/{qwen35_27b,qwen35_35b_a3b}_v1/`. |
+| `run_cross_model_qwen36_35b_v2_bg.sh` | Qwen3.6-35B-A3B v2 cross-model launcher. | Expanded cross-model. | Writes to `results/cross_model_validation/`. |
+| `run_phase34_qwen35_27b_none_bg.sh` | Qwen3.5-27B none pseudo-label annotation + finetune (linear + LoRA) + selective annotation. | Quality-threshold experiment. | Writes to `results/phase3_finetune/qwen35_27b_none/` and `results/phase4_selective_annotation/qwen35_27b_none/`. |
 | `run_phase5_teacher_bg.sh` | TeacherBehavior-only phase-5 background launcher. | Supplementary helper. | Writes logs under `logs/phase5/`. |
 | `run_phase6_strategy_audit.sh` | Foreground runner for cross-model consistency, confidence filtering, and teacher-student self-training. | Recommended phase-6 helper. | Writes to `results/phase6_strategy_audit/<RUN_TAG>/` and logs under `logs/phase6/`. |
 | `run_phase6_strategy_audit_bg.sh` | Background wrapper for phase-6 strategy-audit analyses. | Recommended phase-6 helper. | Writes PID/nohup files and launcher logs under `logs/phase6/`. |
@@ -84,10 +91,10 @@ CSV files have two meanings in this project:
 | `step0_zeroshot_eval.py` | Original simple CLIP zero-shot baseline on bbox crops. | SCB val images/labels. | `results/phase0_zero_shot/manual/phase0_zero_shot_results.json` by default. | Not the current paper baseline. Kept for comparison and debugging. |
 | `step0b_cape_zeroshot.py` | CAPE Set A/B/C prompt-ensemble zero-shot evaluation. | SCB val images/labels. | `phase0_cape_zero_shot_set*.json` under `results/phase0_zero_shot/cape_aux/`. | Current paper zero-shot baseline is the retained canonical JSON under `results/phase0_zero_shot/canonical_20260425_231347/`. |
 | `step1_llm_annotate.py` | Qwen2-VL and LLaVA bbox-crop annotation. | SCB train/val images/labels. | `*_annotations.jsonl`. | Source of MLLM raw annotation records. |
-| `cross_model_annotate.py` | Cross-model validation with additional MLLMs. | SCB train/val images/labels. | `results/cross_model_validation/default/`. | Annotator robustness analysis. |
+| `cross_model_annotate.py` | Cross-model validation with 11 MLLMs across 7 families (Qwen2/2.5/3.5/3.6 + LLaVA + Gemma3/4). | SCB train/val images/labels. | `results/cross_model_validation/{default,qwen35_27b,qwen35_35b_a3b,gemma4_26b_a4b,gemma4_31b}_v1/`. | Annotator robustness analysis (expanded from 5 to 11 models). |
 | `step2_filter_analysis.py` | Annotation-quality analysis and pseudo-label filtering. | `*_annotations.jsonl`. | `*_filter_comparison.csv`, `*_pseudo_none.jsonl`, `*_pseudo_agreement.jsonl`. | Source of annotation-quality tables and training pseudo-labels. |
 | `step3_clip_finetune.py` | CLIP ViT-L/14 linear-probe and LoRA fine-tuning. | SCB train/val images/labels and pseudo-label JSONL. | `*_result.json`, `*_best.pt`. | Source of Table 3 fine-tuning results. |
-| `step4_selective_annotation.py` | Selective-routing diagnostic. | Phase-2 filtering outputs plus phase-3 weights. | `results/phase4_selective_annotation/default/`. | Supplementary analysis. |
+| `step4_selective_annotation.py` | Selective-routing diagnostic. | Phase-2 filtering outputs plus phase-3 weights. | `results/phase4_selective_annotation/{default,qwen35_27b_none}/`. | Supplementary analysis (Qwen2 and Qwen3.5-27B variants). |
 | `step5_retention_curve.py` | Retention-ratio diagnostic. | Phase-2 filtering outputs plus phase-3 weights. | `results/phase5_retention_curve/default/phase5_retention_curve_results.json`. | Supplementary analysis. |
 | `cross_model_consistency.py` | Independent cross-model consistency analysis for anchoring diagnostics. | Main annotation JSONL and cross-model validation JSONL, optional phase-0 per-class zero-shot JSON. | `results/phase6_strategy_audit/*/cross_model_consistency/`. | Auxiliary anchoring check. |
 | `confidence_filtering.py` | CLIP-assisted confidence filtering over Qwen pseudo-labels. | Phase-2 pseudo-label JSONL plus SCB YOLO train/val splits. | `results/phase6_strategy_audit/*/confidence_filtering/`. | Auxiliary training-strategy baseline. |
