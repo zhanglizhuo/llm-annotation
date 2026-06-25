@@ -1,0 +1,158 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\setstretch{1.1}
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Response to Reviewers}}
+\end{center}
+
+\textbf{Manuscript ID:} Access-2026-23347
+
+\textbf{Title:} When Agreement Fails: Visual Anchoring and Multimodal Pseudo-Label Reliability in Classroom Behavior Recognition
+
+\textbf{Journal:} \textit{IEEE Access}
+
+\rule{\textwidth}{0.4pt}
+
+We thank the Associate Editor and both reviewers for their careful reading and constructive feedback. The revised manuscript addresses all seven concerns raised by Reviewer 2. Reviewer 1 raised no technical concerns. Below we respond to each comment in turn, describe the action taken, and indicate where the change appears in the revised manuscript.
+
+All line numbers refer to the revised manuscript with line numbering enabled. Substantive changes are highlighted in the submitted Highlighted PDF.
+
+\rule{\textwidth}{0.4pt}
+
+\section*{REVIEWER 1}
+
+Reviewer 1 confirmed that the study is well designed and executed, contributions to the body of knowledge are present, the paper is technically sound, and the subject matter is presented in a comprehensive manner. No technical revisions were requested.
+
+\textbf{Action:} No changes required in response to Reviewer 1.
+
+\rule{\textwidth}{0.4pt}
+
+\section*{REVIEWER 2}
+
+\subsection*{Comment 2.1}
+
+``The abstract is informative but too dense. It should be shortened and re-structured to explicitly outline the problem, the solution, the main findings and the implications for practice.''
+
+\textbf{Response:} We agree. The original Abstract mixed protocol details, mechanism descriptions, and numerical results in a way that made the central argument hard to follow. We have rewritten the Abstract following a four-part structure: (1)~problem and motivation, (2)~study design, (3)~main findings, and (4)~practical implication. The revised Abstract is approximately 30\% shorter than the original and leads with the central claim rather than with methodological caveats.
+
+Additionally, the revised manuscript includes two new experiments completed after the original submission:
+\begin{itemize}[nosep]
+  \item[(a)] A ten-model cross-model validation (expanded from five models) that tests annotation reliability across the Qwen, LLaVA, and Gemma families (7B--35B, dense and MoE).
+  \item[(b)] A quality-threshold experiment using Qwen3.5-27B pseudo-labels (annotation accuracy 50.3\%) for CLIP fine-tuning on TeacherBehavior, identifying the annotation quality range at which pseudo-label fine-tuning begins to surpass the zero-shot baseline.
+\end{itemize}
+
+\textbf{Action:} Abstract fully rewritten. New experimental results integrated.
+
+\subsection*{Comment 2.2}
+
+``The explanation of the motivation of using agreement filtering should be more direct. Before highlighting the points of limitations of this filtering approach, the authors should explain the rationale for the filtering strategy in terms of how it is expected to enhance pseudo-label quality.''
+
+\textbf{Response:} We agree that the original Introduction moved too quickly to the failure modes without first establishing why agreement filtering is an appealing heuristic. We have added a paragraph to the Introduction that explains the intuitive rationale: when two independently queried annotators assign the same label, the probability of both being correct is generally higher than for a single annotator, which is why agreement has become a widely used proxy for pseudo-label reliability in crowdsourcing and semi-supervised learning. This positive motivation is stated before the paper identifies when and why the heuristic breaks down.
+
+\textbf{Action:} New paragraph explaining the rationale for agreement filtering added to the Introduction.
+
+\subsection*{Comment 2.3}
+
+``Some methodological details are scattered across different sections in the manuscript. Summary of the annotation pipeline, filtering strategies and fine-tuning of setup would be useful if summarized more compactly.''
+
+\textbf{Response:} We agree. The revised manuscript adds a Pipeline Overview subsection at the beginning of the Methods section. This subsection presents a concise three-stage summary: (1)~bbox cropping and MLLM annotation, (2)~filtering strategy comparison, and (3)~downstream CLIP fine-tuning evaluation. The individual subsections retain their detail, but a reader can now obtain the full pipeline overview from a single location.
+
+\textbf{Action:} New Pipeline Overview subsection added to Methods.
+
+\subsection*{Comment 2.4}
+
+``The concept of `visual anchoring' is interesting but should be explained more clearly and defined prior to the discussion, and the authors explain that this is not a causal measure but rather used as an operational diagnostic.''
+
+\textbf{Response:} We agree. The Introduction now contains a dedicated paragraph that formally defines visual anchoring as ``the degree to which a category label can be recovered from a single cropped frame without recourse to discourse context, temporal information, or speaker intent.'' The Introduction explicitly states that the operational proxy (per-category zero-shot CLIP accuracy) is a task-specific diagnostic instrument rather than a causal measurement. The Discussion retains the detailed treatment, which now builds on the definition already established in the Introduction.
+
+\textbf{Action:} Formal definition of visual anchoring added to the Introduction. Non-causal framing stated in both Introduction and Discussion.
+
+\subsection*{Comment 2.5}
+
+``There are a number of tables and figures that are helpful but over informative. The authors need to make the text easier to read by emphasizing the most significant comparisons and avoiding repetition.''
+
+\textbf{Response:} We agree that the original manuscript contained redundant presentation:
+\begin{itemize}[nosep]
+  \item[(a)] Table~2 (class balance counts) merged into Table~1 as a footnote summary.
+  \item[(b)] Cross-model data consolidated into two focused ten-model tables (Tables~6--7) covering overall validation-set accuracy and per-category breakdowns.
+  \item[(c)] Results section now opens with a one-paragraph summary of the three main quantitative conclusions.
+  \item[(d)] Numerical values reported once in Results, referenced by table number in Discussion rather than repeated in full.
+\end{itemize}
+
+\textbf{Action:} Table~2 merged into Table~1; cross-model data consolidated into two focused tables (Tables~6--7) covering overall and per-category accuracy; Results opens with summary; Discussion removes repeated values.
+
+\subsection*{Comment 2.6}
+
+``The study is primarily based on internal evaluation using sub-datasets of the SCB. The lack of broader external validation limits the generalizability of the conclusions.''
+
+\textbf{Response:} We acknowledge this limitation. We address it in three ways in the revised manuscript:
+\begin{itemize}[nosep]
+  \item[(a)] The expanded ten-model cross-model validation provides annotator-side external validity. The key finding---that intent-dependent categories remain near-zero across all annotator families while visually anchored categories remain reliable---replicates across the Qwen, LLaVA, and Gemma families.
+  \item[(b)] The new Qwen3.5-27B fine-tuning experiment provides partial external evidence for the quality-threshold claim, confirming that downstream behavior tracks annotator quality rather than being fixed by dataset properties.
+  \item[(c)] An explicit paragraph in the Limitations section acknowledges the single-benchmark constraint and distinguishes dataset-dependent findings (exact retention-ratio thresholds) from those more likely to generalize (visual anchoring pattern, agreement filtering failure modes).
+\end{itemize}
+
+\textbf{Action:} Limitations updated. Cross-model section reframed as annotator-side external validity. Quality-threshold experiment added.
+
+\subsection*{Comment 2.7}
+
+``It is recommended to carefully polish the language in the manuscript, particularly in long paragraphs containing the main argument, which becomes difficult to understand.''
+
+\textbf{Response:} We have undertaken a systematic language revision:
+\begin{itemize}[nosep]
+  \item[(a)] Long paragraphs in Introduction, Discussion (Finding~1, Finding~2), and Limitations broken into shorter units with clear topic sentences.
+  \item[(b)] Abstract rewritten with shorter sentences and active constructions.
+  \item[(c)] Hedged compound sentences replaced by direct statements followed by separate qualifications.
+  \item[(d)] Technical terms (agreement filtering, visual anchoring, retention ratio, anchor proxy) defined at first use.
+  \item[(e)] Conclusions tightened to three focused paragraphs.
+\end{itemize}
+
+\textbf{Action:} Language polished throughout.
+
+\rule{\textwidth}{0.4pt}
+
+\section*{ADDITIONAL CHANGES NOT REQUESTED BY REVIEWERS}
+
+\begin{enumerate}[nosep]
+  \item \textbf{Ten-model cross-model validation} (expanded from five models). Key findings: (a)~capability boundary on \textit{guide} (earlier-generation models all ${}<25\%$, newer models 39--83\%); (b)~\textit{answer} remains ${}<19\%$ universally; (c)~no single annotator is uniformly best.
+
+  \item \textbf{Quality-threshold experiment} with Qwen3.5-27B pseudo-labels. Identifies the critical annotation accuracy range (41--50\%) at which pseudo-label fine-tuning crosses the zero-shot baseline on TeacherBehavior.
+
+  \item \textbf{Affiliation correction for first author.} Yan Ma's primary affiliation has been corrected to School of Foreign Studies, Changsha University of Science and Technology (her primary employment), with School of Education, Hunan Agricultural University as her secondary affiliation (her PhD enrollment). This reflects the standard IEEE practice of listing the primary employer as the first affiliation.
+
+  \item \textbf{GitHub repository publicly accessible} at \url{https://github.com/zhanglizhuo/llm-annotation} with environment specs, dependency instructions, and one-command run examples.
+\end{enumerate}
+
+\rule{\textwidth}{0.4pt}
+
+\section*{SUMMARY OF ALL CHANGES}
+
+\begin{center}
+\begin{tabular}{lp{10cm}}
+\hline
+\textbf{Section} & \textbf{Change} \\
+\hline
+Abstract & Fully rewritten; 4-part structure; 30\% shorter; new results integrated \\
+Introduction & New paragraph: agreement filtering rationale; formal visual anchoring definition \\
+Methods & New Pipeline Overview subsection; cross-model expanded to 10 models \\
+Results & Opening summary; Table~1 $+$ Table~2 merged; ten-model cross-model tables; Qwen3.5-27B quality-threshold subsection \\
+Discussion & Finding~3 updated with quality-threshold evidence; Finding~5 updated; language polished \\
+Limitations & Updated with annotator-side external validity and quality-threshold evidence \\
+Conclusions & Critical threshold, generational boundary, and practical annotator selection guidance added \\
+Cross-model & Validation expanded from 5 to 10 models; new tables and analysis added \\
+\hline
+\end{tabular}
+\end{center}
+
+\end{document}

@@ -392,29 +392,30 @@ combined pipeline fails in a classroom-behavior setting.
 
 The experimental pipeline consists of three stages, each producing
 fixed artifacts consumed by downstream analyses:
-\begin{enumerate}
-  \item \textbf{Annotation stage:} YOLO-detected bounding-box crops are
-  annotated by two MLLMs (Qwen2-VL-7B-Instruct and LLaVA-1.5-7B) under an
-  index-only zero-shot prompt. Each crop receives a predicted class index
-  from each model. Validation-set annotations are used only for quality
-  measurement; training-set annotations are exported as JSONL for
-  downstream fine-tuning.
-  \item \textbf{Filtering stage:} Four filtering strategies are compared:
-  None (all Qwen predictions), Valid-Output-Qwen (Qwen outputs a valid
-  index), Valid-Output-LLaVA (LLaVA outputs a valid index), and Agreement
-  (Qwen and LLaVA assign the same index). Only the None and Agreement
-  strategies produce training pseudo-label JSONL files for the downstream
-  stage.
-  \item \textbf{Fine-tuning stage:} CLIP ViT-L/14 is fine-tuned under
-  three label sources (None pseudo-labels, Agreement pseudo-labels, GT)
-  and two training modes (linear probe, LoRA) across three SCB
-  sub-datasets, forming an $18$-condition main matrix plus three
-  zero-shot baselines. Four diagnostic modules---selective routing,
-  retention-ratio curves, strategy audits (confidence filtering,
-  teacher--student self-training, cross-model consistency), and an
-  ten-model cross-model robustness check---read frozen artifacts from
-  earlier stages to isolate specific mechanisms.
-\end{enumerate}
+
+\noindent\textbf{Annotation stage:} YOLO-detected bounding-box crops are
+annotated by two MLLMs (Qwen2-VL-7B-Instruct and LLaVA-1.5-7B) under an
+index-only zero-shot prompt. Each crop receives a predicted class index
+from each model. Validation-set annotations are used only for quality
+measurement; training-set annotations are exported as JSONL for
+downstream fine-tuning.
+
+\noindent\textbf{Filtering stage:} Four filtering strategies are compared:
+None (all Qwen predictions), Valid-Output-Qwen (Qwen outputs a valid
+index), Valid-Output-LLaVA (LLaVA outputs a valid index), and Agreement
+(Qwen and LLaVA assign the same index). Only the None and Agreement
+strategies produce training pseudo-label JSONL files for the downstream
+stage.
+
+\noindent\textbf{Fine-tuning stage:} CLIP ViT-L/14 is fine-tuned under
+three label sources (None pseudo-labels, Agreement pseudo-labels, GT)
+and two training modes (linear probe, LoRA) across three SCB
+sub-datasets, forming an 18-condition main matrix plus three
+zero-shot baselines. Four diagnostic modules---selective routing,
+retention-ratio curves, strategy audits (confidence filtering,
+teacher--student self-training, cross-model consistency), and a
+cross-model robustness check---read frozen artifacts from
+earlier stages to isolate specific mechanisms.
 
 \subsection{Datasets}
 \label{sec:datasets}
@@ -426,7 +427,7 @@ captured in real Chinese K--12 classrooms.
 The three sub-datasets cover complementary scene types and difficulty
 levels, summarised in Table~\ref{tab:datasets}.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{Overview of the three SCB sub-datasets used in this study,
 including per-class bounding-box counts.
 Class imbalance interacts with agreement filtering and anchor-aware routing
@@ -554,7 +555,10 @@ conditions.
 
 Both models receive a uniform zero-shot prompt listing the category
 names with their indices, followed by the instruction to respond with
-the index only:
+the index only. The complete label-index mapping for each sub-dataset
+is provided in Table~\ref{tab:index_mapping_audit}, which also serves
+as an audit trail for index-order consistency checks.
+The prompt template is:
 
 \begin{quote}
 \textit{You are a classroom behavior recognition expert.
@@ -581,7 +585,7 @@ evaluation reuses the same order for label decoding. Valid model outputs are sin
 integers such as ``0'', ``1'', or ``4''; any non-integer or out-of-range
 string is recorded as invalid instead of coerced to a class label.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{Label-index order audit for the index-only prompt. The same
 ordering is used for both MLLM annotation and downstream label decoding,
 providing a direct consistency check against index-mapping errors.}
@@ -604,7 +608,7 @@ Fig~\ref{fig:pipeline} summarizes the full experimental pipeline,
 from bbox cropping and MLLM annotation to pseudo-label filtering,
 CLIP fine-tuning, and diagnostic interpretation.
 
-\begin{figure}[!t]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.98\linewidth]{fig_pipeline_access.pdf}
 \caption{Experimental pipeline for MLLM-assisted classroom behavior annotation.
@@ -621,22 +625,20 @@ For implementation audit purposes, the pipeline records four filtering
 variants, but only two of them represent substantively different
 selection rules under the executed protocol:
 
-\begin{enumerate}
-    \item \textbf{None (unfiltered):} All crops for which Qwen
-    produces a valid index are retained.
-    The pipeline uses the Qwen prediction as the pseudo-label.
+\noindent\textbf{None (unfiltered):} All crops for which Qwen
+produces a valid index are retained.
+The pipeline uses the Qwen prediction as the pseudo-label.
 
-    \item \textbf{Valid-Output-Qwen:} Only crops where Qwen outputs
-    a valid in-range index are retained (identical to None in
-    practice, as Qwen has a near-100\% valid-output rate).
+\noindent\textbf{Valid-Output-Qwen:} Only crops where Qwen outputs
+a valid in-range index are retained (identical to None in
+practice, as Qwen has a near-100\% valid-output rate).
 
-    \item \textbf{Valid-Output-LLaVA:} Only crops where LLaVA outputs
-    a valid index are retained.
+\noindent\textbf{Valid-Output-LLaVA:} Only crops where LLaVA outputs
+a valid index are retained.
 
-    \item \textbf{Agreement:} Only crops where Qwen and LLaVA assign
-    the same index are retained; crops with disagreement are excluded,
-    and the shared index is used as the pseudo-label.
-\end{enumerate}
+\noindent\textbf{Agreement:} Only crops where Qwen and LLaVA assign
+the same index are retained; crops with disagreement are excluded,
+and the shared index is used as the pseudo-label.
 
 Because the annotation prompt enforces an index-only response and does
 not expose calibrated confidence scores, confidence thresholding is not
@@ -716,11 +718,11 @@ generated exclusively from the training split.
 For each of the three sub-datasets and two fine-tuning methods,
 the study evaluates three pseudo-label sources:
 
-\begin{itemize}
-    \item \textbf{None:} Unfiltered MLLM pseudo-labels (Qwen predictions).
-    \item \textbf{Agreement:} Agreement-filtered pseudo-labels.
-    \item \textbf{GT:} Ground-truth human annotations (supervised reference).
-\end{itemize}
+\noindent\textbf{None:} Unfiltered MLLM pseudo-labels (Qwen predictions).
+
+\noindent\textbf{Agreement:} Agreement-filtered pseudo-labels.
+
+\noindent\textbf{GT:} Ground-truth human annotations (supervised reference).
 
 This yields $3 \times 2 \times 3 = 18$ experimental conditions in total.
 The zero-shot CLIP baseline (no fine-tuning,
@@ -738,7 +740,7 @@ Per-class prompt-ensemble outputs from the same
 evaluation pipeline are used separately in the anchor-proxy
 analysis and the selective-routing experiment.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{Seed policy by analysis module.
 Main-matrix LP uses repeated-seed evaluation; targeted LoRA
 replication is reported for BowTurnHead and TeacherBehavior under None
@@ -942,7 +944,7 @@ Each retained bounding-box crop is treated as one evaluation instance,
 so both accuracy and retention are defined at bbox level, not at
 whole-image level.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{MLLM pseudo-label annotation accuracy and retention rate
 on the validation split. ``Pseudo-label acc.'' = percentage of pseudo-labels
 matching the ground-truth label for retained bbox crops. Under the None strategy,
@@ -995,7 +997,7 @@ BowTurnHead is the clearest failure case: the two models disagree on
 3{,}140 of 3{,}753 validation crops, so the agreement filter keeps only
 a small and highly selective subset, not a uniformly cleaner one.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{BowTurnHead validation-set confusion counts for Qwen and
 LLaVA. Rows denote ground-truth labels; columns denote model
 predictions.}
@@ -1032,7 +1034,7 @@ Table~\ref{tab:per_class} presents per-category annotation accuracy
 under the Agreement strategy for TeacherBehavior, revealing a
 clear bimodal distribution.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{Per-category MLLM annotation accuracy on TeacherBehavior
 (Agreement strategy, validation split). Accuracy is reported to two
 decimal places to match the other quantitative tables.}
@@ -1130,7 +1132,7 @@ result matrix together with the zero-shot CLIP baseline, while marking
 which LoRA cells are targeted replications and which remain single-run
 protocol-matched references.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{Validation accuracy (\%) of CLIP ViT-L/14 under all
 experimental conditions. LP values report mean $\pm$ SD over repeated
 seeds (all datasets: five seeds, 43--47); LoRA values report mean $\pm$ SD for the targeted five-seed
@@ -1201,7 +1203,7 @@ pseudo-labeling baseline. Taken together, these baselines reinforce the
 paper's conditional claim without identifying a uniformly dominant
 training rule.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{Auxiliary filtering and teacher--student baselines under the
 same CLIP ViT-L/14 feature protocol. Values report validation accuracy
 (\%) over five seeds (43--47). Confidence filtering reports the best
@@ -1239,7 +1241,7 @@ inferior to unfiltered pseudo-labels except for a marginal
 TeacherBehavior LP gain of 0.63~pp, and ground-truth supervision
 remains the upper reference across all datasets.
 
-\begin{figure}[!t]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.98\linewidth]{fig_all_results_overview_access.pdf}
 \caption{Overview of the full evaluation matrix. The plot includes the
@@ -1284,7 +1286,7 @@ Third, the \textit{answer} category remains below 19\% across all ten models
 single-frame observability constraint that even the newest models cannot
 overcome.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{Ten-model cross-model robustness check of validation-set annotation
 accuracy under a common bbox-crop and index-only prompting protocol.
 Abbreviations: Q2.5-7B = Qwen2.5-VL-7B-Instruct;
@@ -1330,7 +1332,7 @@ Qwen3.5-27B is the most balanced annotator on TeacherBehavior, with the
 highest overall accuracy (52.19\%) and the best or near-best per-category
 scores across all four classes shown.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{Ten-model cross-model validation on four key TeacherBehavior
 categories illustrating the capability boundary (\textit{guide}) and the
 task-level constraint (\textit{answer}).
@@ -1341,9 +1343,9 @@ Q3.6-27B values sourced from log files (result directory lost).}
 \centering
 \scriptsize
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{lcccccccccc}
+\begin{tabular}{lccccccccccc}
 \toprule
-\textbf{Category} & \textbf{$n$} & \textbf{Qwen2} & \textbf{LLaVA} & \textbf{Q2.5-7B} & \textbf{G3-27B} & \textbf{Q3.5-27B} & \textbf{Q3.5-35B} & \textbf{Q3.6-27B} & \textbf{Q3.6-35B} & \textbf{G4-26B} & \textbf{G4-31B} \\
+\textbf{Category} & \textbf{n} & \textbf{Qwen2} & \textbf{LLaVA} & \textbf{Q2.5-7B} & \textbf{G3-27B} & \textbf{Q3.5-27B} & \textbf{Q3.5-35B} & \textbf{Q3.6-27B} & \textbf{Q3.6-35B} & \textbf{G4-26B} & \textbf{G4-31B} \\
 \midrule
 guide               & 449 & 0.22 & 24.05 & 0.00 & 0.22 & 52.34 & 24.50 & 39.20 & 0.89 & 36.04 & \textbf{82.85} \\
 answer              & 853 & 0.00 & 0.00 & 1.17 & 1.41 & 17.70 & 18.87 & 8.60 & 5.16 & 0.35 & 9.38 \\
@@ -1372,7 +1374,7 @@ The Qwen3.5-27B training-set annotation accuracy is 50.3\% (the training
 labels are used for fine-tuning; validation labels are only used for
 quality measurement).
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{TeacherBehavior fine-tuning results comparing Qwen2-VL-7B
 pseudo-labels (annotation accuracy 41.2\%) and Qwen3.5-27B pseudo-labels
 (annotation accuracy 50.3\%).
@@ -1380,9 +1382,10 @@ The prompt-ensemble zero-shot baseline is 53.43\%.
 GT upper bounds: LP 69.56\%, LoRA 74.71\%.}
 \label{tab:quality_threshold}
 \centering
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lccc}
 \toprule
-\textbf{Training condition} & \textbf{Qwen2 (41.2\%)} & \textbf{Qwen3.5-27B (50.3\%)} & \textbf{$\Delta$} \\
+\textbf{Training condition} & \textbf{Qwen2 (41.2\%)} & \textbf{Qwen3.5-27B (50.3\%)} & $\boldsymbol{\Delta}$ \\
 \midrule
 None + LP  & 42.27 & 55.29 & +13.02 \\
 None + LoRA & 44.34 & 53.79 & +9.45 \\
@@ -1393,12 +1396,13 @@ Selective + LoRA & --- & 53.20 & --- \\
 \emph{GT + LP} & \emph{69.50} & \emph{---} & --- \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 Figure~\ref{fig:quality_threshold} visualises the Qwen2 vs.\ Qwen3.5-27B
 comparison for the three training conditions where both annotators have results.
 
-\begin{figure}[!t]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.85\linewidth]{fig_quality_threshold_access.pdf}
 \caption{TeacherBehavior validation accuracy under Qwen2-VL-7B pseudo-labels
@@ -1467,7 +1471,7 @@ TeacherBehavior over-selects \textit{teacher} while under-selecting
 changes not only data volume but also the class mix seen
 during adaptation.
 
-\begin{figure}[!t]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.98\linewidth]{fig_distribution_shift_access.pdf}
 \caption{Class-composition shift between the full training split and
@@ -1549,7 +1553,7 @@ operation, but as a selection mechanism whose behaviour depends on the
 model pair and on the visual discriminability of the target
 categories.
 
-\begin{figure}[!t]
+\begin{figure}[!ht]
 \centering
 \includegraphics[width=0.94\linewidth]{fig_retention_curve_access.pdf}
 \caption{Retention-ratio curves for BowTurnHead, HandriseReadWrite,
@@ -1669,7 +1673,7 @@ can still be informative as an upper-bound diagnostic, even though the
 present Scheme~B implementation is not directly deployable.
 Table~\ref{tab:selective_results} summarises the result.
 
-\begin{table}[!t]
+\begin{table}[!ht]
 \caption{Comparison of annotation strategies on TeacherBehavior
 (validation accuracy, \%). The selective strategy uses pseudo-labels
 for high-anchor classes and zero-shot CLIP for low-anchor classes.
@@ -1805,47 +1809,39 @@ difficulty-stratified retention curves---are left for future work.
 \subsection{Reproducibility Statement}
 \label{sec:repro}
 
-The repository implements these analysis modules using the following
-scripts at the repository root:
-zero-shot evaluation (baseline and prompt-ensemble settings,
-\path{step0b_cape_zeroshot.py}),
-MLLM annotation (\path{step1_llm_annotate.py} and
-\path{cross_model_annotate.py}),
-filtering analysis (\path{step2_filter_analysis.py}),
-CLIP fine-tuning (\path{step3_clip_finetune.py}),
-selective annotation (\path{step4_selective_annotation.py}),
-retention-ratio curve (\path{step5_retention_curve.py}), and
-repeated-seed aggregation (\path{summarize_repeated_seeds.py}).
-The auxiliary strategy and consistency analyses are implemented in
+The analysis modules described in this paper are implemented as the
+following scripts at the repository root:
+\path{step0b_cape_zeroshot.py} (zero-shot evaluation),
+\path{step1_llm_annotate.py} and \path{cross_model_annotate.py}
+(MLLM annotation),
+\path{step2_filter_analysis.py} (filtering analysis),
+\path{step3_clip_finetune.py} (CLIP fine-tuning),
+\path{step4_selective_annotation.py} (selective annotation),
+\path{step5_retention_curve.py} (retention-ratio curve),
+and \path{summarize_repeated_seeds.py} (repeated-seed aggregation).
+Auxiliary analyses are implemented in
 \path{confidence_filtering.py},
-\path{teacher_student_self_training.py}, and
-\path{cross_model_consistency.py}.
-The submitted artifact includes \path{environment.yml} and
-\path{requirements.txt} for environment reconstruction. The experiment
-snapshot used for manuscript preparation is identified by repository
-commit \texttt{e21ae3d09c8d1577eeb75d1a29e2661cf757e877}; the archived
-artifact should preserve the exact submitted snapshot together with the
-generated result files.
-LP main-matrix results are averaged over repeated seeds (all
-datasets: five seeds, 43--47); targeted LoRA replications for BowTurnHead and
-TeacherBehavior under None and GT use seeds 43--47, while remaining
-LoRA and selected diagnostics are single-seed/fixed-seed evaluations
-(seed 42).
-Table-level provenance is as follows: annotation-quality and confusion
-tables are generated by the filtering-analysis module, the main
-fine-tuning matrix by the CLIP fine-tuning and repeated-seed summary
-modules, the selective-routing table by the selective-annotation
-module, the auxiliary-baseline table by the confidence-filtering and
-teacher--student modules, and the retention-ratio figure by the
+\path{teacher_student_self_training.py},
+and \path{cross_model_consistency.py}.
+The runtime environment is specified in \path{environment.yml}
+and \path{requirements.txt}.
+Table-level provenance: annotation-quality and confusion tables are
+produced by the filtering-analysis module; the main fine-tuning matrix
+by the fine-tuning and repeated-seed summary modules; the
+selective-routing results by the selective-annotation module; the
+auxiliary-baseline results by the confidence-filtering and
+teacher--student modules; and the retention-ratio figure by the
 retention-curve module.
 The SCB dataset is publicly available~\cite{scb_dataset}.
-The code repository and run configurations used for the analysis are
-publicly available at \url{https://github.com/zhanglizhuo/llm-annotation}
-(accessed on 27 April 2026), including the pipeline scripts, archived
-shell entry points, and result directories referenced in this paper.
-For reproducibility review, the repository should remain publicly
-accessible and preserve per-module run recipes for the main tables and
-figures.
+The complete codebase, run configurations, and generated result files
+are archived at
+\url{https://github.com/zhanglizhuo/llm-annotation}
+(accessed on 25 June 2026), pinned at commit \texttt{e21ae3d}.
+LP main-matrix results are averaged over repeated seeds
+(all datasets: five seeds, 43--47); targeted LoRA replications
+for BowTurnHead and TeacherBehavior under None and GT use
+seeds 43--47, while remaining LoRA and selected diagnostics
+are single-seed or fixed-seed evaluations (seed 42).
 
 %=================================================================
 % 6. Conclusions
@@ -1920,10 +1916,10 @@ The authors declare no conflicts of interest.
 The three SCB sub-datasets used in this study, plus the excluded
 single-class Discuss set, are publicly available on Hugging Face at
 \url{https://huggingface.co/datasets/wintonYF/SCB-Dataset} (accessed on
-27 April 2026). These datasets are externally released resources and are
+25 June 2026). These datasets are externally released resources and are
 not owned by this study. The experiment code and archived run
 configurations are available at
-\url{https://github.com/zhanglizhuo/llm-annotation} (accessed on 27 April 2026).
+\url{https://github.com/zhanglizhuo/llm-annotation} (accessed on 25 June 2026).
 The repository was publicly accessible at the time of access.
 
 \section*{Acknowledgment}
@@ -2137,5 +2133,32 @@ Representations (ICLR); 2022; Virtual Event.
 \end{thebibliography}
 
 \EOD
+
+%=======================
+% Author Biographies
+%=======================
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mayan.jpg}}]{YAN MA}
+is an Associate Professor at the School of Foreign Studies, Changsha
+University of Science and Technology. Her research interests include
+second language acquisition and teaching English as a second language.
+She has published many articles in Chinese peer-reviewed journals. She
+is pursuing a PhD in Science at Hunan Agricultural University, with a
+research focus on utilizing information technology to analyze the
+impact of classroom environment on students' engagement in English
+learning through data analysis.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{lizhuo.jpg}}]{Lizhuo Zhang}
+received the B.S. degree in Horticulture from Hunan Agricultural
+University, Changsha, China, and the M.S. and Ph.D. degrees in
+Computer Application Technology from Central South University,
+Changsha, China. He was a Senior Research Associate with City
+University of Hong Kong, Hong Kong SAR, China, a Postdoctoral
+Research Fellow with University of Macau, Macau SAR, China, and a
+Senior Software Engineer with Huawei Software Technologies Co., Ltd.,
+China. He is currently a Lecturer with Hunan Agricultural University,
+Changsha, China. His research interests include the Internet of
+Things, artificial intelligence, and intelligent computing systems.
+\end{IEEEbiography}
 
 \end{document}
