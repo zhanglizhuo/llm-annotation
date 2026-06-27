@@ -62,7 +62,7 @@ os.environ["HUGGINGFACE_CO_RESOLVE_ENDPOINT"] = os.environ.get(
 )
 
 # ── 路径配置 ──────────────────────────────────────────────────────────────────
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parent
 
 
 def resolve_dataset_root() -> Path:
@@ -824,9 +824,9 @@ if __name__ == "__main__":
     parser.add_argument("--seed",        type=int,   default=42)
     parser.add_argument("--num_workers", type=int,   default=4)
     parser.add_argument("--out_dir",     default=None,
-                        help='Output directory for finetune results (defaults to Annotation/results/phase3_finetune/manual)')
+                        help='Output directory for finetune results (defaults to results/phase3_finetune/manual)')
     parser.add_argument("--analysis_dir", default=None,
-                        help='Analysis results directory (defaults to ANALYSIS_DIR or the newest Annotation/results/phase2_filtering/* directory)')
+                        help='Analysis results directory (defaults to ANALYSIS_DIR or the newest results/phase2_filtering/* directory)')
     args = parser.parse_args()
 
     out_dir = Path(args.out_dir) if args.out_dir else SCRIPT_DIR / "results" / "phase3_finetune" / "manual"

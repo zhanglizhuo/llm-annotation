@@ -38,7 +38,7 @@ HF_DEFAULT_ENDPOINT = "https://hf-mirror.com"
 os.environ["HF_ENDPOINT"] = os.environ.get("HF_ENDPOINT", HF_DEFAULT_ENDPOINT)
 
 # ── 路径配置 ──
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parent
 DATASET_ROOT = REPO_ROOT / "datasets_scb"
 
 DATASET_CFG = {
@@ -231,7 +231,7 @@ def main():
     parser.add_argument("--all", action="store_true", help="Run on all datasets")
     parser.add_argument(
         "--output",
-        default=str(REPO_ROOT / "Annotation" / "results" / "phase0_zero_shot" / "manual" / "phase0_zero_shot_results.json"),
+        default=str(REPO_ROOT / "results" / "phase0_zero_shot" / "manual" / "phase0_zero_shot_results.json"),
         help="Output JSON file",
     )
     args = parser.parse_args()

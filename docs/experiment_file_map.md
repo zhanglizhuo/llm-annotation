@@ -4,11 +4,11 @@ This document records the canonical evidence files for the module-based experime
 
 ## Directory policy
 
-- Runnable launchers stay in `Annotation/`.
-- Planning and governance documents stay in `Annotation/docs/`.
-- Generated outputs stay in `Annotation/results/`.
-- Execution traces stay in `Annotation/logs/`.
-- Optional manuscript source stays in `Annotation/paper/`.
+- Runnable launchers stay in the repository root.
+- Planning and governance documents stay in `docs/`.
+- Generated outputs stay in `results/`.
+- Execution traces stay in `logs/`.
+- Optional manuscript source stays in `paper/`.
 
 ## Source Of Truth
 
@@ -201,7 +201,7 @@ Canonical zero-shot values:
 
 ## Notes on running CAPE and zero-shot scripts
 
-- `step0b_cape_zeroshot.py` defaults to `Annotation/results/phase0_zero_shot/cape_aux/`.
-- `step0_zeroshot_eval.py` defaults to `Annotation/results/phase0_zero_shot/manual/phase0_zero_shot_results.json`.
+- `step0b_cape_zeroshot.py` defaults to `results/phase0_zero_shot/cape_aux/`.
+- `step0_zeroshot_eval.py` defaults to `results/phase0_zero_shot/manual/phase0_zero_shot_results.json`.
 - The canonical project launchers already manage output directories through the phase-based `results/` tree and do not require manual path edits.
 - `paper/*.log` are LaTeX logs only.

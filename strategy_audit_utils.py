@@ -28,7 +28,7 @@ os.environ["HF_HUB_URL"] = os.environ.get("HF_HUB_URL", os.environ["HF_ENDPOINT"
 os.environ["HF_HUB_OFFLINE"] = os.environ.get("HF_HUB_OFFLINE", "1")
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parent
 
 
 def resolve_dataset_root() -> Path:

@@ -99,7 +99,7 @@ logger.info("HF_ENDPOINT=%s", os.environ.get("HF_ENDPOINT"))
 logger.info("HF_HUB_URL=%s", os.environ.get("HF_HUB_URL"))
 logger.info("HUGGINGFACE_CO_RESOLVE_ENDPOINT=%s", os.environ.get("HUGGINGFACE_CO_RESOLVE_ENDPOINT"))
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parent
 
 
 def resolve_dataset_root() -> Path:
@@ -944,9 +944,9 @@ def main() -> None:
                 f"Compatibility alias model '{compat_key}' must also be listed in --models"
             )
 
-    repo_root = Path(__file__).resolve().parents[1]
+    repo_root = Path(__file__).resolve().parent
     out_dir = (Path(args.out_dir) if args.out_dir
-               else repo_root / "Annotation" / "results" / "cross_model_validation" / "default")
+               else repo_root / "results" / "cross_model_validation" / "default")
 
     annotators = build_annotators(args.models, max_new_tokens=args.max_new_tokens)
 

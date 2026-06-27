@@ -47,7 +47,7 @@ os.environ["HF_HUB_URL"] = os.environ.get("HF_HUB_URL", HF_DEFAULT_ENDPOINT)
 logger.info("HF_ENDPOINT=%s", os.environ.get("HF_ENDPOINT"))
 logger.info("HUGGINGFACE_HUB_URL=%s", os.environ.get("HUGGINGFACE_HUB_URL"))
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parent
 
 
 def resolve_dataset_root() -> Path:
@@ -445,7 +445,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset", choices=list(DATASETS), required=True)
     parser.add_argument("--split", default="val", choices=["train", "val"])
     parser.add_argument("--out_dir", default=None,
-                        help='Output directory for annotations (defaults to Annotation/llm_annotations in repo root)')
+                        help='Output directory for annotations (defaults to llm_annotations in repo root)')
     parser.add_argument("--max_images", type=int, default=None)
     parser.add_argument("--qwen_repo", default=MODEL_CONFIGS["qwen"]["repo_id"])
     parser.add_argument("--llava_repo", default=MODEL_CONFIGS["llava"]["repo_id"])
@@ -463,7 +463,7 @@ if __name__ == "__main__":
     resolve_split_dirs(args.dataset, args.split)
     models = load_models(args)
 
-    repo_root = Path(__file__).resolve().parents[1]
-    out_dir = Path(args.out_dir) if args.out_dir else repo_root / "Annotation" / "llm_annotations"
+    repo_root = Path(__file__).resolve().parent
+    out_dir = Path(args.out_dir) if args.out_dir else repo_root / "llm_annotations"
 
     run(args.dataset, args.split, out_dir, models, args.max_images, args.overwrite)

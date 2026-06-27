@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 os.environ["HF_ENDPOINT"] = os.environ.get("HF_ENDPOINT", "https://hf-mirror.com")
 
 # ── 路径 ──────────────────────────────────────────────────────────────────────
-REPO_ROOT    = Path(__file__).resolve().parents[1]
+REPO_ROOT    = Path(__file__).resolve().parent
 DATASET_ROOT = REPO_ROOT / "datasets_scb"
 
 DATASET_CFG = {
@@ -417,7 +417,7 @@ def main():
     parser.add_argument("--batch_size",  type=int, default=256)
     parser.add_argument("--num_workers", type=int, default=4)
     parser.add_argument("--out_dir", default=None,
-                        help='Output directory for CAPE zero-shot results (defaults to Annotation/results/phase0_zero_shot/cape_aux in repo root)')
+                        help='Output directory for CAPE zero-shot results (defaults to results/phase0_zero_shot/cape_aux in repo root)')
     args = parser.parse_args()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -446,8 +446,8 @@ def main():
         all_results.append(result)
 
     # Resolve default location relative to repo root
-    repo_root = Path(__file__).resolve().parents[1]
-    out_dir = Path(args.out_dir) if args.out_dir else repo_root / "Annotation" / "results" / "phase0_zero_shot" / "cape_aux"
+    repo_root = Path(__file__).resolve().parent
+    out_dir = Path(args.out_dir) if args.out_dir else repo_root / "results" / "phase0_zero_shot" / "cape_aux"
     out_dir.mkdir(parents=True, exist_ok=True)
     sets_tag = "".join(sorted(args.prompt_sets))
     out_file = out_dir / f"phase0_cape_zero_shot_set{sets_tag}_results.json"

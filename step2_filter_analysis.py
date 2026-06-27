@@ -179,15 +179,15 @@ if __name__ == "__main__":
                         required=True)
     parser.add_argument("--split", default="val", choices=["train", "val"])
     parser.add_argument("--ann_dir", default=None,
-                        help='Annotation input directory (defaults to Annotation/llm_annotations in repo root)')
+                        help='Annotation input directory (defaults to llm_annotations in repo root)')
     parser.add_argument("--out_dir", default=None,
-                        help='Analysis output directory (defaults to Annotation/analysis_results in repo root)')
+                        help='Analysis output directory (defaults to analysis_results in repo root)')
     args = parser.parse_args()
 
     # Resolve sensible defaults relative to the repository root (parent of this file's parent)
     repo_root = Path(__file__).resolve().parents[1]
-    ann_dir = Path(args.ann_dir) if args.ann_dir else repo_root / "Annotation" / "llm_annotations"
-    out_dir = Path(args.out_dir) if args.out_dir else repo_root / "Annotation" / "analysis_results"
+    ann_dir = Path(args.ann_dir) if args.ann_dir else repo_root / "llm_annotations"
+    out_dir = Path(args.out_dir) if args.out_dir else repo_root / "analysis_results"
 
     analyze(args.dataset, ann_dir, args.split, out_dir)
 

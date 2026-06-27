@@ -53,7 +53,7 @@ os.environ["HUGGINGFACE_CO_RESOLVE_ENDPOINT"] = os.environ.get(
 
 # Paths
 SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parent
 
 
 def resolve_dataset_root() -> Path:
