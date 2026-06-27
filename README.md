@@ -14,15 +14,16 @@ We test a simple but underexplored idea:
 
 > **Use multimodal LLMs (Qwen2-VL, LLaVA) to generate pseudo-labels for bbox-cropped classroom images, then fine-tune CLIP on those labels.**
 
+The bounding-box crops come from the public SCB benchmark, which provides pre-annotated YOLO-format labels for classroom activity images. This study uses those annotations as-is; it does not perform its own object detection.
+
 The question is not whether LLM labels are perfect (they aren't). The question is whether they are **good enough to train a downstream model that beats zero-shot CLIP**.
 
 ### The pipeline
 
 ```
-Classroom video frames
-    → YOLO bbox detection
+SCB dataset bbox crops (pre-annotated in YOLO format)
     → Multimodal LLM annotation (Qwen2-VL + LLaVA)
-    → Pseudo-label filtering (none / dual-model agreement)
+    → Pseudo-label filtering (none / valid-output / dual-model agreement)
     → CLIP ViT-L/14 fine-tuning (linear probe / LoRA)
     → Evaluation on 3 classroom behavior datasets
 ```
